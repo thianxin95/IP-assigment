@@ -6,6 +6,12 @@ $user = new Customer("","","","","","","");
 if($_SESSION["user"] == null){
     echo "<script> location.href='login.php'; </script>";
 }
+//Check user if it was employee, if not, for logout and back to login.php
+if($user->getUserType() != "Customer"){
+    session_destroy(); 
+    session_unset();
+    echo "<script> location.href='../login.php'; </script>";
+}
 $user = $_SESSION["user"];
 $Username = $user->getUserID();
 

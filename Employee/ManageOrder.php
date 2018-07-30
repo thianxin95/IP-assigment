@@ -9,7 +9,12 @@ if($_SESSION["user"] == null){
 }
 $user = $_SESSION["user"];
 $Username = $user->getUserID();
-
+//Check user if it was employee, if not, for logout and back to login.php
+if($user->getUserType() != "Employee"){
+    session_destroy(); 
+    session_unset();
+    echo "<script> location.href='../login.php'; </script>";
+}
 
 if(isset($_POST['paid_fullfiled'])){
     $order_update = $_POST['order_update'];
