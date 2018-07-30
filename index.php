@@ -8,6 +8,7 @@ if($_SESSION["user"] == null){
 }
 $user = $_SESSION["user"];
 $Username = $user->getUserID();
+// Check User if it is Customer, if not force logout and back to Login.php
 if($user->getUserType() != "Customer"){
     session_destroy(); 
     session_unset();
