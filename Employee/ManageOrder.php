@@ -1,5 +1,6 @@
 <?php 
 include ('../Object/CustomerOb.php');
+include ('../databaseconn.php');
 session_start();
 
 $user = new Customer("","","","","","","");
@@ -8,6 +9,50 @@ if($_SESSION["user"] == null){
 }
 $user = $_SESSION["user"];
 $Username = $user->getUserID();
+
+
+if(isset($_POST['paid_fullfiled'])){
+    $order_update = $_POST['order_update'];
+    $conn_updatedb = new mysqli($servername, $db_user, $db_password, $db_table);
+    $query_updatedb = "UPDATE orders SET STATUS = 'Paid and Fulfilled' WHERE orderID = '$order_update'";
+    $update_result = $conn_updatedb->query($query_updatedb);
+    if(!$update_result){
+        trigger_error('Invalid query: ' . $conn->error);
+    }
+    $conn_updatedb->close();
+    
+    
+    // Update Daily Report Generate XML HERE!!!
+    
+    
+}
+if(isset($_POST['Delivered'])){
+    $order_update = $_POST['order_update'];
+    $conn_updatedb = new mysqli($servername, $db_user, $db_password, $db_table);
+    $query_updatedb = "UPDATE orders SET STATUS = 'Delivered' WHERE orderID = '$order_update'";
+    $update_result = $conn_updatedb->query($query_updatedb);
+    if(!$update_result){
+        trigger_error('Invalid query: ' . $conn->error);
+    }
+    $conn_updatedb->close();
+    
+    
+    // Update Daily Report Generate XML HERE!!!
+}
+if(isset($_POST['Order_Canceled'])){
+    $order_update = $_POST['order_update'];
+    $conn_updatedb = new mysqli($servername, $db_user, $db_password, $db_table);
+    $query_updatedb = "UPDATE orders SET STATUS = 'Canceled' WHERE orderID = '$order_update'";
+    $update_result = $conn_updatedb->query($query_updatedb);
+    if(!$update_result){
+        trigger_error('Invalid query: ' . $conn->error);
+    }
+    $conn_updatedb->close();
+    
+    
+    // Update Daily Report Generate XML HERE!!!
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -61,15 +106,158 @@ $Username = $user->getUserID();
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Your Things here!</h4>
+                        <h4 class="card-title">Manage Orders</h4>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Order Date</th>
+                                    <th>Pickup?</th>
+                                    <th>Delivery Address</th>
+                                    <th>Required Date</th>
+                                    <th>Order Amount</th>
+                                    <th>Order Status </th>
+                                    <th>Order By</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        <?php 
+                        
+                        $conn = new mysqli($servername, $db_user, $db_password, $db_table);
+                        $query = "SELECT orders.*, users.Name FROM orders, users WHERE users.userID = orders.userID";
+                        $orderlist_result = $conn->query($query);
+                        if(!$orderlist_result){
+                            trigger_error('Invalid query: ' . $conn->error);
+                        }
+                        $conn->close();
+                        if($orderlist_result->num_rows > 0){
+                            while($row = $orderlist_result->fetch_assoc()){
+                               $orderID = $row["orderID"];
+                               $orderDate = $row["orderDate"];
+                               $Pickup = $row["Pickup"];
+                               $DelvieryAddress = $row["DeliveryAddress"];
+                               $RequiredDate = $row["RequiredDate"];
+                               $TotalAmount = $row["TotalAmount"];
+                               
+                               $Status = $row["Status"];
+                               $Name = $row["Name"];
+                               echo("<tr>");
+                                    echo("<td>$orderID</td>");
+                                    echo("<td>$orderDate</td>");
+                                    echo("<td>$Pickup</td>");
+                                    echo("<td>$DelvieryAddress</td>");
+                                    echo("<td>$RequiredDate</td>");
+                                    echo("<td>$TotalAmount</td>");
+                                    
+                                    echo("<td>$Status</td>");
+                                    echo("<td>$Name</td>");
+                                    if($Status != "Paid and Fulfilled" & $Status != "Canceled"){
+                                       echo("<td><button type=\"button\" class=\"btn btn-gradient-primary btn-fw\" data-toggle=\"modal\" data-target=\"#$orderID\">Manage Order</button></td>");
+                                    }else{
+                                       echo("<td>No Action Required</td>");
+                                    }
+                               echo("</tr>");
+                                }
+                        }
+                               ?> 
+                            </tbody>
+                        </table>
                     </div>
                </div>
            </div>
+        <?php 
+                        $conn4 = new mysqli($servername, $db_user, $db_password, $db_table);
+                        $query4 = "SELECT * FROM orders";
+                        $orderlist_result_modal = $conn4->query($query);
+                        if(!$orderlist_result_modal){
+                            trigger_error('Invalid query: ' . $conn->error);
+                        }
+                        $conn4->close();
+                        if($orderlist_result_modal->num_rows > 0){
+                            while($row = $orderlist_result_modal->fetch_assoc()){
+                                $orderID = $row["orderID"];
+                        ?>
+                         <div class="modal fade" id="<?php echo($orderID); ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo($orderID);  ?>" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="label_loggedout">Order Details</h5>
+                                       <!--   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button> -->
+                                        </div>
+                                        <div class="modal-body">
+                                          <table class="table table-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product Name</th>
+                                                    <th>Quantity</th>
+                                                    <th>Unit Price</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <?php 
+                                                        $conn2 = new mysqli($servername, $db_user, $db_password, $db_table);
+                                                        $query2 = "SELECT * FROM orderdetails WHERE orderId = '$orderID'";
+                                                        $orderdetails_result = $conn2->query($query2);
+                                                        if(!$orderdetails_result){
+                                                            trigger_error('Invalid query: ' . $conn->error);
+                                                        }
+                                                        $conn2->close();
+                                                        if($orderdetails_result->num_rows > 0){
+                                                            while($row2 = $orderdetails_result->fetch_assoc()){
+                                                                $productcode = $row2["productCode"];
+                                                                $Quantity = $row2["Quantity"];
+                                                                $UnitPrice = $row2["UnitPrice"];
+                                                                $productdes = "";
+                                                                $conn3 = new mysqli($servername, $db_user, $db_password, $db_table);
+                                                                $query3 = "SELECT * FROM product WHERE productcode = '$productcode'";
+                                                                $product_result = $conn3->query($query3);
+                                                                if(!$product_result){
+                                                                    trigger_error('Invalid query: ' . $conn->error);
+                                                                }
+                                                                $conn3->close();
+                                                                $product_list = $product_result->fetch_assoc();
+                                                                $productdes = $product_list["productdes"];
+                                                                // we got all what we needed
+                                                                echo("<tr>");
+                                                                    echo("<td>$productdes</td>");
+                                                                    echo("<td>$Quantity</td>");
+                                                                    echo("<td>$UnitPrice</td>");
+                                                                echo("</tr>");
+                                                            }
+                                                            ?>
+                                                </tr>
+                                            </tbody>
+                                          </table>
+                                          <br/>
+                                          <h6 class="modal-title" id="label_loggedout">Warning! Irreversible Action</h6>
+                                          <form action="ManageOrder.php" method="post">
+                                              <input type="hidden" id="order_update" name="order_update" value="<?php echo($orderID)?>"  />
+                                              <button type="submit" class="btn btn-gradient-primary" name="paid_fullfiled" id="paid_fullfiled">Delivered and Paid</button>
+                                              <button type="submit" class="btn btn-gradient-dark" name="Delivered" id="Delivered">Delivered</button>
+                                              <button type="submit" class="btn btn-gradient-danger" name="Order_Canceled" id="Order_Canceled">Canceled</button>
+                                          </form>
+                                            
+ <?php } ?>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">CLOSE</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                         </div>
+                        <?php } 
+                        }
+                        ?>
         <!-- content-wrapper ends -->
+        </div>
         <!-- partial:partials/_footer.html -->
         <?php include('../Footer.php') ?>
         <!-- partial -->
-      </div>
+      
       <!-- main-panel ends -->
     </div>
     <!-- page-body-wrapper ends -->
