@@ -8,6 +8,7 @@ if($_SESSION["user"] == null){
 }
 $user = $_SESSION["user"];
 $Username = $user->getUserID();
+
 // Check User if it is Customer, if not force logout and back to Login.php
 if($user->getUserType() != "Customer"){
     session_destroy(); 
@@ -67,19 +68,71 @@ if($user->getUserType() != "Customer"){
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Your Things here!</h4>
+                        <div class=" col-md-9 col-lg-9 "> 
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td>User ID:</td>
+                        <td><?php echo($Username) ?></td>
+                      </tr>
+                      <tr>
+                        <td>Name</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Email</td>
+                        <td></td>
+                      </tr>
+                   
+                         <tr>
+                             <tr>
+                        <td>Credit Limit</td>
+                        <td></td>
+                      </tr>
+                        <tr>
+                        <td>Used Credit</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Password</td>
+                        <td></td>
+                      </tr>
+                        <td>Phone Number</td>
+                        <td>
+                        </td>
+                         <tr>
+                        <td>Home Address:</td>
+                        <td></td>
+                      </tr>
+                           
+                      </tr>
+                     
+                    </tbody>
+                  </table>
+                  
+                  <a href="#" class="btn btn-primary">Edit Profile</a>
+               
+                </div>
+              </div>
+                </div>
+            </div>
+            </div>
+          <?php include('Footer.php') ?>
                     </div>
                </div>
+     
            </div>
+    
+
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
-        <?php include('Footer.php') ?>
+       
         <!-- partial -->
-      </div>
+      
       <!-- main-panel ends -->
-    </div>
+    
     <!-- page-body-wrapper ends -->
-  </div>
+  
   <!-- container-scroller -->
   <!-- plugins:js -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
