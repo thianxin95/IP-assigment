@@ -83,13 +83,14 @@ if(isset($_POST['submit'])){
     $userid = $_POST['Username'];
     $userpassword = $_POST['Password'];
     $sql = "SELECT * FROM users WHERE userID = '$userid' AND password = '$userpassword'";
-    $conn = new mysqli($servername, $db_user, $db_password, $db_table);
+    //$conn = new mysqli($servername, $db_user, $db_password, $db_table); apply for PDO singleton
+    $conn = Database::getInstance();
     $login_result = $conn->query($sql);
     if(!$login_result){
         trigger_error('Invalid query: ' . $conn->error);
     }
-    if($login_result->num_rows > 0){
-        while($row= $login_result->fetch_assoc()){
+    if($login_result){
+        while($row= $login_result->fetch(PDO::FETCH_ASSOC)){
             session_start();    
             //if the database returns a correct user result only set session and give login
             //$Username = $_POST["Username"];

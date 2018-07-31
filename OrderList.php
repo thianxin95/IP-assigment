@@ -3,6 +3,7 @@ include ('Object/CustomerOb.php');
 session_start();
 
 $user = new Customer("","","","","","","");
+$user = $_SESSION["user"];
 if($_SESSION["user"] == null){
     echo "<script> location.href='login.php'; </script>";
 }
@@ -10,9 +11,9 @@ if($_SESSION["user"] == null){
 if($user->getUserType() != "Customer"){
     session_destroy(); 
     session_unset();
-    echo "<script> location.href='../login.php'; </script>";
+    echo "<script> location.href='login.php'; </script>";
 }
-$user = $_SESSION["user"];
+
 $Username = $user->getUserID();
 
 ?>
@@ -84,15 +85,16 @@ $Username = $user->getUserID();
                             <tbody>
                         <?php 
                         include ('databaseconn.php');
-                        $conn = new mysqli($servername, $db_user, $db_password, $db_table);
+                        //$conn = new mysqli($servername, $db_user, $db_password, $db_table);
+                        $conn = Database::getInstance();
                         $query = "SELECT * FROM orders WHERE userID = '$Username'";
                         $orderlist_result = $conn->query($query);
                         if(!$orderlist_result){
                             trigger_error('Invalid query: ' . $conn->error);
                         }
                         $conn->close();
-                        if($orderlist_result->num_rows > 0){
-                            while($row = $orderlist_result->fetch_assoc()){
+                        if($orderlist_result){
+                            while($row = $orderlist_result->fetch(PDO::FETCH_ASSOC)){
                                $orderID = $row["orderID"];
                                $orderDate = $row["orderDate"];
                                $Pickup = $row["Pickup"];
@@ -116,15 +118,16 @@ $Username = $user->getUserID();
                             </tbody>
                         </table>
                         <?php 
-                        $conn4 = new mysqli($servername, $db_user, $db_password, $db_table);
+                        //$conn4 = new mysqli($servername, $db_user, $db_password, $db_table);
+                        $conn4 = $conn = Database::getInstance();
                         $query4 = "SELECT * FROM orders WHERE userID = '$Username'";
                         $orderlist_result_modal = $conn4->query($query);
                         if(!$orderlist_result_modal){
                             trigger_error('Invalid query: ' . $conn->error);
                         }
                         $conn4->close();
-                        if($orderlist_result_modal->num_rows > 0){
-                            while($row = $orderlist_result_modal->fetch_assoc()){
+                        if($orderlist_result_modal){
+                            while($row = $orderlist_result_modal->fetch(PDO::FETCH_ASSOC)){
                                 $orderID = $row["orderID"];
                         ?>
                          <div class="modal fade" id="<?php echo($orderID); ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo($orderID);  ?>" aria-hidden="true">
@@ -148,27 +151,29 @@ $Username = $user->getUserID();
                                             <tbody>
                                                 <tr>
                                                     <?php 
-                                                        $conn2 = new mysqli($servername, $db_user, $db_password, $db_table);
+                                                        //$conn2 = new mysqli($servername, $db_user, $db_password, $db_table);
+                                                        $conn2 = $conn = Database::getInstance();
                                                         $query2 = "SELECT * FROM orderdetails WHERE orderId = '$orderID'";
                                                         $orderdetails_result = $conn2->query($query2);
                                                         if(!$orderdetails_result){
                                                             trigger_error('Invalid query: ' . $conn->error);
                                                         }
                                                         $conn2->close();
-                                                        if($orderdetails_result->num_rows > 0){
-                                                            while($row2 = $orderdetails_result->fetch_assoc()){
+                                                        if($orderdetails_result){
+                                                            while($row2 = $orderdetails_result->fetch(PDO::FETCH_ASSOC)){
                                                                 $productcode = $row2["productCode"];
                                                                 $Quantity = $row2["Quantity"];
                                                                 $UnitPrice = $row2["UnitPrice"];
                                                                 $productdes = "";
-                                                                $conn3 = new mysqli($servername, $db_user, $db_password, $db_table);
+                                                                // $conn3 = new mysqli($servername, $db_user, $db_password, $db_table);
+                                                                $conn3 = $conn = Database::getInstance();
                                                                 $query3 = "SELECT * FROM product WHERE productcode = '$productcode'";
                                                                 $product_result = $conn3->query($query3);
                                                                 if(!$product_result){
                                                                     trigger_error('Invalid query: ' . $conn->error);
                                                                 }
                                                                 $conn3->close();
-                                                                $product_list = $product_result->fetch_assoc();
+                                                                $product_list = $product_result->fetch(PDO::FETCH_ASSOC);
                                                                 $productdes = $product_list["productdes"];
                                                                 // we got all what we needed
                                                                 echo("<tr>");
