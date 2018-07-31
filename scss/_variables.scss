@@ -20,46 +20,46 @@ $dodger-blue :      #3498db;
 
 
 $colors: (
-  blue:             $blue,
-  indigo:           $indigo,
-  purple:           $purple,
-  pink:             $pink,
-  red:              $red,
-  orange:           $orange,
-  yellow:           $yellow,
-  green:            $green,
-  teal:             $teal,
-  cyan:             $cyan,
-  white:            $white,
-  gray:             #434a54,
-  gray-light:       #aab2bd,
-  gray-lighter:     #e8eff4,
-  gray-lightest:    #e6e9ed,
-  gray-dark:        #0f1531,
-  black:            #000000
+blue:             $blue,
+indigo:           $indigo,
+purple:           $purple,
+pink:             $pink,
+red:              $red,
+orange:           $orange,
+yellow:           $yellow,
+green:            $green,
+teal:             $teal,
+cyan:             $cyan,
+white:            $white,
+gray:             #434a54,
+gray-light:       #aab2bd,
+gray-lighter:     #e8eff4,
+gray-lightest:    #e6e9ed,
+gray-dark:        #0f1531,
+black:            #000000
 );
 
 
 $theme-colors: (
-  primary:         #b66dff,
-  secondary:       #d8d8d8,
-  success:         #1bcfb4,
-  info:            #198ae3,
-  warning:         #fed713,
-  danger:          #fe7c96,
-  light:           #f8f9fa,
-  dark:            #3e4b5b
+primary:         #b66dff,
+secondary:       #d8d8d8,
+success:         #1bcfb4,
+info:            #198ae3,
+warning:         #fed713,
+danger:          #fe7c96,
+light:           #f8f9fa,
+dark:            #3e4b5b
 );
 
 $theme-gradient-colors: (
-  primary:         linear-gradient(to right, #da8cff, #9a55ff),
-  secondary:       linear-gradient(to right, #e7ebf0, #868e96),
-  success:         linear-gradient(to right, #84d9d2, #07cdae),
-  info:            linear-gradient(to right, #90caf9, #047edf 99%),
-  warning:         linear-gradient(to right, #f6e384, #ffd500),
-  danger:          linear-gradient(to right, #ffbf96, #fe7096),
-  light:           linear-gradient(to bottom, #f4f4f4, #e4e4e9),
-  dark:            linear-gradient(89deg, #5e7188, #3e4b5b)
+primary:         linear-gradient(to right, #da8cff, #9a55ff),
+secondary:       linear-gradient(to right, #e7ebf0, #868e96),
+success:         linear-gradient(to right, #84d9d2, #07cdae),
+info:            linear-gradient(to right, #90caf9, #047edf 99%),
+warning:         linear-gradient(to right, #f6e384, #ffd500),
+danger:          linear-gradient(to right, #ffbf96, #fe7096),
+light:           linear-gradient(to bottom, #f4f4f4, #e4e4e9),
+dark:            linear-gradient(89deg, #5e7188, #3e4b5b)
 );
 
 
@@ -78,16 +78,16 @@ $border-color: #ebedf2;
 ////////// SOCIAL COLORS //////////
 
 $social-colors: (
-  twitter: #2caae1,
-  facebook: #3b579d,
-  google: #dc4a38,
-  linkedin: #0177b5,
-  pinterest: #cc2127,
-  youtube: #e52d27,
-  github: #333333,
-  behance: #1769ff,
-  dribbble: #ea4c89,
-  reddit: #ff4500
+twitter: #2caae1,
+facebook: #3b579d,
+google: #dc4a38,
+linkedin: #0177b5,
+pinterest: #cc2127,
+youtube: #e52d27,
+github: #333333,
+behance: #1769ff,
+dribbble: #ea4c89,
+reddit: #ff4500
 );
 
 ////////// SOCIAL COLORS //////////

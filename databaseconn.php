@@ -1,12 +1,7 @@
 <?php
-$servername = "localhost";
-$db_user = "root";
-$db_password = "";
-$db_table = "fioredb";
 
+class Database {
 
-class Database 
-{
     private $_db;
     static $_instance;
 
@@ -15,7 +10,9 @@ class Database
         $this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    private function __clone(){}
+    private function __clone() {
+        
+    }
 
     public static function getInstance() {
         if (!(self::$_instance instanceof self)) {
@@ -27,11 +24,11 @@ class Database
     public function query($sql) {
         return $this->_db->query($sql);
     }
-    public function close(){
+
+    public function close() {
         self::$_instance = null;
     }
 
 }
-
 
 ?>

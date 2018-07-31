@@ -1,5 +1,7 @@
 <?php
-class Customer{
+
+class Customer {
+
     public $userID;
     public $userType;
     public $Name;
@@ -7,18 +9,16 @@ class Customer{
     public $creditLimit;
     public $usedCredit;
     public $overDue;
-    
-    
-    public function Customer($userID, $userType,$Name, $Email,$creditLimit,$usedCredit,$overDue){
+
+    public function Customer($userID, $userType, $Name, $Email, $creditLimit, $usedCredit, $overDue) {
         $this->userID = $userID;
-        $this->userType= $userType;
+        $this->userType = $userType;
         $this->Name = $Name;
         $this->Email = $Email;
         $this->creditLimit = $creditLimit;
-        $this->usedCredit =$usedCredit;
+        $this->usedCredit = $usedCredit;
         $this->overDue = $overDue;
     }
-   
 
     function getUserID() {
         return $this->userID;
@@ -48,8 +48,4 @@ class Customer{
         return $this->overDue;
     }
 
-
-
-
-    
 }
