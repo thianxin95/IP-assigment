@@ -106,10 +106,11 @@ include('Object/CustomerOb.php');
                         exit;
                     }
                 }
-            } else {
+                // Get to here if nothing happens
+                echo"<!-- inject:js -->";
                 echo"<script>$('#wrongdetails').modal();</script>";
-                $conn->close();
-            }
+                echo"<!-- endinject -->";
+            } 
         }
         ?>
         <!-- endinject -->
