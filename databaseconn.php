@@ -24,6 +24,10 @@ class Database {
     public function query($sql) {
         return $this->_db->query($sql);
     }
+    
+    public function prepare($sql){
+        return $this->_db->prepare($sql);
+    }
 
     public function close() {
         self::$_instance = null;

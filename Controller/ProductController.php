@@ -52,7 +52,7 @@ class ProductController {
     public function getAvailableFlower(){
         $prod = array();
         $conn = Database::getInstance(); 
-        $query ="SELECT * FROM product  WHERE product.producttype = 'Flower' AND product.Availability = 'Available'";
+        $query ="SELECT * FROM product  WHERE product.producttype = 'Fresh flower' AND product.Availability = 'Available'";
         $resultSet = $conn->query($query);
         if(!$resultSet){
             trigger_error('Invalid query: ' . $conn->error);

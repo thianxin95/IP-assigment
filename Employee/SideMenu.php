@@ -15,8 +15,9 @@
                 </a>
                 <div class="collapse" id="general-pages">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="./pages/samples/blank-page.html"> Product Catalog </a></li>
-                        <li class="nav-item"> <a class="nav-link" href="./pages/samples/blank-page.html"> Monthly Catalog </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="AddNewItem.php"> Add New Item </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="CatalogView.php"> Full Product List </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="CreateMonthlyCatalog.php"> Generate Monthly Catalog </a></li>
                     </ul>
                 </div>
             </li>

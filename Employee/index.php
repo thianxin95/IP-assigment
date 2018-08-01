@@ -2,7 +2,7 @@
 include ('../Object/EmployeeOB.php');
 session_start();
 
-$user = new Employee("", "", "", "", "", "", "","","","");
+$user = new Employee("", "", "", "", "", "", "", "", "", "");
 if ($_SESSION["employee"] == null) {
     echo "<script> location.href='../login.php'; </script>";
 }
@@ -63,37 +63,73 @@ if ($user->getUserType() != "Employee") {
         <div class="main-panel">
             <div class="content-wrapper">
                 <!-- WRITE YOUR CODE HERE! -->
-                <div class="col-12 grid-margin stretch-card">
+                <div class="col-13 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Your Things here!</h4>
+                            <h3>Welcome back, <?php echo $user->getName() ?></h3>
+                            <br/><h4>Today's brief summary of Business Performance</h4>
                         </div>
                     </div>
                 </div>
-                <!-- content-wrapper ends -->
-                <!-- partial:partials/_footer.html -->
-                <?php include('../Footer.php') ?>
-                <!-- partial -->
-            </div>
-            <!-- main-panel ends -->
-        </div>
-        <!-- page-body-wrapper ends -->
 
-        <!-- container-scroller -->
-        <!-- plugins:js -->
-        <script src="../vendors/js/vendor.bundle.base.js"></script>
-        <script src="../vendors/js/vendor.bundle.addons.js"></script>
-        <!-- endinject -->
-        <!-- Plugin js for this page-->
-        <!-- End plugin js for this page-->
-        <!-- inject:js -->
-        <script src="../js/off-canvas.js"></script>
-        <script src="../js/misc.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-        <!-- endinject -->
-        <!-- Custom js for this page-->
-        <!-- End custom js for this page-->
-    </body>
+                <?php
+                include_once 'ReportXML/ReportController.php';
+                include_once '../Object/DailyRecordOB.php';
+                $reportcont = new ReportController("ReportXML/Daily_OrderProcessed.xml");
+                $report = new DailyRecordOB();
+                $report = $reportcont->getRecord();
+                ?>
+                <div class="row">
+                    <div class="col-md-4 stretch-card grid-margin">
+                        <div class="card bg-gradient-primary card-img-holder text-white">
+                            <div class="card-body">
+                                <h4 class="font-weight-normal mb-3">Today Earnings</h4>
+                                <h2 class="mb-5">$<?php echo($report->getAmountPaid()) ?></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 stretch-card grid-margin">
+                        <div class="card bg-gradient-danger card-img-holder text-white">
+                            <div class="card-body">               
+                                <h4 class="font-weight-normal mb-3">Today Orders Paid</h4>
+                                <h2 class="mb-5"><?php echo($report->getOrderPaid()) ?></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 stretch-card grid-margin">
+                        <div class="card bg-gradient-info card-img-holder text-white">
+                            <div class="card-body">               
+                                <h4 class="font-weight-normal mb-3">Today Canceled</h4>
+                                <h2 class="mb-5"><?php echo($report->getOrderCanceled()) ?></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
+            <?php include('../Footer.php') ?>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="../vendors/js/vendor.bundle.base.js"></script>
+    <script src="../vendors/js/vendor.bundle.addons.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page-->
+    <!-- End plugin js for this page-->
+    <!-- inject:js -->
+    <script src="../js/off-canvas.js"></script>
+    <script src="../js/misc.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <!-- End custom js for this page-->
+</body>
 
 </html>

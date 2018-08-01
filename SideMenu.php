@@ -7,18 +7,10 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#catalog-pages" aria-expanded="false" aria-controls="catalog-pages">
-                <span class="menu-title">Catalog Maintenance</span>
-                <i class="menu-arrow"></i>
+            <a class="nav-link" href="Catalog/xsl/flowercatalog.xml">
+                <span class="menu-title">Flower Catalog</span>
                 <i class="mdi mdi-file-check menu-icon"></i>
             </a>
-            <div class="collapse" id="catalog-pages">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="AddNewItem.php"> Add New Item </a></li>
-                    <li class="nav-item"> <a class="nav-link" href="CatalogView.php"> Full Product List </a></li>
-                    <li class="nav-item"> <a class="nav-link" href="CreateMonthlyCatalog.php"> Generate Monthly Catalog </a></li>
-                </ul>
-            </div>
         </li> 
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
@@ -34,12 +26,14 @@
                 </ul>
             </div>
         </li> 
+         <?php if ($user->getUserType() == "Customer"){ ?>
         <li class="nav-item">
               <a class="nav-link" href="selectFlower.php">
                   <span class="menu-title">Customize Order</span>
                   <i class="mdi mdi-flower menu-icon"></i>
               </a>
         </li>
+        <?php } ?>
         <?php if ($user->getUserType() == "Corporate" && $user->getUserType()!= ""){ ?>
         
         <li class="nav-item">
