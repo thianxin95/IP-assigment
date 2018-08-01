@@ -50,7 +50,7 @@
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="ManageInvoice.php">
+                <a class="nav-link" href="../ManageInvoice.php">
                     <span class="menu-title">Dashboard</span>
                 </a>
             </li>
