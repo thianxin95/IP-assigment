@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT DailyOrderRecord (Record)>
+<!ELEMENT Record (OrderCount, Date, TotalAmount, OrderTypeCount)>
+<!ATTLIST Record recordID ID #REQUIRED>
+<!ELEMENT OrderCount (#PCDATA)>
+<!ELEMENT Date (#PCDATA)>
+<!ELEMENT TotalAmount (#PCDATA)>
+<!ELEMENT OrderTypeCount (DeliveryCount, PickupCount)>
+<!ELEMENT DeliveryCount (#PCDATA)>
+<!ELEMENT PickupCount (#PCDATA)>
+

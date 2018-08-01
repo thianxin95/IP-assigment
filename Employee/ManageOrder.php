@@ -29,6 +29,43 @@ if (isset($_POST['paid_fullfiled'])) {
 
 
     // Update Daily Report Generate XML HERE!!!
+    
+    //Testing XML and WORKING!!!!
+    include ('../ReportXML/ReportController.php');
+    include_once('../Object/DailyRecordOB.php');
+   
+    $xmlPath = "../ReportXML/Daily_OrderProcessed.xml";
+    $drob = new DailyRecordOB();
+    $report_controller = new ReportController($xmlPath);
+    $drob->setDate("01/08/2018");
+    $drob->setDeliveryCount("0");
+    $drob->setOrderCount("0");
+    $drob->setPickupCount("0");
+    $drob->setTotalAmount("0");
+    $report_controller->clearRecord();
+    $report_controller->updateRecord($drob);
+    /* Example for Inseting data to report_controller and update to XML file
+     * 
+     * 
+     * $drob->setDate("Test");
+    $drob->setDeliveryCount("TEST");
+    $drob->setOrderCount("Test");
+    $drob->setPickupCount("Test");
+    $drob->setTotalAmount("Test");
+    $report_controller->updateRecord($drob);
+
+     * 
+     * 
+     *      
+     * 
+     *  Example on how to get data OUT OF XML and back to OBJECT
+    $drob = $report_controller->getRecord();
+    echo($drob->getOrderCount()."HELOOOOOOOOOOOOOOOOOOOOOO");
+    
+    */
+    
+    
+    
 }
 if (isset($_POST['Delivered'])) {
     $order_update = $_POST['order_update'];
@@ -156,7 +193,7 @@ if (isset($_POST['Order_Canceled'])) {
 
                                             echo("<td>$Status</td>");
                                             echo("<td>$Name</td>");
-                                            if ($Status != "Paid and Fulfilled" & $Status != "Canceled") {
+                                            if ($Status != "Paid and Fulfilled" & $Status != "Canceled" & $Status != "Delivered") {
                                                 echo("<td><button type=\"button\" class=\"btn btn-gradient-primary btn-fw\" data-toggle=\"modal\" data-target=\"#$orderID\">Manage Order</button></td>");
                                             } else {
                                                 echo("<td>No Action Required</td>");
