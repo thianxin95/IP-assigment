@@ -37,5 +37,19 @@ class OrderDetailsController {
         }
         return $result;
     }
+    public function addRecord(OrderDetailsOB $OrderDetail){
+        $conn = Database::getInstance();
+        $orderDetailID = $OrderDetail->getOrderDetailsID();
+        $orderID = $OrderDetail->getOrderID();
+        $productCode = $OrderDetail->getProductCode();
+        $quantity = $OrderDetail->getQuantity();
+        $unitPrice = $OrderDetail->getUnitPrice();
+        $query = "INSERT INTO orderdetails VALUES ('$orderDetailID','$orderID','$productCode','$quantity','$unitPrice')";
+        $addResult = $conn->query($query);
+        $conn->close();
+              if(!$addResult){
+            trigger_error('Invalid Query : ' . $conn->error);
+        }
+    }
     
 }
