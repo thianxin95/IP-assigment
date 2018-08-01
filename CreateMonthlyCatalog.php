@@ -246,7 +246,7 @@ and open the template in the editor.
                                             $month = $_POST['monthdroplist'];
                                             $catalogCode = "1001";
                                             
-                                            $filePath = "Catalog/flowercatalog.xml";
+                                            $filePath = "Catalog/xsl/flowercatalog.xml";
                                             
                                             $dom = new DOMDocument("1.0","utf-8");
                                             $xslt = $dom->createProcessingInstruction('xml-stylesheet', 'type="text/xsl" href="flower.xsl"');

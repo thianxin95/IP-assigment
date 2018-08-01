@@ -70,10 +70,7 @@
                                 <thead>
                                     <tr><th>Invoice Number :</th><td><xsl:value-of select="//InvoiceNumber"/></td></tr>
                                     <tr><th>Invoice Date :</th><td><xsl:value-of select="//InvoiceDate"/></td></tr>
-                                    <tr>
-                                        <th>User ID :</th>
-                                        <td><xsl:value-of select="//UserID"/></td>
-                                    </tr>
+                                    
                                     <tr><th>Payment Date :</th><td><xsl:value-of select="//OrderID"/></td></tr>
                                     <tr><th>Invoice Amount :</th><td><xsl:value-of select="//InvoiceAmount"/></td></tr>
                                     <tr><th>Payment Status :</th><td><xsl:value-of select="//PaymentStatus"/></td></tr>
@@ -115,6 +112,6 @@
         <!-- End custom js for this page-->
             </body>
         </html>
-    </xsl:template>
+    
 
 </xsl:stylesheet>

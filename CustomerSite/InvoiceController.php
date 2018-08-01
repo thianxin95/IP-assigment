@@ -35,7 +35,7 @@ class InvoiceController {
         $invoiceRecord->setInvoiceNo($Record->getElementsByTagName("InvoiceNumber")->item(0)->nodeValue);
         $invoiceRecord->setInvoiceDate($Record->getElementsByTagName("InvoiceDate")->item(0)->nodeValue);
         $invoiceRecord->setInvoiceUserID($Record->getElementsByTagName("UserID")->item(0)->nodeValue);
-        $invoiceRecord->setInvoiceOrderID($Record->getElementsByTagName("OrderID")->item(0)->nodeValue);
+       # $invoiceRecord->setInvoiceOrderID($Record->getElementsByTagName("OrderID")->item(0)->nodeValue);
         $invoiceRecord->setInvoiceAmount($Record->getElementsByTagName("InvoiceAmount")->item(0)->nodeValue);
         $invoiceRecord->setPaymentStatus($Record->getElementsByTagName("PaymentStatus")->item(0)->nodeValue);
         
@@ -67,8 +67,8 @@ class InvoiceController {
         $userID = $this->domDocument->createElement("UserID", $dailyrecord->getInvoiceUserID());
         $Record->appendChild($userID);
         
-        $orderID = $this->domDocument->createElement("OrderID",$dailyrecord->getInvoiceOrderID());
-        $Record->appendChild($orderID);
+       # $orderID = $this->domDocument->createElement("OrderID",$dailyrecord->getInvoiceOrderID());
+        #$Record->appendChild($orderID);
         
         $InvoicetotalAmount = $this->domDocument->createElement("InvoiceAmount", $dailyrecord->getInvoiceAmount());
         $Record->appendChild($InvoicetotalAmount);

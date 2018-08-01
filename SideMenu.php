@@ -26,5 +26,16 @@
                   <i class="mdi mdi-flower menu-icon"></i>
               </a>
         </li>
+        <?php if ($user->getUserType() == "Corporate" && $user->getUserType()!= ""){ ?>
+        
+        <li class="nav-item">
+              <a class="nav-link" href="ManageInvoice.php">
+                  <span class="menu-title">Invoices</span>
+                  <i class="mdi mdi-mdi mdi-file-document menu-icon"></i>
+              </a>
+        </li>
+        
+        <?php } ?>
     </ul>
+    
 </nav>

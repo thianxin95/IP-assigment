@@ -61,9 +61,6 @@ session_start();
             </nav>
             <!-- partial -->
             <div class="container-fluid page-body-wrapper">
-                <!-- Side Menu -->
-                <?php include('SideMenu.php') ?>
-                <!-- Siden Menu -->
                 <div class="main-panel">
                     <div class="content-wrapper">
                         <!-- WRITE YOUR CODE HERE! -->

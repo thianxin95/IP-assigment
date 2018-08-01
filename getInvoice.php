@@ -33,7 +33,7 @@ $Username = $user->getUserID();
             echo("<td>" . $invoiceob[$i]->getInvoiceNo() . "</td>");
             echo("<td>" . $invoiceob[$i]->getInvoiceDate() . "</td>");
             echo("<td>" . $invoiceob[$i]->getInvoiceUserID() . "</td>");
-            echo("<td>" . $invoiceob[$i]->getInvoiceOrderID() . "</td>");
+           # echo("<td>" . $invoiceob[$i]->getInvoiceOrderID() . "</td>");
             echo("<td>" . $invoiceob[$i]->getInvoiceAmount() . "</td>");
             echo("<td>" . $invoiceob[$i]->getPaymentStatus() . "</td>");
 
@@ -44,7 +44,7 @@ $Username = $user->getUserID();
     $drob->setInvoiceNo( $invoiceob[$i]->getInvoiceNo());
     $drob->setInvoiceDate( $invoiceob[$i]->getInvoiceDate());
     $drob->setInvoiceUserID($invoiceob[$i]->getInvoiceUserID());
-    $drob->setInvoiceOrderID($invoiceob[$i]->getInvoiceOrderID());
+   # $drob->setInvoiceOrderID($invoiceob[$i]->getInvoiceOrderID());
     $drob->setInvoiceAmount($invoiceob[$i]->getInvoiceAmount());
     $drob->setPaymentStatus($invoiceob[$i]->getPaymentStatus());
     $report_controller->clearRecord();

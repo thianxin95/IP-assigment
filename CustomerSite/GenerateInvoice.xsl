@@ -74,7 +74,6 @@
                                         <th>User ID :</th>
                                         <td><xsl:value-of select="//UserID"/></td>
                                     </tr>
-                                    <tr><th>Order ID :</th><td><xsl:value-of select="//OrderID"/></td></tr>
                                     <tr><th>Invoice Amount :</th><td><xsl:value-of select="//InvoiceAmount"/></td></tr>
                                     <tr><th>Payment Status :</th><td><xsl:value-of select="//PaymentStatus"/></td></tr>
                                 </thead>

@@ -2,12 +2,5 @@
 <?xml-stylesheet type="text/xsl" href="GenerateInvoice.xsl"?>
 <!DOCTYPE Invoice SYSTEM "invoiceProcessor.dtd">
 <Invoice>
-    
 
-
-
-
-
-
-
-<InvoiceRecord recordID="invoiceRecord"><InvoiceNumber>2</InvoiceNumber><InvoiceDate>1</InvoiceDate><UserID>dota2</UserID><OrderID>2</OrderID><InvoiceAmount>222</InvoiceAmount><PaymentStatus>no</PaymentStatus></InvoiceRecord></Invoice>
+<InvoiceRecord recordID="invoiceRecord"><InvoiceNumber>2</InvoiceNumber><InvoiceDate>1</InvoiceDate><UserID>dota2</UserID><InvoiceAmount>222</InvoiceAmount><PaymentStatus>no</PaymentStatus></InvoiceRecord></Invoice>
