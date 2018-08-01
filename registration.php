@@ -46,13 +46,13 @@ include('Object/CustomerOb.php');
                           
                             <div class="form-check">
                               <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="membershipRadios" id="customer" value="customer" >
+                                <input type="radio" class="form-check-input" name="membershipRadios" id="customer" value="Customer" >
                                 Customer
                               </label>
                             </div>
                   <div class="form-check">
                               <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="membershipRadios" id="corcustomer" value="corporate">
+                                <input type="radio" class="form-check-input" name="membershipRadios" id="corcustomer" value="Corporate">
                                 Corporate Customer
                               </label>
                             </div>
@@ -60,6 +60,14 @@ include('Object/CustomerOb.php');
                       <div class="form-group">
                       <label for="exampleInputUsername1">Name</label>
                       <input type="text" class="form-control" id="name" placeholder="Username" name="name">
+                    </div>
+                       <div class="form-group">
+                      <label for="username">Address</label>
+                      <input type="text" class="form-control" id="address" placeholder="address" name="address">
+                    </div>
+                       <div class="form-group">
+                      <label for="username">Phone</label>
+                      <input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail1">Email address</label>
@@ -105,7 +113,17 @@ include('Object/CustomerOb.php');
   <script src="vendors/js/vendor.bundle.addons.js"></script>
    <?php
 if(isset($_POST["submit"])){
-  $sql="INSERT INTO users (userID, userType, Name, Email, creditLimit, usedCredit, overDue, password)VALUES ('".$_POST["userid"]."','".$_POST["membershipRadios"]."','".$_POST["name"]."','".$_POST["email"]."','".$_POST["creditLimit"]."','".$_POST["usedCrdit"]."','".$_POST["overDue"]."','".$_POST["password"]."')";
+    $typeCus=$_POST["membershipRadios"];
+    $credit=$_POST["creditLimit"];
+    $usedCredit=$_POST["usedCrdit"];
+    $overDue=$_POST["overDue"];
+    if($typeCus =="Customer" )
+    {
+       $credit = '0';
+        $usedCredit='0';
+        $overDueue="no";
+    }
+  $sql="INSERT INTO users (userID, userType, Name, Address,Phone, Email, creditLimit, usedCredit, overDue, password)VALUES ('".$_POST["userid"]."','$typeCus','".$_POST["name"]."','".$_POST["address"]."','".$_POST["phone"]."','".$_POST["email"]."','$credit','$usedCredit','$overDue','".$_POST["password"]."')";
  
 $conn = Database::getInstance();
 

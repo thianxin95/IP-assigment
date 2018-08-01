@@ -8,6 +8,11 @@ if ($_SESSION["user"] == null) {
 }
 $user = $_SESSION["user"];
 $Username = $user->getUserID();
+$realName=$user->getName();
+$address =$user->getAddress();
+$phone =$user->getPhone();
+$password =$user->getPassword();
+$email = $user->getEmail();
 
 // Check User if it is Customer, if not force logout and back to Login.php
 if ($user->getUserType() != "Customer") {
@@ -68,9 +73,48 @@ if ($user->getUserType() != "Customer") {
                 <div class="card">
                     <div class="card-body">
                         <div class=" col-md-9 col-lg-9 "> 
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td>User ID:</td>
+                        <td><?php echo($Username) ?></td>
+                      </tr>
+                      <tr>
+                        <td>Name</td>
+                        <td><?php echo($realName) ?></td>
+                      </tr>
+                      <tr>
+                        <td>Email</td>
+                        <td><?php echo($email) ?></td>
+                      </tr>
+                   
+                         <tr>
+                             <tr>
+                        <td>Credit Limit</td>
+                        <td></td>
+                      </tr>
+                        <tr>
+                        <td>Used Credit</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Password</td>
+                        <td><?php echo($password) ?></td>
+                      </tr>
+                        <td>Phone Number</td>
+                        <td><?php echo($phone) ?>
+                        </td>
+                         <tr>
+                        <td>Home Address:</td>
+                        <td><?php echo($address) ?></td>
+                      </tr>
+                           
+                      </tr>
+                     
+                    </tbody>
+                  </table>
                   
-                  
-                 
+                            <a href="updateInfo.php" class="btn btn-primary">Edit Profile</a>
                
                 </div>
               </div>
@@ -111,3 +155,4 @@ if ($user->getUserType() != "Customer") {
 </body>
 
 </html>
+

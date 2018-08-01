@@ -6,7 +6,7 @@
             </div>
         </a>
         <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item" href="customerProfile.php">
                 <i class="mdi mdi-cached mr-2 text-success"></i>
                 Profile Maintanance
             </a>

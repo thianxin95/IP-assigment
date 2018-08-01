@@ -94,7 +94,7 @@ include('Object/CustomerOb.php');
                     session_start();
                     //if the database returns a correct user result only set session and give login
                     //$Username = $_POST["Username"];
-                    $customerob = new Customer($row["userID"], $row["userType"], $row["Name"], $row["Email"], $row["creditLimit"], $row["usedCredit"], $row["overDue"]);
+                    $customerob = new Customer($row["userID"],$row["userType"], $row["Name"], $row["Address"], $row["Phone"], $row["Email"], $row["creditLimit"], $row["usedCredit"], $row["overDue"], $row["password"]);
                     $_SESSION["user"] = $customerob;
                     if ($customerob->userType == "Customer") {
                         echo "<script> location.href='index.php'; </script>";
