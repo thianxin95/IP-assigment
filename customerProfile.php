@@ -256,10 +256,7 @@ elseif ($userType=="Corporate") {
                                 
                   
                             <a href="updateInfo.php" class="btn btn-primary" >Edit Profile</a>
-                            
-                            
-                            <input type="submit" class="like" value="Generate Invoice" name="submit" id="submit" disabled <?php if ($used>=500){ ?> enabled="true" <?php   } ?> >
-                            
+                          
                     </form>
                
                 </div>

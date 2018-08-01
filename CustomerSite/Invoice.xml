@@ -3,4 +3,4 @@
 <!DOCTYPE Invoice SYSTEM "invoiceProcessor.dtd">
 <Invoice>
 
-<InvoiceRecord recordID="invoiceRecord"><InvoiceNumber>2</InvoiceNumber><InvoiceDate>1</InvoiceDate><UserID>dota2</UserID><InvoiceAmount>222</InvoiceAmount><PaymentStatus>no</PaymentStatus></InvoiceRecord></Invoice>
+<InvoiceRecord recordID="invoiceRecord"><InvoiceNumber>1</InvoiceNumber><InvoiceDate>1</InvoiceDate><UserID>qwe123</UserID><InvoiceAmount>500</InvoiceAmount><PaymentStatus>no</PaymentStatus></InvoiceRecord></Invoice>

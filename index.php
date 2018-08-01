@@ -9,6 +9,7 @@ if ($_SESSION["user"] == null) {
 $user = $_SESSION["user"];
 $Username = $user->getUserID();
 $userInvoice= $user->getUserType();
+$userusedcredit = $user->getUsedCredit();
 // Check User if it is Customer, if not force logout and back to Login.php
 if ($user->getUserType() != "Customer" & $user->getUserType() != "Corporate") {
     session_destroy();
@@ -20,6 +21,13 @@ $today_date2=date('d-m-Y');
 if($today_date==$today_date2 && $userInvoice=="Corporate" )
 {
     echo "<script> location.href='getInvoice.php'; </script>";
+}
+
+$invoiceDay = date('06-m-Y');
+
+if($invoiceDay & $userusedcredit=500)
+{
+    $user->setOverDue("Yes");
 }
 
 $dashboard = new DashController();

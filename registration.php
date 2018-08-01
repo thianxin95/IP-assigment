@@ -139,7 +139,7 @@ input {
                    
                     <div class="form-group">
                       <label for="exampleInputConfirmPassword1">Password</label>
-                      <input type="password" class="form-control" required="required" placeholder="Password" name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=onkeyup='check();.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" >
+                      <input type="password" class="form-control" required="required" placeholder="Password" name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" >
                     </div>
                        <div id="message">
   <h3>Password must contain the following:</h3>

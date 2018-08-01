@@ -66,12 +66,14 @@
                     <div class="card">
                         <div class="card-body">
                                 <h4 class="card-title">Invoice Report</h4>
-                            <table class="table table-user-information">
+                           <table class="table table-user-information">
                                 <thead>
                                     <tr><th>Invoice Number :</th><td><xsl:value-of select="//InvoiceNumber"/></td></tr>
                                     <tr><th>Invoice Date :</th><td><xsl:value-of select="//InvoiceDate"/></td></tr>
-                                    
-                                    <tr><th>Payment Date :</th><td><xsl:value-of select="//OrderID"/></td></tr>
+                                    <tr>
+                                        <th>User ID :</th>
+                                        <td><xsl:value-of select="//UserID"/></td>
+                                    </tr>
                                     <tr><th>Invoice Amount :</th><td><xsl:value-of select="//InvoiceAmount"/></td></tr>
                                     <tr><th>Payment Status :</th><td><xsl:value-of select="//PaymentStatus"/></td></tr>
                                 </thead>

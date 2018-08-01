@@ -50,7 +50,7 @@
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="../index.php">
+                <a class="nav-link" href="ManageInvoice.php">
                     <span class="menu-title">Dashboard</span>
                 </a>
             </li>
@@ -112,6 +112,7 @@
         <!-- endinject -->
         <!-- Custom js for this page-->
         <!-- End custom js for this page-->
+        
             </body>
         </html>
     </xsl:template>
