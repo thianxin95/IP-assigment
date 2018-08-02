@@ -45,6 +45,7 @@ include('Object/CustomerOb.php');
                                         <button type="submit" name="submit" id="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">Log In</button>
                                     </div>
                                 </form>
+                                <h5>No Account?<a href="registration.php">Sign Up</a></h5>
                             </div>
                         </div>
                     </div>

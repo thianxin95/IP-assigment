@@ -16,11 +16,6 @@ $password =$user->getPassword();
 $email = $user->getEmail();
 
 // Check User if it is Customer, if not force logout and back to Login.php
-if ($user->getUserType() != "Customer") {
-    session_destroy();
-    session_unset();
-    echo "<script> location.href='login.php'; </script>";
-}
 
 
 ?>
@@ -85,7 +80,7 @@ if ($user->getUserType() != "Customer") {
                       </tr>
                       <tr>
                         <td>Name</td>
-                        <td><input name="name" type="text"  placeholder="<?php echo($realName) ?>"value=""></td>
+                        <td><input name="name" type="text"  value="<?php echo($realName) ?>"></td>
                       </tr>
                       <tr>
                         <td>Email</td>
@@ -109,9 +104,10 @@ if ($user->getUserType() != "Customer") {
                     </tbody>
                   </table>
                   
-                      <button type="submit" class="btn btn-primary" name="submit" id="submit" >Submit</button>
+                              <input type="submit" class="btn btn-primary" name="submit" id="submit" >
                       
                       </form>
+                            
                 </div>
               </div>
                 </div>
@@ -170,8 +166,20 @@ if (isset($_POST['submit'])) {
         trigger_error('Invalid query: ' . $conn->error);
     }
     $conn_updatedb->close();
+    $user->setName($updateName);
     $user->setAddress($updateAddress);
+    $user->setPassword($updatePassword);
+    $user->setPhone($updatePhone);
+    $user->setEmail($updateEmail);
+    
+   echo "<meta http-equiv='refresh' content='0'>";
+    $url='http://localhost/Assignment2018/Assignment2018/customerProfile.php';
+
+    echo '<script>window.location = "'.$url.'";</script>';
+    die;
 }
+
+
 
 ?>
 

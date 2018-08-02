@@ -3,10 +3,10 @@ include ('../Object/EmployeeOB.php');
 session_start();
 
 $user = new Employee("", "", "", "", "", "", "","","","");
-if ($_SESSION["user"] == null) {
+if ($_SESSION["employee"] == null) {
     echo "<script> location.href='../login.php'; </script>";
 }
-$user = $_SESSION["user"];
+$user = $_SESSION["employee"];
 $Username = $user->getUserID();
 $Username = $user->getUserID();
 $realName=$user->getName();

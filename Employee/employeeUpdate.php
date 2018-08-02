@@ -4,10 +4,10 @@ include ('../databaseconn.php');
 session_start();
 
 $user = new Employee("", "", "", "", "", "", "","","","");
-if ($_SESSION["user"] == null) {
+if ($_SESSION["employee"] == null) {
     echo "<script> location.href='../login.php'; </script>";
 }
-$user = $_SESSION["user"];
+$user = $_SESSION["employee"];
 $Username = $user->getUserID();
 $Username = $user->getUserID();
 $realName=$user->getName();
@@ -84,7 +84,7 @@ if ($user->getUserType() != "Employee") {
                       </tr>
                       <tr>
                         <td>Name</td>
-                        <td><input name="name" type="text"  placeholder="<?php echo($realName) ?>"value=""></td>
+                        <td><input name="name" type="text"  value="<?php echo($realName) ?>"></td>
                       </tr>
                       <tr>
                         <td>Email</td>
@@ -161,6 +161,14 @@ if (isset($_POST['submit'])) {
     }
     $conn_updatedb->close();
     $user->setAddress($updateAddress);
+    $user->setName($updateName);
+    $user->setPassword($updatePassword);
+    $user->setPhone($updatePhone);
+    $user->setEmail($updateEmail);
+    echo "<meta http-equiv='refresh' content='0'>";
+    $url='http://localhost/Assignment2018/Assignment2018/Employee/employeeProfile.php';
+
+    echo '<script>window.location = "'.$url.'";</script>';
 }
 
 ?>

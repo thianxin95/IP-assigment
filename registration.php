@@ -23,6 +23,8 @@ include('Object/CustomerOb.php');
 </head>
 
 <body>
+    
+      
   <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
       <div class="content-wrapper d-flex align-items-center auth">
@@ -30,7 +32,7 @@ include('Object/CustomerOb.php');
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left p-5">
               <h4><?php echo($title) ?></h4>
-              <h6 class="font-weight-light">New Here?</h6>
+              
              <div class="row">
             
               <div class="card">
@@ -76,29 +78,34 @@ include('Object/CustomerOb.php');
                       <input type="hidden" name="usedCrdit" value="0">
                       <input type="hidden" name="overDue" value="0">
                     </div>
+                   
                     <div class="form-group">
-                      <label for="exampleInputPassword1">Password</label>
-                      <input type="password" class="form-control" id="password" placeholder="Password">
+                      <label for="exampleInputConfirmPassword1">Password</label>
+                      <input type="password" class="form-control" id="exampleInputConfirmPassword1" placeholder="Password" name="password" >
                     </div>
-                    <div class="form-group">
-                      <label for="exampleInputConfirmPassword1">Confirm Password</label>
-                      <input type="password" class="form-control" id="exampleInputConfirmPassword1" placeholder="Password" name="password">
-                    </div>
+                      <div id="message">
+  <h3>Password must contain the following:</h3>
+  <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+  <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+  <p id="number" class="invalid">A <b>number</b></p>
+  <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+</div>
                     <div class="form-check form-check-flat form-check-primary">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input">
-                        Remember me
-                      </label>
+                      
                     </div>
-                    <button type="submit" class="btn btn-gradient-primary mr-2" name="submit" id="submit">Submit</button>
-                    <button class="btn btn-light">Cancel</button>
+                    <input type="submit" class="btn btn-gradient-primary mr-2" name="submit" id="submit">
+                   
                   </form>
+                  <h5>Already have account? <a href="login.php">Login</a></h5>
                 </div>
               </div>
             
             </div>
+              
           </div>
+              <?php include('Footer.php') ?>
         </div>
+          
       </div>
        
       <!-- content-wrapper ends -->
