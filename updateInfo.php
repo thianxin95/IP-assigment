@@ -109,7 +109,8 @@ if ($user->getUserType() != "Customer") {
                     </tbody>
                   </table>
                   
-                      <button type="submit"  name="submit" id="submit">Submit</button>
+                      <button type="submit" class="btn btn-primary" name="submit" id="submit" >Submit</button>
+                      
                       </form>
                 </div>
               </div>
@@ -151,8 +152,11 @@ if ($user->getUserType() != "Customer") {
 
 </html>
 <?php
+
+
 if (isset($_POST['submit'])) {
-    $userID = $_SESSION["user"];
+    $userID = $user->getUserID();
+   
     $updateName = $_POST['name'];
     $updateEmail = $_POST['email'];
     $updatePassword = $_POST['password'];
@@ -160,21 +164,14 @@ if (isset($_POST['submit'])) {
     $updatePhone = $_POST['phone'];
     //datedb = new mysqli($servername, $db_user, $db_password, $db_table); deprecated with PDO
     $conn_updatedb = Database::getInstance();
-    $query_updatedb = "UPDATE users SET Name=:name ,Address:address,Phone=:phone,Email=:email,password=:password WHERE userID =:id";
-    $stmt = $conn_updatedb->query($query_updatedb);                                  
-$stmt->bindParam(':name',$_POST['name'] , PDO::PARAM_STR);       
-$stmt->bindParam(':email', $_POST['email'], PDO::PARAM_STR);    
-$stmt->bindParam(':password', $_POST['password'], PDO::PARAM_STR);
-$stmt->bindParam(':address',  $_POST['address'], PDO::PARAM_STR);    
-$stmt->bindParam(':phone', $_POST['phone'], PDO::PARAM_STR);
-$stmt->bindParam(':user', $_SESSION["user"], PDO::PARAM_STR);
-$stmt->execute(); 
+    $query_updatedb = "UPDATE users SET Name='$updateName',Address='$updateAddress',Phone='$updatePhone', password='$updatePassword' WHERE userID ='$userID'";   
     $update_result = $conn_updatedb->query($query_updatedb);
     if (!$update_result) {
         trigger_error('Invalid query: ' . $conn->error);
     }
     $conn_updatedb->close();
 }
+
 ?>
 
 
