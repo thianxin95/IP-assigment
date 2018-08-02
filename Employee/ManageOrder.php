@@ -37,11 +37,11 @@ if (isset($_POST['paid_fullfiled'])) {
     $xmlPath = "../ReportXML/Daily_OrderProcessed.xml";
     $drob = new DailyRecordOB();
     $report_controller = new ReportController($xmlPath);
-    $drob->setDate("01/08/2018");
-    $drob->setDeliveryCount("0");
-    $drob->setOrderCount("0");
-    $drob->setPickupCount("0");
-    $drob->setTotalAmount("0");
+    $drob->setDate("3/08/2018");
+    $drob->setDeliveryCount("1");
+    $drob->setOrderCount("1");
+    $drob->setPickupCount("1");
+    $drob->setTotalAmount("1sjj");
     $report_controller->clearRecord();
     $report_controller->updateRecord($drob);
     /* Example for Inseting data to report_controller and update to XML file

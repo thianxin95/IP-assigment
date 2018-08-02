@@ -170,6 +170,7 @@ if (isset($_POST['submit'])) {
         trigger_error('Invalid query: ' . $conn->error);
     }
     $conn_updatedb->close();
+    $user->setAddress($updateAddress);
 }
 
 ?>

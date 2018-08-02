@@ -7,4 +7,14 @@ and open the template in the editor.
 <!DOCTYPE DailyOrderRecord SYSTEM "Daily_OrderProcessed.dtd">
 <DailyOrderRecord>
     
-<Record recordID="RID1"><OrderCount>0</OrderCount><Date>01/08/2018</Date><TotalAmount>0</TotalAmount><OrderTypeCount><DeliveryCount>0</DeliveryCount><PickupCount>0</PickupCount></OrderTypeCount></Record></DailyOrderRecord>
+    <Record recordID="RID1">
+        <OrderCount>0</OrderCount>
+        <Date>01/08/2018</Date>
+        <TotalAmount>0</TotalAmount>
+        <OrderTypeCount>
+            <DeliveryCount>0</DeliveryCount>
+            <PickupCount>0</PickupCount>
+        </OrderTypeCount>
+    </Record>
+
+</DailyOrderRecord>
