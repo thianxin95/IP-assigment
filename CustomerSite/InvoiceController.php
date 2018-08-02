@@ -87,12 +87,12 @@ class InvoiceController {
 
         if ($invoice_result) {
             while ($row = $invoice_result->fetch(PDO::FETCH_ASSOC)) {
-                $invoice_no = $row['invoice_no'];
-                $invoice_date = $row['invoice date'];
-                $invoice_amt = $row['invoice_amount'];
+                $invoice_no = $row['invoiceNo'];
+                $invoice_date = $row['invoiceDate'];
+                $invoice_amt = $row['invoiceAmount'];
                 $paymentStatus = $row['paymentStatus'];
                 $paymentDate = $row['paymentDate'];
-                $result = new InvoiceOB($invoice_no, $invoice_date, $userID, "", $invoice_amt, $paymentStatus, $paymentDate);
+                $result = new InvoiceOB($invoice_no, $invoice_date, $userID,  $invoice_amt, $paymentStatus, $paymentDate);
             }
         }
         if (empty($result)) {

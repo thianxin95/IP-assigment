@@ -88,14 +88,14 @@ class OrderListController {
         $conn->close();
         if ($invoicelist_result) {
             while ($row = $invoicelist_result->fetch(PDO::FETCH_ASSOC)) {
-                $invoiceNO = $row["invoice_no"];
-                $invoiceDate = $row["invoice date"];
+                $invoiceNO = $row["invoiceNo"];
+                $invoiceDate = $row["invoiceDate"];
                 $invoiceUserID = $row["userID"];
-                $invoiceOrderID = $row["orderID"];
-                $invoiceAmount = $row["invoice_amount"];
+                
+                $invoiceAmount = $row["invoiceAmount"];
                 $PaymentStatus = $row["paymentStatus"];
                 $PaymentDate = $row["paymentDate"];
-                $result[$i] = new InvoiceOB($invoiceNO, $invoiceDate, $invoiceUserID, $invoiceOrderID, $invoiceAmount, $PaymentStatus, $PaymentDate);
+                $result[$i] = new InvoiceOB($invoiceNO, $invoiceDate, $invoiceUserID, $invoiceAmount, $PaymentStatus, $PaymentDate);
                 $i++;
             }
         }
