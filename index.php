@@ -10,7 +10,7 @@ $user = $_SESSION["user"];
 $Username = $user->getUserID();
 
 // Check User if it is Customer, if not force logout and back to Login.php
-if ($user->getUserType() != "Customer") {
+if ($user->getUserType() != "Customer" || $user->getUserType() != "Corporate") {
     session_destroy();
     session_unset();
     echo "<script> location.href='login.php'; </script>";
