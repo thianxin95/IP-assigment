@@ -104,7 +104,7 @@ include('Object/CustomerOb.php');
                     }if ($row["userType"] == "Employee") {
                         include_once 'Object/EmployeeOB.php';
                         $employeeob = new Employee($row["userID"],$row["userType"], $row["Name"], $row["Address"], $row["Phone"], $row["Email"], $row["creditLimit"], $row["usedCredit"], $row["overDue"], $row["password"]);
-                        $_SESSION["user"] = $employeeob;
+                        $_SESSION["employee"] = $employeeob;
                         echo "<script> location.href='Employee/index.php'; </script>";
                         $conn->close();
                         exit;
