@@ -10,14 +10,7 @@ class InvoiceController {
         $doc = new DOMDocument();
         $doc->load($xmlPath);
 
-        //is this the desired xml file? 
-       /* If ($doc->doctype->name != "Daily_OrderProcessed" || $doc->doctype->systemId != "Daily_OrderProcessed.dtd") {
-            throw new Exception("Incorrect document type");
-        }*/
-        /// The name check seems a little bit problemetic , removing it works
-        
-        
-        //is the document valid and well-formed? 
+     
         if ($doc->validate()) {
             $this->domDocument = $doc;
             $this->xmlPath = $xmlPath;
@@ -52,7 +45,7 @@ class InvoiceController {
     
     
     public function clearRecord(){ // Same problem as getRecord, getElementsByTagName doesnt work
-        $oldRecord = $this->domDocument->getElementById("RID1"); //get Root
+        $oldRecord = $this->domDocument->getElementById("invoiceRecord"); //get Root
         $this->domDocument->documentElement->removeChild($oldRecord); // remove root
         // save back to disk 
         $this->domDocument->save($this->xmlPath);
@@ -64,7 +57,7 @@ class InvoiceController {
         $Record->setAttribute("recordID", "invoiceRecord");
         $this->domDocument->documentElement->appendChild($Record);
         
-        $invoiceNumber = $this->domDocument->createElement("InvoiceDate", $dailyrecord->getInvoiceNo());
+        $invoiceNumber = $this->domDocument->createElement("InvoiceNumber", $dailyrecord->getInvoiceNo());
         $Record->appendChild($invoiceNumber);
         
         
@@ -78,13 +71,14 @@ class InvoiceController {
         $Record->appendChild($orderID);
         
         $InvoicetotalAmount = $this->domDocument->createElement("InvoiceAmount", $dailyrecord->getInvoiceAmount());
-        $newOrderType->appendChild($InvoicetotalAmount);
+        $Record->appendChild($InvoicetotalAmount);
         
         $invoicePaymentStatus = $this->domDocument->createElement("PaymentStatus",$dailyrecord->getPaymentStatus());
-        $newOrderType->appendChild($invoicePaymentStatus);
+        $Record->appendChild($invoicePaymentStatus);
         
         $this->domDocument->save($this->xmlPath);
         
     }
 
 }
+

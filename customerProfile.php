@@ -3,6 +3,8 @@ include ('Object/CustomerOb.php');
 include('Object/InvoiceOB.php');
 include('databaseconn.php');
 session_start();
+$first_day_this_month = date('m-01-Y'); 
+
 
 if ($_SESSION["user"] == null) {
     echo "<script> location.href='login.php'; </script>";
@@ -15,6 +17,10 @@ $phone =$user->getPhone();
 $password =$user->getPassword();
 $email = $user->getEmail();
 $userType=$user->getUserType();
+$lastDayThisMonth = date("Y-m-t");
+ 
+//Print it out for example purposes.
+
 
 if($userType == "Customer"){
 ?> 
@@ -95,7 +101,7 @@ if($userType == "Customer"){
                         </td>
                          <tr>
                         <td>Home Address:</td>
-                        <td><?php echo($address) ?></td>
+                        <td><?php echo($address)?><?php echo($lastDayThisMonth)?></td>
                       </tr>
                            
                       </tr>
@@ -246,7 +252,8 @@ elseif ($userType=="Corporate") {
                                 
                   
                             <a href="updateInfo.php" class="btn btn-primary" >Edit Profile</a>
-                            <input type="submit" name="submit" id="submit">Generate Invoice
+                            
+                            <input type="submit" name="submit" id="submit" <?php if(date('01-m-Y')) {?> enable="enable" <?php } ?>>Generate Invoice
                     </form>
                
                 </div>
@@ -312,7 +319,7 @@ if (isset($_POST['submit'])) {
     }
     $conn_updatedb->close();
     
-    
+   
  
 }
 
