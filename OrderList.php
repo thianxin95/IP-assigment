@@ -2,7 +2,7 @@
 include ('Object/CustomerOb.php');
 session_start();
 
-$user = new Customer("", "", "", "", "", "", "");
+$user = new Customer("", "", "", "", "", "", "","", "", "");
 $user = $_SESSION["user"];
 if ($_SESSION["user"] == null) {
     echo "<script> location.href='login.php'; </script>";

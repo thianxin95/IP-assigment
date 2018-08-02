@@ -1,8 +1,8 @@
 <?php
-include ('../Object/CustomerOb.php');
+include ('../Object/EmployeeOB.php');
 session_start();
 
-$user = new Customer("", "", "", "", "", "", "");
+$user = new Employee("", "", "", "", "", "", "","","","");
 if ($_SESSION["user"] == null) {
     echo "<script> location.href='../login.php'; </script>";
 }
