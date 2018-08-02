@@ -17,6 +17,7 @@ and open the template in the editor.
         include_once '../../Object/CustomerOb.php';
         include_once '../../Object/Session_itemSelected.php';
         session_start();
+        
         //unset($_SESSION["Selected_itemArray"]);
 
            if(isset($_SESSION["Selected_itemArray"])){
@@ -101,6 +102,15 @@ tr:nth-child(even) {
         ?>
                 </table>
         </div>
-        <a class="nav-link" href="InsertCustomerOrder.php">Make order here</a>
+        <?php
+        //"Customer" & $user->getUserType() != "Corporate"
+        $link = "";
+        if($user->getUserType() =="Customer"){
+            $link = "InsertCustomerOrder.php";
+        }elseif($user->getUserType() == "Corporate"){
+            $link = "InsertCorporateOrder.php";
+        }
+        ?>
+        <a class="nav-link" href="<?php echo $link;?>">Make order here</a>
     </body>
 </html>

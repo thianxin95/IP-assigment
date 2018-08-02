@@ -19,12 +19,12 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        include '../../Object/OrderOB.php';
-        include '../../Controller/OrderController.php';
-        include '../../Object/CustomerOb.php';
-        include '../../Object/Session_itemSelected.php';
-        include '../../Object/OrderDetailsOB.php';
-        include '../../Controller/OrderDetailsController.php';
+        include_once '../../Object/OrderOB.php';
+        include_once '../../Controller/OrderController.php';
+        include_once '../../Object/CustomerOb.php';
+        include_once '../../Object/Session_itemSelected.php';
+        include_once '../../Object/OrderDetailsOB.php';
+        include_once '../../Controller/OrderDetailsController.php';
         session_start();
         $day = date("d-m-Y");
         echo $day . "<br>";
@@ -111,15 +111,24 @@ and open the template in the editor.
                 echo $_POST['pickup'];
                 
                 $order_ctrl = new OrderController();
+                //OVER HERE
                 $lastID = $order_ctrl->getOrderID();
                 
 
               $first = substr($lastID, 0, 3);
-              $Rest = substr($lastID, 3);
+              $Rest = substr($lastID, 3) + 1;
 
-  
-              $Rest += 1;
-              $newID = $first.$Rest;
+               
+             // $Rest += 1;
+             $newID = $first.$Rest;
+//                if($lastID == 0){
+//                    $newID = "ord1";
+//                }else{
+//                $n1 = $lastID+1;
+//                echo 'OVER HERERRER '.$n1;
+//                $s1 = "ord".$n1;
+//                $newID = $s1;
+//                }
               $orderDate = date("d-m-Y");
             
               
@@ -148,11 +157,22 @@ and open the template in the editor.
          $price =$orderDetail->getUnitPrice();
          $totalprice = $orderDetail->getTotalprice();
          $OrderDetail_ctrl = new OrderDetailsController();
+         //OVER HERE
          $lastOrderDetailID = $OrderDetail_ctrl->getOrderDetailsID();
                  $first2 = substr($lastOrderDetailID, 0, 5);
-              $Rest2 = substr($lastOrderDetailID, 5);
-              $Rest2 += 1;
+              $Rest2 = substr($lastOrderDetailID, 5) + 1;
+             // $Rest2 += 1;
+//         if($lastOrderDetailID == 0){
+//             $newID2 = "ordtl1";
+//         }else{
+//             
+//
+//               $n2 = $lastOrderDetailID+1;
+//                $s2 = "ordtl".$n2;
+//                $newID2 = $s2;
+//                  }
               $newID2 = $first2.$Rest2;
+              
          
          $newOrderDetail = new OrderDetailsOB($newID2,$newID,$code,$quantity,$price);
          $OrderDetail_ctrl->addRecord($newOrderDetail);

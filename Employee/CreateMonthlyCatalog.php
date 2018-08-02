@@ -29,15 +29,15 @@ and open the template in the editor.
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <?php include('PageTitle.php') ?>
+            <?php include('../PageTitle.php') ?>
         <!-- plugins:css -->
-        <link rel="stylesheet" href="vendors/iconfonts/mdi/css/materialdesignicons.min.css">
-        <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+        <link rel="stylesheet" href="../vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+        <link rel="stylesheet" href="../vendors/css/vendor.bundle.base.css">
         <!-- endinject -->
         <!-- plugin css for this page -->
         <!-- End plugin css for this page -->
         <!-- inject:css -->
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="../css/style.css">
         <!-- endinject -->
         <link rel="shortcut icon" href="images/favicon.png" />
     </head>
@@ -84,7 +84,7 @@ and open the template in the editor.
                                         </thead>
                                         <tbody>
                                             <?php 
-                                            include ('databaseconn.php');
+                                            include ('../databaseconn.php');
                                             $conn = Database::getInstance();
                                             $query = "SELECT * FROM product WHERE Availability = 'Available'";
                                             $product_result = $conn->query($query);
@@ -289,7 +289,7 @@ and open the template in the editor.
                         <!-- partial -->
                     </div>
                     <!-- main-panel ends -->
-                        <?php include('Footer.php') ?>
+                        <?php include('../Footer.php') ?>
                 </div>
                 <!-- page-body-wrapper ends -->
             </div>
@@ -297,14 +297,14 @@ and open the template in the editor.
         
         <!-- container-scroller -->
         <!-- plugins:js -->
-        <script src="vendors/js/vendor.bundle.base.js"></script>
-        <script src="vendors/js/vendor.bundle.addons.js"></script>
+        <script src="../vendors/js/vendor.bundle.base.js"></script>
+        <script src="../vendors/js/vendor.bundle.addons.js"></script>
         <!-- endinject -->
         <!-- Plugin js for this page-->
         <!-- End plugin js for this page-->
         <!-- inject:js -->
-        <script src="js/off-canvas.js"></script>
-        <script src="js/misc.js"></script>
+        <script src="../js/off-canvas.js"></script>
+        <script src="../js/misc.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
         <!-- endinject -->

@@ -12,13 +12,16 @@ class OrderController {
     private $tableName = "orders";
     public function getOrderID(){
         $conn = Database::getInstance();
-        $query = "SELECT IF( MAX( orderID ) IS NULL , 0, MAX( orderID ) ) AS 'CurrentOrderID' FROM orders ORDER BY orderID DESC";
+       $query = "SELECT IF( MAX( orderID ) IS NULL , 0, MAX( orderID ) ) AS 'CurrentOrderID' FROM orders ORDER BY orderID DESC";
+       // $query = "SELECT COUNT(*) AS 'CurrentCount' FROM orders";
         $orderID_result = $conn->query($query);
         $conn->close();
         if($orderID_result){
             while($row = $orderID_result->fetch(PDO::FETCH_ASSOC)){
                 $CurrentOrderID = $row["CurrentOrderID"];
                 $result = $CurrentOrderID;
+//                $CurrentCount = $row["CurrentCount"];
+//                $result = $CurrentCount;
             }
         }
         return $result;

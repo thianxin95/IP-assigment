@@ -183,7 +183,7 @@ $dashboard = new DashController();
     if (!empty($_GET)) {
         if ($_GET['paymentresult'] == "success") {
             $InvoiceNo = $_GET['InvoiceID'];
-            $invoice_control->delInvoice($InvoiceNo);
+            $invoice_control->delInvoice($InvoiceNo, $Username);
             echo '<!-- inject:js -->';
             echo '<script>$("#paymentSuccess").modal()</script>';
             echo '<!-- endinject -->';

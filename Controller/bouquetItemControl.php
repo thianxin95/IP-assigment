@@ -13,7 +13,7 @@
  *
  * @author Hibiki
  */
-class bouquetItemDA {
+class bouquetItemControl {
     private $tableName = "bouquetitem";
 
 
@@ -30,6 +30,7 @@ class bouquetItemDA {
                 . "VALUES (:custOrderID,:productCode,:quantity,:unitPrice)";
         $stmt = $connection->prepare($query);
         $stmt -> execute($data);
+        $connection->close();
                 
     }
 }

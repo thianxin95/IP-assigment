@@ -11,10 +11,8 @@
  *
  * @author leang
  */
-interface PasswordInterface {
-    public function getHashedPassword($plainPassword);
-    public function getSaltedPassword($plainPassword);
-}
+include_once $_SERVER['DOCUMENT_ROOT'].'/Assignment2018/Pattern/PasswordInterface.php';
+
 class PasswordFactory implements PasswordInterface{
     //put your code here
     private $plain_password;

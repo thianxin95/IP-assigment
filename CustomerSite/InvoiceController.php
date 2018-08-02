@@ -100,11 +100,16 @@ class InvoiceController {
         }
         return $result;
     }
-    public function delInvoice($InvoiceNo) {
+    public function delInvoice($InvoiceNo, $userID) {
         include_once 'Object/InvoiceOB.php';
         $conn = Database::getInstance();
-        $query = "DELETE FROM invoices WHERE invoice_no = '$InvoiceNo'";
+        $query = "DELETE FROM invoices WHERE invoiceNo = '$InvoiceNo'";
         $invoice_result = $conn->query($query);
+        $conn->close();
+        $conn2 = Database::getInstance();
+        $query = "UPDATE users SET usedCredit = 0 WHERE userID = '$userID'";
+        $result = $conn2->query($query);
+        $conn2->close();
     }
 
 }

@@ -2,10 +2,11 @@
     ini_set('display_errors', 1);
     include_once './Function/ValidateInput.php';
     include_once './Object/CustomerOb.php';
-    include_once './customOrderDA.php';
+    include_once './Controller/customOrderControl.php';
     include_once './Object/BouquetItem.php';
     include_once './Object/CustomOrder.php';
-    include_once './bouquetItemDA.php';
+    include_once './Controller/bouquetItemControl.php';
+    include_once './Object/CustomOrderBuilder.php';
     session_start();
 
     $user = new Customer("", "", "", "", "", "", "", "", "","");
@@ -149,25 +150,27 @@ and open the template in the editor.
                                             $date = Date('d-m-Y H:i:s', strtotime( $_POST["getDate"]));
                                             $date = $validate->getValidatedInput($date);
                                             //store to database
-                                            $order = new customOrderDA();
+                                            $order = new customOrderControl();
                                             $lastID = $order->getLastInsertedID();
                                            // echo ++$lastID;
                                             $orderID = ++$lastID;
-                                            if($deliverMethod == "delivery"){
-                                                $pickup = "No";
-                                            }else if($deliverMethod == "pickup"){
-                                                $pickup = "Yes";
-                                                $address = "-";
-                                            }
+                                            
                                             $bouquet = $_SESSION["bouquet"];
-                                            $bouquetDA = new bouquetItemDA();
+                                            $bouquetDA = new bouquetItemControl();
                                             foreach($bouquet as $bouquetItem ){
                                                 $orderBouquet = $bouquetItem;
                                                 $orderBouquet->setCustOrderID($orderID);
                                                 $totalAmt += $orderBouquet->getQuantity() * $orderBouquet->getUnitPrice();
                                                 $bouquetDA->insertRecord($orderBouquet);
-                                            }                   
-                                            $customOrder = new CustomOrder($orderID,$Username,$pickup,$address,$date,$totalAmt,"unpaid");
+                                            }    
+                                            if($deliverMethod == "delivery"){
+                                                $customOrder = CustomOrder::createBuilder($orderID, $Username, $date, $totalAmt)->pickup("No")->deliveryAdd($address)->build();
+                                                
+                                            }else if($deliverMethod == "pickup"){
+                                                 $customOrder = CustomOrder::createBuilder($orderID, $Username, $date, $totalAmt)->pickup("Yes")->build();
+                                            }
+                                           
+                                           // $customOrder = new CustomOrder($orderID,$Username,$pickup,$address,$date,$totalAmt,"Unpaid");
                                             $order->insertRecord($customOrder);
                                             $_SESSION["CusOrder"] = $customOrder;
                                             $_SESSION["COrderItems"] = $bouquet;

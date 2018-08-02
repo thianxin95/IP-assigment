@@ -1,5 +1,5 @@
 <?php
-
+    include_once 'CustomOrderBuilder.php';
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -19,7 +19,21 @@ class CustomOrder {
     private $requireDate;
     private $totalAmt;
     private $paymentStatus;
-    public function __construct($custOrderID, $userID, $pickup, $deliveryAdd, $requireDate, $totalAmt, $paymentStatus) {
+    
+    public function __construct(CustomOrderBuilder $builder) {
+        $this->custOrderID = $builder->getCustOrderID();
+        $this->userID = $builder->getUserID();
+        $this->pickup = $builder->getPickup();
+        $this->deliveryAdd = $builder->getDeliveryAdd();;
+        $this->requireDate = $builder->getRequireDate();
+        $this->totalAmt = $builder->getTotalAmt();
+        $this->paymentStatus = $builder->getPaymentStatus();
+    }
+
+    static function createBuilder($custOrderID, $userID,$requireDate, $totalAmt){
+        return new CustomOrderBuilder($custOrderID, $userID,$requireDate, $totalAmt);
+    }
+    /*public function __construct($custOrderID, $userID, $pickup, $deliveryAdd, $requireDate, $totalAmt, $paymentStatus) {
         $this->custOrderID = $custOrderID;
         $this->userID = $userID;
         $this->pickup = $pickup;
@@ -27,7 +41,7 @@ class CustomOrder {
         $this->requireDate = $requireDate;
         $this->totalAmt = $totalAmt;
         $this->paymentStatus = $paymentStatus;
-    }
+    }*/
     public function getCustOrderID() {
         return $this->custOrderID;
     }
