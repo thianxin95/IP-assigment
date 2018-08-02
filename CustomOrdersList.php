@@ -1,22 +1,23 @@
 <?php
-include ('Object/CustomerOb.php');
-include_once 'Controller/OrderListController.php';
-include_once 'Object/OrderDetailsOB.php';
+include_once ('Object/CustomerOb.php');
+include_once ('Controller/COrderListController.php');
+include_once ('Object/CustomOrder.php');
+include_once('Object/BouquetItem.php');
 session_start();
 
 $user = new Customer("", "", "", "", "", "", "", "", "", "");
-$user = $_SESSION["user"];
 if ($_SESSION["user"] == null) {
     echo "<script> location.href='login.php'; </script>";
 }
-//Check user if it was employee, if not, for logout and back to login.php
+$user = $_SESSION["user"];
+$Username = $user->getUserID();
+
+// Check User if it is Customer, if not force logout and back to Login.php
 if ($user->getUserType() != "Customer" & $user->getUserType() != "Corporate") {
     session_destroy();
     session_unset();
     echo "<script> location.href='login.php'; </script>";
 }
-
-$Username = $user->getUserID();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,19 +74,18 @@ $Username = $user->getUserID();
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Order ID</th>
-                                                <th>Order Date</th>
+                                                <th>Custom Order ID</th>
                                                 <th>Pickup?</th>
                                                 <th>Delivery Address</th>
                                                 <th>Required Date</th>
-                                                <th>Order Amount</th>
+                                                <th>Total Amount</th>
                                                 <th>Order Status </th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $ordCon = new OrderListController();
+                                            $ordCon = new COrderListController();
                                             $ordlist = $ordCon->getOrderUserID($Username);
                                             if (!empty($ordlist)) {
                                                 for ($i = 0; $i < count($ordlist); $i++) {
@@ -101,16 +101,15 @@ $Username = $user->getUserID();
                                                       echo("</tr>"); */
                                                     ?>
                                                     <tr>
-                                                        <td><?php echo $ordlist[$i]->getOrderID() ?></td>
-                                                        <td><?php echo $ordlist[$i]->getOrderDate() ?></td>
-                                                        <td><?php echo $ordlist[$i]->getPickup() ?></td>
-                                                        <td><?php echo $ordlist[$i]->getDeliveryAddress() ?></td>
-                                                        <td><?php echo $ordlist[$i]->getRequiredDate() ?></td>
-                                                        <td><?php echo $ordlist[$i]->getTotalAmount() ?></td>
-                                                        <td><?php echo $ordlist[$i]->getStatus() ?></td>
-                                                        <td><button type="button" class="btn btn-gradient-primary btn-fw" data-toggle="modal" data-target="#<?php echo $ordlist[$i]->getOrderID() ?>">Order Details</button><br/><br/><div id="paypal-button<?php echo $ordlist[$i]->getOrderID() ?>"></div></td></tr>
+                                                        <td><?php echo $ordlist[$i]->getCustOrderID() ?></td>
+                                                        <td><?php echo $ordlist[$i]->getPickup() ?></td>             
+                                                        <td><?php echo $ordlist[$i]->getDeliveryAdd() ?></td>
+                                                        <td><?php echo $ordlist[$i]->getRequireDate() ?></td>
+                                                        <td><?php echo $ordlist[$i]->getTotalAmt() ?></td>
+                                                        <td><?php echo $ordlist[$i]->getPaymentStatus() ?></td>
+                                                        <td><button type="button" class="btn btn-gradient-primary btn-fw" data-toggle="modal" data-target="#<?php echo $ordlist[$i]->getCustOrderID() ?>">Order Details</button><br/><br/><div id="paypal-button<?php echo $ordlist[$i]->getCustOrderID() ?>"></div></td></tr>
                                                     <?php
-                                                    if ($ordlist[$i]->getStatus() == "Unpaid") {
+                                                    if ($ordlist[$i]->getPaymentStatus() == "Unpaid" || $ordlist[$i]->getPaymentStatus() == "unpaid") {
                                                         ?>
                                                         <!-- inject:js -->
                                                     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
@@ -129,7 +128,7 @@ $Username = $user->getUserID();
                                                                 return actions.payment.create({
                                                                     transactions: [{
                                                                             amount: {
-                                                                                total: '<?php echo $ordlist[$i]->getTotalAmount() ?>',
+                                                                                total: '<?php echo $ordlist[$i]->getTotalAmt() ?>',
                                                                                 currency: 'USD'
                                                                             }
                                                                         }]
@@ -138,10 +137,10 @@ $Username = $user->getUserID();
                                                             onAuthorize: function (data, actions) {
                                                                 return actions.payment.execute()
                                                                         .then(function () {
-                                                                            window.location.replace("OrderList.php?paymentresult=success&type=single&orderID=<?php echo $ordlist[$i]->getOrderID() ?>&Amount=<?php echo $ordlist[$i]->getTotalAmount() ?>");
+                                                                            window.location.replace("CustomOrdersList.php?paymentresult=success&type=single&orderID=<?php echo $ordlist[$i]->getCustOrderID() ?>&Amount=<?php echo $ordlist[$i]->getTotalAmt() ?>");
                                                                         });
                                                             }
-                                                        }, '#paypal-button<?php echo $ordlist[$i]->getOrderID() ?>');
+                                                        }, '#paypal-button<?php echo $ordlist[$i]->getCustOrderID() ?>');
                                                     </script>
                                                     <!-- endinject -->
                                                 <?php } ?>
@@ -157,7 +156,7 @@ $Username = $user->getUserID();
                                         echo("Total orders = " . count($ordlist));
 
                                         for ($i = 0; $i < count($ordlist); $i++) {
-                                            $orderID = $ordlist[$i]->getOrderID();
+                                            $orderID = $ordlist[$i]->getCustOrderID();
                                             ?>
                                             <div class="modal fade" id="<?php echo($orderID); ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo($orderID); ?>" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
@@ -182,11 +181,11 @@ $Username = $user->getUserID();
                                                                         <?php
                                                                         //$conn2 = new mysqli($servername, $db_user, $db_password, $db_table);
                                                                         $product_count = 0;
-                                                                        $detaillist = $ordCon->getDetailsOrderID($orderID);
-                                                                        for ($m = 0; $m < count($detaillist); $m++) {
-                                                                            $productcode = $detaillist[$m]->getProductCode();
-                                                                            $Quantity = $detaillist[$m]->getQuantity();
-                                                                            $UnitPrice = $detaillist[$m]->getUnitPrice();
+                                                                        $bouquetitem = $ordCon->getBouquetItem($orderID);
+                                                                        for ($m = 0; $m < count($bouquetitem); $m++) {
+                                                                            $productcode = $bouquetitem[$m]->getProductCode();
+                                                                            $Quantity = $bouquetitem[$m]->getQuantity();
+                                                                            $UnitPrice = $bouquetitem[$m]->getUnitPrice();
                                                                             $productdes = $ordCon->getProductDes($productcode);
 
                                                                             // we got all what we needed
@@ -229,62 +228,65 @@ $Username = $user->getUserID();
                                         <p>Thank you for your payment your payment is a Success</p>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="OrderList.php" class="btn btn-success">OK</a>
+                                        <a href="CustomOrdersList.php" class="btn btn-success">OK</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- content-wrapper ends -->
 
-
                     </div>
-                    <!-- main-panel ends -->
-                    <!-- partial:partials/_footer.html -->
                     <?php include('Footer.php') ?>
-                    <!-- partial -->
                 </div>
-                <!-- page-body-wrapper ends -->
+
             </div>
-        </div>
-        <!-- container-scroller -->
-        <!-- plugins:js -->
-        <script src="vendors/js/vendor.bundle.base.js"></script>
-        <script src="vendors/js/vendor.bundle.addons.js"></script>
-        <!-- endinject -->
-        <!-- Plugin js for this page-->
-        <!-- End plugin js for this page-->
-        <!-- inject:js -->
-        <?php
-        ///////////////Handling Payment Success Scenario
-        if (!empty($_GET)) {
-            if ($_GET['paymentresult'] == "success") {
-                if ($_GET['type'] == "single") {
-                    $orderID = $_GET['orderID'];
-                    $Amount = $_GET['Amount'];
+            <!-- partial:partials/_footer.html -->
 
-                    include_once('Employee/ReportXML/ReportController.php');
-                    $xmlPath = "Employee/ReportXML/Daily_OrderProcessed.xml";
-                    $report_controller = new ReportController($xmlPath);
-                    $report_controller->updateDaily($Amount, 0, 0, 0, 1);
+            <!-- partial -->
 
-                    $updateStatus = new OrderListController();
-                    $updateStatus->updateOrderStatus($orderID, "Paid");
-                    echo '<!-- inject:js -->';
-                    echo '<script>$("#paymentSuccess").modal()</script>';
-                    echo '<!-- endinject -->';
+            <!-- main-panel ends -->
+
+            <!-- page-body-wrapper ends -->
+
+            <!-- container-scroller -->
+            <!-- plugins:js -->
+            <script src="vendors/js/vendor.bundle.base.js"></script>
+            <script src="vendors/js/vendor.bundle.addons.js"></script>
+            <!-- endinject -->
+            <!-- Plugin js for this page-->
+            <!-- End plugin js for this page-->
+            <!-- inject:js -->
+            <?php
+            ///////////////Handling Payment Success Scenario
+            if (!empty($_GET)) {
+                if ($_GET['paymentresult'] == "success") {
+                    if ($_GET['type'] == "single") {
+                        $orderID = $_GET['orderID'];
+                        $Amount = $_GET['Amount'];
+
+                        include_once('Employee/ReportXML/ReportController.php');
+                        $xmlPath = "Employee/ReportXML/Daily_OrderProcessed.xml";
+                        $report_controller = new ReportController($xmlPath);
+                        $report_controller->updateDaily($Amount, 0, 0, 0, 1);
+
+                        $updateStatus = new COrderListController();
+                        $updateStatus->updateOrderStatus($orderID, "Paid");
+                        echo '<!-- inject:js -->';
+                        echo '<script>$("#paymentSuccess").modal()</script>';
+                        echo '<!-- endinject -->';
+                    }
                 }
             }
-        }
 ////////////////////////////end payment handling
-        ?>
-        <script src="js/off-canvas.js"></script>
-        <script src="js/misc.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-        <script>$('#paymentSuccess').on('hidden.bs.modal', function () {location.href = 'OrderList.php';})</script>
-        <!-- endinject -->
-        <!-- Custom js for this page-->
-        <!-- End custom js for this page-->
+            ?>
+            <script>$('#paymentSuccess').on('hidden.bs.modal', function () {location.href = 'CustomOrdersList.php';})</script>
+            <script src="js/off-canvas.js"></script>
+            <script src="js/misc.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+            <!-- endinject -->
+            <!-- Custom js for this page-->
+            <!-- End custom js for this page-->
     </body>
 
 </html>

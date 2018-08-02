@@ -1,6 +1,7 @@
 <?php
 include ('Object/CustomerOb.php');
 include ('Object/ProductOB.php');
+include ('Function/CatalogValidation.php');
 
 session_start();
 
@@ -99,41 +100,89 @@ and open the template in the editor.
                                 </div>
                                     <?php
                                     if(isset($_POST["Submit"])){
-                                        $productCode = $_POST['productcode'];
-                                        $productType = $_POST['producttype'];
-                                        $productDes = $_POST['productdes'];
-                                        $productAvailable = $_POST['productavailable'];
-                                        $productPrice = $_POST['productprice'];
                                         
-                                        $checkCode = new ProductOB($productCode, $productType, $productDes, $productAvailable, $productPrice);
+                                        $productCode;
+                                        $productType;
+                                        $productDes;
+                                        $productAvailable;
+                                        $productPrice;
+                                        $error;
                                         
-                                        $code = $checkCode->getProductCode();
-                                        $type = $checkCode->getProductType();
-                                        $description = $checkCode->getProductDes();
-                                        $availability = $checkCode->getAvailability();
-                                        $price = $checkCode->getPrice();
-                                        
-                                        include ('databaseconn.php');
-                                        $conn = Database::getInstance();
-                                        $query = "INSERT INTO product (`productCode`, `producttype`, `productdes`, `Availability`, `price`) VALUES ('$code','$type','$description','$availability','$price')";
-                                        $product_result = $conn->query($query);
-                                        
-                                        if(!$product_result){
-                                            trigger_error('Invalid query: ' . $conn->error);
-                                            
+                                        if(empty($_POST['productcode'])){
+                                            $error .= "Product Code cannot be empty </br>";  
                                         }else{
-                                            echo "The Item has been recorded <br>";
-                                            echo "Item Code : $code <br>";
-                                            echo "Item Type : $type <br>";
-                                            echo "Item Description : $description <br>";
-                                            echo "Item Availability : $availability <br>";
-                                            echo "Item Price : $price <br>";
-                                            
+                                            $productCode = $_POST['productcode'];
+                                            $validation = new CatalogValidation();
+                                            $result = $validation->checkProductCode($productCode);
+                                            if(!empty($result)){
+                                                $error.= "This Product Code has been used <br>";
+                                            }   
                                         }
-                                        $conn->close();
                                         
+                                        if(empty($_POST['producttype'])){
+                                            $error .= "Product Type cannot be empty </br>";  
+                                        }else{
+                                            $productType = $_POST['producttype'];
                                         }
-                                        ?>
+                                        
+                                        if(empty($_POST['productdes'])){
+                                            $error .= "Product Description cannot be empty </br>";  
+                                        }else{
+                                            $productDes = $_POST['productdes'];
+                                        }
+                                        
+                                        if(empty($_POST['productavailable'])){
+                                            $error .= "Availability cannot be empty </br>";  
+                                        }else{
+                                            $productAvailable = $_POST['productavailable'];
+                                        }
+                                        
+                                        if(empty($_POST['productprice'])){
+                                            $error .= "Product Description cannot be empty </br>";  
+                                        }else{
+                                            $productPrice = $_POST['productprice'];
+                                            
+                                            if(!ctype_digit($productPrice)){
+                                                $error .= "Please enter digit At Price </br>";
+                                            
+                                            }
+                                        }
+                                        
+                                        if(empty($error)){
+                                            $checkCode = new ProductOB($productCode, $productType, $productDes, $productAvailable, $productPrice);
+                                            
+                                            $code = $checkCode->getProductCode();
+                                            $type = $checkCode->getProductType();
+                                            $description = $checkCode->getProductDes();
+                                            $availability = $checkCode->getAvailability();
+                                            $price = $checkCode->getPrice();
+                                            
+                                            include ('databaseconn.php');
+                                            $conn = Database::getInstance();
+                                            $query = "INSERT INTO product (`productCode`, `producttype`, `productdes`, `Availability`, `price`) VALUES ('$code','$type','$description','$availability','$price')";
+                                            $product_result = $conn->query($query);
+                                            
+                                            if(!$product_result){
+                                                trigger_error('Invalid query: ' . $conn->error);
+                                                
+                                            }else{
+                                                echo "The Item has been recorded <br>";
+                                                echo "Item Code : $code <br>";
+                                                echo "Item Type : $type <br>";
+                                                echo "Item Description : $description <br>";
+                                                echo "Item Availability : $availability <br>";
+                                                echo "Item Price : $price <br>";
+                                                
+                                            }
+                                            
+                                            $conn->close();
+                                            
+                                            }else{
+                                                echo "$error";  
+                                            }
+                                            
+                                            }
+                                            ?>
                             </div>
                         </div>
                         <!-- content-wrapper ends -->

@@ -2,59 +2,45 @@
 $xml = new DOMDocument('1.0');
 $xml->formatOutput=TRUE;
 
+   $CatalogRow = $xml->createElement("CatalogRow"); 
+        $CatalogRow->setAttribute("productCode", "aaaaa1");
+        $xml->appendChild($CatalogRow);
 
-$CatalogRow = $xml->createElement("CatalogRow");
-$xml->appendChild($CatalogRow);
+        $OrderDetailsID = $xml->createElement("OrderDetailsID", "2");
+        $CatalogRow->appendChild($OrderDetailsID);
 
-$productCode=$xml->createElement("productCode", "PDR1");
-$CatalogRow->appendChild($productCode);
+        $OrderID = $xml->createElement("OrderID", "3");
+        $CatalogRow->appendChild($OrderID);
 
-$productType=$xml->createElement("productType", "Flower");
-$CatalogRow->appendChild($productType);
+        $ProductCode = $xml->createElement("ProductCode", "we4");
+        $CatalogRow->appendChild($ProductCode);
 
-$productQuantity=$xml->createElement("productQuantity", "24");
-$CatalogRow->appendChild($productQuantity);
+        $Quantity = $xml->createElement("Quantity", "5");
+        $CatalogRow->appendChild($Quantity);
 
-$totalPrice=$xml->createElement("totalPrice", "240");
-$CatalogRow->appendChild($totalPrice);
+        $UnitPrice = $xml->createElement("UnitPrice", "6");
+        $CatalogRow->appendChild($UnitPrice);
 
-$userID=$xml->createElement("userID", "lee95");
-$CatalogRow->appendChild($userID);
 
-$userType=$xml->createElement("userType", "Customer");
-$CatalogRow->appendChild($userType);
-
-//$CatalogRecord= $xml->createElement("CatalogRecord");
-//$xml->appendChild($CatalogRecord);
+//        $CatalogRow = $xml->createElement("CatalogRow"); 
+//        $CatalogRow->setAttribute("productCode", "aaaaa1");
+//        $xml->appendChild($CatalogRow);
 //
-//$CatalogRow = $xml->createElement("CatalogRow");
-//$CatalogRow->setAttribute("rowID", "c1");
-//$CatalogRecord->appendChild($CatalogRow);
+//        $OrderDetailsID = $xml->createElement("OrderDetailsID", "2");
+//        $CatalogRow->appendChild($OrderDetailsID);
 //
-//$orderID=$xml->createElement("orderID", "ORD0001");
-//$CatalogRow->appendChild($orderID);
+//        $OrderID = $xml->createElement("OrderID", "3");
+//        $CatalogRow->appendChild($OrderID);
 //
-//$userID=$xml->createElement("userID", "UID0001");
-//$CatalogRow->appendChild($userID);
+//        $ProductCode = $xml->createElement("ProductCode", "4");
+//        $CatalogRow->appendChild($ProductCode);
 //
-//$orderDate=$xml->createElement("orderDate", "2/8/2018");
-//$CatalogRow->appendChild($orderDate);
+//        $Quantity = $xml->createElement("Quantity", "5");
+//        $CatalogRow->appendChild($Quantity);
 //
-//$pickup=$xml->createElement("pickup", "no");
-//$CatalogRow->appendChild($pickup);
+//        $UnitPrice = $xml->createElement("UnitPrice", "6");
+//        $CatalogRow->appendChild($UnitPrice);
 //
-//$deliveryAddress=$xml->createElement("deliveryAddress", "pv-16");
-//$CatalogRow->appendChild($deliveryAddress);
-//
-//$requiredDate=$xml->createElement("requiredDate", "5/8/2018");
-//$CatalogRow->appendChild($requiredDate);
-//
-//$totalAmount=$xml->createElement("totalAmount", "300");
-//$CatalogRow->appendChild($totalAmount);
-//
-//$status=$xml->createElement("status", "unpaid");
-//$CatalogRow->appendChild($status);
-
 
 
 echo "<xmp>".$xml->saveXML()."</xmp>";

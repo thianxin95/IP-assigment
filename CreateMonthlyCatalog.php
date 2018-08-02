@@ -86,7 +86,7 @@ and open the template in the editor.
                                             <?php 
                                             include ('databaseconn.php');
                                             $conn = Database::getInstance();
-                                            $query = "SELECT * FROM product";
+                                            $query = "SELECT * FROM product WHERE Availability = 'Available'";
                                             $product_result = $conn->query($query);
                                             
                                             if(!$product_result){
