@@ -1,9 +1,10 @@
 <?php
-include('databaseconn.php');
-include('Object/CustomerOb.php');
+session_start();
+include_once 'Object/CustomerOb.php';
+include_once 'Object/EmployeeOb.php';
+include_once 'Controller/LoginController.php';
+include_once 'Object/User.php';
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +12,7 @@ include('Object/CustomerOb.php');
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <?php include('PageTitle.php') ?>
+        <?php include('PageTitle.php')  ?>
         <!-- plugins:css -->
         <link rel="stylesheet" href="vendors/iconfonts/mdi/css/materialdesignicons.min.css">
         <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
@@ -83,39 +84,27 @@ include('Object/CustomerOb.php');
         if (isset($_POST['submit'])) {
             $userid = $_POST['Username'];
             $userpassword = $_POST['Password'];
-            $sql = "SELECT * FROM users WHERE userID = '$userid' AND password = '$userpassword'";
-            //$conn = new mysqli($servername, $db_user, $db_password, $db_table); apply for PDO singleton
-            $conn = Database::getInstance();
-            $login_result = $conn->query($sql);
-            if (!$login_result) {
-                trigger_error('Invalid query: ' . $conn->error);
+            
+            $login = new LoginController();
+            $logged_user = new User("","","","","","","","","","");
+            $logged_user = $login->getLogin($userid, $userpassword);
+            if($logged_user ->getUserType() == "Customer" || $logged_user->getUserType() == "Corporate"){
+                echo "Customer";
+                $customerob = new Customer($logged_user->getUserID(), $logged_user->getUserType(),$logged_user->getName(), $logged_user->getAddress() , $logged_user->getPhone(), $logged_user->getEmail(), $logged_user->getCreditLimit(), $logged_user->getUsedCredit(), $logged_user->getOverDue(), $logged_user->getPassword());
+                $_SESSION["user"] = $customerob;
+                echo "<script> location.href='index.php'; </script>"; 
+            }if($logged_user ->getUserType() == "Employee"){
+                echo"Employee";
+                $employeeob = new Employee($logged_user->getUserID(), $logged_user->getUserType(),$logged_user->getName(), $logged_user->getAddress() , $logged_user->getPhone(), $logged_user->getEmail(), $logged_user->getCreditLimit(), $logged_user->getUsedCredit(), $logged_user->getOverDue(), $logged_user->getPassword());
+                $_SESSION["employee"] = $employeeob;
+                echo "<script> location.href='Employee/index.php'; </script>";
             }
-            if ($login_result) {
-                while ($row = $login_result->fetch(PDO::FETCH_ASSOC)) {
-                    session_start();
-                    //if the database returns a correct user result only set session and give login
-                    //$Username = $_POST["Username"];
-                    
-                    if ($row["userType"] == "Customer" || $row["userType"] == "Corporate") {
-                        $customerob = new Customer($row["userID"],$row["userType"], $row["Name"], $row["Address"], $row["Phone"], $row["Email"], $row["creditLimit"], $row["usedCredit"], $row["overDue"], $row["password"]);
-                        $_SESSION["user"] = $customerob;
-                        echo "<script> location.href='index.php'; </script>";
-                        $conn->close();
-                        exit;
-                    }if ($row["userType"] == "Employee") {
-                        include_once 'Object/EmployeeOB.php';
-                        $employeeob = new Employee($row["userID"],$row["userType"], $row["Name"], $row["Address"], $row["Phone"], $row["Email"], $row["creditLimit"], $row["usedCredit"], $row["overDue"], $row["password"]);
-                        $_SESSION["employee"] = $employeeob;
-                        echo "<script> location.href='Employee/index.php'; </script>";
-                        $conn->close();
-                        exit;
-                    }
-                }
-                // Get to here if nothing happens
-                echo"<!-- inject:js -->";
-                echo"<script>$('#wrongdetails').modal();</script>";
-                echo"<!-- endinject -->";
-            } 
+            
+            
+            // Get to here if nothing happens
+            echo"<!-- inject:js -->";
+            echo"<script>$('#wrongdetails').modal();</script>";
+            echo"<!-- endinject -->";
         }
         ?>
         <!-- endinject -->
