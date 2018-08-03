@@ -7,7 +7,7 @@ class DailyRecordOB{
     private $DeliveryCount;
     private $PickupCount;
     
-    public function DailyRecordOB(){
+    public function __construct(){
         
     }
     

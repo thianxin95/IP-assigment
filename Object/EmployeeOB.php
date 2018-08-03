@@ -12,7 +12,7 @@ class Employee{
     private $password;
     
     
-    public function Employee($userID, $userType,$Name,$Address,$Phone,$Email, $creditLimit, $usedCredit, $overDue,$password){
+    public function __construct($userID, $userType,$Name,$Address,$Phone,$Email, $creditLimit, $usedCredit, $overDue,$password){
         $this->userID = $userID;
         $this->userType = $userType;
         $this->Name = $Name;
