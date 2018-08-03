@@ -4,6 +4,7 @@ include_once 'Object/CustomerOb.php';
 include_once 'Object/EmployeeOb.php';
 include_once 'Controller/LoginController.php';
 include_once 'Object/User.php';
+include_once 'Function/ValidateInput.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,10 +85,10 @@ include_once 'Object/User.php';
         if (isset($_POST['submit'])) {
             $userid = $_POST['Username'];
             $userpassword = $_POST['Password'];
-            
+            $_validate = new ValidateInput();
             $login = new LoginController();
             $logged_user = new User("","","","","","","","","","");
-            $logged_user = $login->getLogin($userid, $userpassword);
+            $logged_user = $login->getLogin($_validate->getValidatedInput($userid), $_validate->getValidatedInput($userpassword));
             if($logged_user ->getUserType() == "Customer" || $logged_user->getUserType() == "Corporate"){
                 echo "Customer";
                 $customerob = new Customer($logged_user->getUserID(), $logged_user->getUserType(),$logged_user->getName(), $logged_user->getAddress() , $logged_user->getPhone(), $logged_user->getEmail(), $logged_user->getCreditLimit(), $logged_user->getUsedCredit(), $logged_user->getOverDue(), $logged_user->getPassword());
