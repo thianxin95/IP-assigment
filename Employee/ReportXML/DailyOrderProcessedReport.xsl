@@ -73,6 +73,16 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Daily Order Processed Report</h4>
+                            <table class="table table-user-information">
+                                <thead>
+                                    <tr><th>Date : </th><td>TEST</td></tr>
+                                    <tr><th>Order Count : </th><td>TEST</td></tr>
+                                    <tr><th>Total Amount : </th><td>TEST</td></tr>
+                                    <tr><th>Delivery Count : </th><td>TEST</td></tr>
+                                    <tr><th>Pickup Count</th> : <td>TEST</td></tr>
+                                </thead>
+                               
+                            </table>
                         </div>
                     </div>
                 </div>

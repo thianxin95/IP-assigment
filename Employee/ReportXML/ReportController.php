@@ -34,7 +34,7 @@ class ReportController {
     public function getRecord() { 
 //problemetic possibly because there is no getElementbyID Source UPDATE : ALL FIX
         $dailyrecord = new DailyRecordOB();
-        $Record = $this->domDocument->getElementById("RID2");
+        $Record = $this->domDocument->getElementById("RID1");
         if (!$Record) {
             throw new Exception("Error, something went wrong, XML or things not found."); 
         }
