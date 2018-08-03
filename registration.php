@@ -120,6 +120,9 @@ include('Object/CustomerOb.php');
   <script src="vendors/js/vendor.bundle.addons.js"></script>
    <?php
 if(isset($_POST["submit"])){
+    include_once 'Pattern/PasswordFactory.php';
+    $passgen = new PasswordFactory();
+    $saltedPass = $passgen->getSaltedPassword($_POST['password']);
     $typeCus=$_POST["membershipRadios"];
     $credit=$_POST["creditLimit"];
     $usedCredit=$_POST["usedCrdit"];
@@ -130,7 +133,7 @@ if(isset($_POST["submit"])){
         $usedCredit='0';
         $overDueue="no";
     }
-  $sql="INSERT INTO users (userID, userType, Name, Address,Phone, Email, creditLimit, usedCredit, overDue, password)VALUES ('".$_POST["userid"]."','$typeCus','".$_POST["name"]."','".$_POST["address"]."','".$_POST["phone"]."','".$_POST["email"]."','$credit','$usedCredit','$overDue','".$_POST["password"]."')";
+  $sql="INSERT INTO users (userID, userType, Name, Address,Phone, Email, creditLimit, usedCredit, overDue, password)VALUES ('".$_POST["userid"]."','$typeCus','".$_POST["name"]."','".$_POST["address"]."','".$_POST["phone"]."','".$_POST["email"]."','$credit','$usedCredit','$overDue','".$saltedPass."')";
  
 $conn = Database::getInstance();
 

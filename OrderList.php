@@ -87,79 +87,84 @@ $Username = $user->getUserID();
                                             <?php
                                             $ordCon = new OrderListController();
                                             $ordlist = $ordCon->getOrderUserID($Username);
-                                            for ($i = 0; $i < count($ordlist); $i++) {
-                                                echo("<tr>");
-                                                echo("<td>" . $ordlist[$i]->getOrderID() . "</td>");
-                                                echo("<td>" . $ordlist[$i]->getOrderDate() . "</td>");
-                                                echo("<td>" . $ordlist[$i]->getPickup() . "</td>");
-                                                echo("<td>" . $ordlist[$i]->getDeliveryAddress() . "</td>");
-                                                echo("<td>" . $ordlist[$i]->getRequiredDate() . "</td>");
-                                                echo("<td>" . $ordlist[$i]->getTotalAmount() . "</td>");
-                                                echo("<td>" . $ordlist[$i]->getStatus() . "</td>");
-                                                echo("<td><button type=\"button\" class=\"btn btn-gradient-primary btn-fw\" data-toggle=\"modal\" data-target=\"#" . $ordlist[$i]->getOrderID() . "\">Order Details</button></td>");
-                                                echo("</tr>");
+                                            if (!empty($ordlist)) {
+                                                for ($i = 0; $i < count($ordlist); $i++) {
+                                                    echo("<tr>");
+                                                    echo("<td>" . $ordlist[$i]->getOrderID() . "</td>");
+                                                    echo("<td>" . $ordlist[$i]->getOrderDate() . "</td>");
+                                                    echo("<td>" . $ordlist[$i]->getPickup() . "</td>");
+                                                    echo("<td>" . $ordlist[$i]->getDeliveryAddress() . "</td>");
+                                                    echo("<td>" . $ordlist[$i]->getRequiredDate() . "</td>");
+                                                    echo("<td>" . $ordlist[$i]->getTotalAmount() . "</td>");
+                                                    echo("<td>" . $ordlist[$i]->getStatus() . "</td>");
+                                                    echo("<td><button type=\"button\" class=\"btn btn-gradient-primary btn-fw\" data-toggle=\"modal\" data-target=\"#" . $ordlist[$i]->getOrderID() . "\">Order Details</button></td>");
+                                                    echo("</tr>");
+                                                }
                                             }
                                             ?> 
                                         </tbody>
                                     </table>
                                     <?php
-                                    echo("Total orders =" . count($ordlist));
-                                    for ($i = 0; $i < count($ordlist); $i++) {
-                                        $orderID = $ordlist[$i]->getOrderID();
-                                        ?>
-                                        <div class="modal fade" id="<?php echo($orderID); ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo($orderID); ?>" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="label_loggedout">Order Details</h5>
-                                                        <!--   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                             <span aria-hidden="true">&times;</span>
-                                                           </button> -->
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <table class="table table-dark">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Product Name</th>
-                                                                    <th>Quantity</th>
-                                                                    <th>Unit Price</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <?php
-                                                                    //$conn2 = new mysqli($servername, $db_user, $db_password, $db_table);
-                                                                    $product_count = 0;
-                                                                    $detaillist = $ordCon->getDetailsOrderID($orderID);
-                                                                    for ($m = 0; $m < count($detaillist); $m++) {
-                                                                        $productcode = $detaillist[$m]->getProductCode();
-                                                                        $Quantity = $detaillist[$m]->getQuantity();
-                                                                        $UnitPrice = $detaillist[$m]->getUnitPrice();
-                                                                        $productdes = $ordCon->getProductDes($productcode);
+                                    if (!empty($ordlist)) {
+                                        echo("Total orders = " . count($ordlist));
 
-                                                                        // we got all what we needed
-                                                                        echo("<tr>");
-                                                                        echo("<td>$productdes</td>");
-                                                                        echo("<td>$Quantity</td>");
-                                                                        echo("<td>$UnitPrice</td>");
-                                                                        echo("</tr>");
-                                                                        $product_count++;
-                                                                    }
-                                                                    ?>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-    <?php echo("Product Count = " . $product_count); ?>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>
+                                        for ($i = 0; $i < count($ordlist); $i++) {
+                                            $orderID = $ordlist[$i]->getOrderID();
+                                            ?>
+                                            <div class="modal fade" id="<?php echo($orderID); ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo($orderID); ?>" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="label_loggedout">Order Details</h5>
+                                                            <!--   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                 <span aria-hidden="true">&times;</span>
+                                                               </button> -->
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <table class="table table-dark">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Product Name</th>
+                                                                        <th>Quantity</th>
+                                                                        <th>Unit Price</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <?php
+                                                                        //$conn2 = new mysqli($servername, $db_user, $db_password, $db_table);
+                                                                        $product_count = 0;
+                                                                        $detaillist = $ordCon->getDetailsOrderID($orderID);
+                                                                        for ($m = 0; $m < count($detaillist); $m++) {
+                                                                            $productcode = $detaillist[$m]->getProductCode();
+                                                                            $Quantity = $detaillist[$m]->getQuantity();
+                                                                            $UnitPrice = $detaillist[$m]->getUnitPrice();
+                                                                            $productdes = $ordCon->getProductDes($productcode);
+
+                                                                            // we got all what we needed
+                                                                            echo("<tr>");
+                                                                            echo("<td>$productdes</td>");
+                                                                            echo("<td>$Quantity</td>");
+                                                                            echo("<td>$UnitPrice</td>");
+                                                                            echo("</tr>");
+                                                                            $product_count++;
+                                                                        }
+                                                                        ?>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <?php echo("Product Count = " . $product_count); ?>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-    <?php
-}
-?>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -169,7 +174,7 @@ $Username = $user->getUserID();
                         <!-- partial -->
                     </div>
                     <!-- main-panel ends -->
-<?php include('Footer.php') ?>
+                    <?php include('Footer.php') ?>
                 </div>
                 <!-- page-body-wrapper ends -->
             </div>

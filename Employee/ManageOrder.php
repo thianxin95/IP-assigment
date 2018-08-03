@@ -1,9 +1,11 @@
 <?php
-include ('../Object/EmployeeOB.php');
-include ('../databaseconn.php');
+include_once ('../Object/EmployeeOB.php');
+include_once ('../databaseconn.php');
+include_once ('../Object/OrderOB.php');
+include_once ('../Controller/ManageOrderControl.php');
 session_start();
 
-$user = new Employee("", "", "", "", "", "", "", "", "" ,"");
+$user = new Employee("", "", "", "", "", "", "", "", "", "");
 if ($_SESSION["employee"] == null) {
     echo "<script> location.href='../login.php'; </script>";
 }
@@ -15,26 +17,20 @@ if ($user->getUserType() != "Employee") {
     session_unset();
     echo "<script> location.href='../login.php'; </script>";
 }
-
+$ordercont = new ManageOrderControl();
 if (isset($_POST['paid_fullfiled'])) {
     $order_update = $_POST['order_update'];
+    $Status = "Paid and Delivered";
     //datedb = new mysqli($servername, $db_user, $db_password, $db_table); deprecated with PDO
-    $conn_updatedb = Database::getInstance();
-    $query_updatedb = "UPDATE orders SET STATUS = 'Paid and Fulfilled' WHERE orderID = '$order_update'";
-    $update_result = $conn_updatedb->query($query_updatedb);
-    if (!$update_result) {
-        trigger_error('Invalid query: ' . $conn->error);
-    }
-    $conn_updatedb->close();
+    $ordercont->updateStatus($order_update, $Status);
 
 
     // Update Daily Report Generate XML HERE!!!
-    
     //Testing XML and WORKING!!!!
-    include ('/ReportXML/ReportController.php');
+    include_once ('ReportXML/ReportController.php');
     include_once('../Object/DailyRecordOB.php');
-   
-    $xmlPath = "/ReportXML/Daily_OrderProcessed.xml";
+
+    $xmlPath = "ReportXML/Daily_OrderProcessed.xml";
     $drob = new DailyRecordOB();
     $report_controller = new ReportController($xmlPath);
     $drob->setDate("3/08/2018");
@@ -48,50 +44,40 @@ if (isset($_POST['paid_fullfiled'])) {
      * 
      * 
      * $drob->setDate("Test");
-    $drob->setDeliveryCount("TEST");
-    $drob->setOrderCount("Test");
-    $drob->setPickupCount("Test");
-    $drob->setTotalAmount("Test");
-    $report_controller->updateRecord($drob);
+      $drob->setDeliveryCount("TEST");
+      $drob->setOrderCount("Test");
+      $drob->setPickupCount("Test");
+      $drob->setTotalAmount("Test");
+      $report_controller->updateRecord($drob);
 
      * 
      * 
      *      
      * 
      *  Example on how to get data OUT OF XML and back to OBJECT
-    $drob = $report_controller->getRecord();
-    echo($drob->getOrderCount()."HELOOOOOOOOOOOOOOOOOOOOOO");
-    
-    */
-    
-    
-    
+      $drob = $report_controller->getRecord();
+      echo($drob->getOrderCount()."HELOOOOOOOOOOOOOOOOOOOOOO");
+
+     */
 }
 if (isset($_POST['Delivered'])) {
     $order_update = $_POST['order_update'];
-    //datedb = new mysqli($servername, $db_user, $db_password, $db_table); deprecated with PDO
-    $conn_updatedb = Database::getInstance();
-    $query_updatedb = "UPDATE orders SET STATUS = 'Delivered' WHERE orderID = '$order_update'";
-    $update_result = $conn_updatedb->query($query_updatedb);
-    if (!$update_result) {
-        trigger_error('Invalid query: ' . $conn->error);
+    $Status = "Delivered";
+    if($ordercont->getStatus($order_update) == "Paid"){
+        $Status = "Paid and Delivered";
     }
-    $conn_updatedb->close();
+    $ordercont->updateStatus($order_update, $Status);
+    
 
 
     // Update Daily Report Generate XML HERE!!!
+    
+    
 }
 if (isset($_POST['Order_Canceled'])) {
     $order_update = $_POST['order_update'];
-    //datedb = new mysqli($servername, $db_user, $db_password, $db_table); deprecated with PDO
-    $conn_updatedb = Database::getInstance();
-    $query_updatedb = "UPDATE orders SET STATUS = 'Canceled' WHERE orderID = '$order_update'";
-    $update_result = $conn_updatedb->query($query_updatedb);
-    if (!$update_result) {
-        trigger_error('Invalid query: ' . $conn->error);
-    }
-    $conn_updatedb->close();
-
+    $Status = "Canceled";
+    $ordercont->updateStatus($order_update, $Status);
 
     // Update Daily Report Generate XML HERE!!!
 }
@@ -164,42 +150,36 @@ if (isset($_POST['Order_Canceled'])) {
                                 </thead>
                                 <tbody>
                                     <?php
-// $conn = new mysqli($servername, $db_user, $db_password, $db_table); deprecated with PDO
-                                    $conn = Database::getInstance();
-                                    $query = "SELECT orders.*, users.Name FROM orders, users WHERE users.userID = orders.userID";
-                                    $orderlist_result = $conn->query($query);
-                                    if (!$orderlist_result) {
-                                        trigger_error('Invalid query: ' . $conn->error);
-                                    }
-                                    $conn->close();
-                                    if ($orderlist_result) {
-                                        while ($row = $orderlist_result->fetch(PDO::FETCH_ASSOC)) {
-                                            $orderID = $row["orderID"];
-                                            $orderDate = $row["orderDate"];
-                                            $Pickup = $row["Pickup"];
-                                            $DelvieryAddress = $row["DeliveryAddress"];
-                                            $RequiredDate = $row["RequiredDate"];
-                                            $TotalAmount = $row["TotalAmount"];
+                                    
 
-                                            $Status = $row["Status"];
-                                            $Name = $row["Name"];
-                                            echo("<tr>");
-                                            echo("<td>$orderID</td>");
-                                            echo("<td>$orderDate</td>");
-                                            echo("<td>$Pickup</td>");
-                                            echo("<td>$DelvieryAddress</td>");
-                                            echo("<td>$RequiredDate</td>");
-                                            echo("<td>$TotalAmount</td>");
+                                    $orderlist = $ordercont->getAllOrders();
+                                    for ($x = 0; $x < count($orderlist); $x++) {
 
-                                            echo("<td>$Status</td>");
-                                            echo("<td>$Name</td>");
-                                            if ($Status != "Paid and Fulfilled" & $Status != "Canceled" & $Status != "Delivered") {
-                                                echo("<td><button type=\"button\" class=\"btn btn-gradient-primary btn-fw\" data-toggle=\"modal\" data-target=\"#$orderID\">Manage Order</button></td>");
-                                            } else {
-                                                echo("<td>No Action Required</td>");
-                                            }
-                                            echo("</tr>");
+                                        $orderID = $orderlist[$x]->getOrderID();
+                                        $orderDate = $orderlist[$x]->getOrderDate();
+                                        $Pickup = $orderlist[$x]->getPickup();
+                                        $DelvieryAddress = $orderlist[$x]->getDeliveryAddress();
+                                        $RequiredDate = $orderlist[$x]->getRequiredDate();
+                                        $TotalAmount = $orderlist[$x]->getTotalAmount();
+
+                                        $Status = $orderlist[$x]->getStatus();
+                                        $Name = $ordercont->getOrderBy($orderlist[$x]->getOrderID());
+                                        echo("<tr>");
+                                        echo("<td>$orderID</td>");
+                                        echo("<td>$orderDate</td>");
+                                        echo("<td>$Pickup</td>");
+                                        echo("<td>$DelvieryAddress</td>");
+                                        echo("<td>$RequiredDate</td>");
+                                        echo("<td>$TotalAmount</td>");
+
+                                        echo("<td>$Status</td>");
+                                        echo("<td>$Name</td>");
+                                        if ($Status != "Paid and Delivered" & $Status != "Canceled" & $Status != "Delivered") {
+                                            echo("<td><button type=\"button\" class=\"btn btn-gradient-primary btn-fw\" data-toggle=\"modal\" data-target=\"#$orderID\">Manage Order</button></td>");
+                                        } else {
+                                            echo("<td>No Action Required</td>");
                                         }
+                                        echo("</tr>");
                                     }
                                     ?> 
                                 </tbody>
@@ -208,120 +188,90 @@ if (isset($_POST['Order_Canceled'])) {
                     </div>
                 </div>
                 <?php
-//$conn4 = new mysqli($servername, $db_user, $db_password, $db_table); deprecated with PDO
-                $conn4 = Database::getInstance();
-                $query4 = "SELECT * FROM orders";
-                $orderlist_result_modal = $conn4->query($query);
-                if (!$orderlist_result_modal) {
-                    trigger_error('Invalid query: ' . $conn->error);
-                }
-                $conn4->close();
-                if ($orderlist_result_modal) {
-                    while ($row = $orderlist_result_modal->fetch(PDO::FETCH_ASSOC)) {
-                        $orderID = $row["orderID"];
-                        ?>
-                        <div class="modal fade" id="<?php echo($orderID); ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo($orderID); ?>" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="label_loggedout">Order Details</h5>
-                                        <!--   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                             <span aria-hidden="true">&times;</span>
-                                           </button> -->
-                                    </div>
-                                    <div class="modal-body">
-                                        <table class="table table-dark">
-                                            <thead>
-                                                <tr>
-                                                    <th>Product Name</th>
-                                                    <th>Quantity</th>
-                                                    <th>Unit Price</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <?php
-                                                    //$conn2 = new mysqli($servername, $db_user, $db_password, $db_table); deprecated with PDO
-                                                    $conn2 = Database::getInstance();
-                                                    $query2 = "SELECT * FROM orderdetails WHERE orderId = '$orderID'";
-                                                    $orderdetails_result = $conn2->query($query2);
-                                                    if (!$orderdetails_result) {
-                                                        trigger_error('Invalid query: ' . $conn->error);
-                                                    }
-                                                    $conn2->close();
-                                                    if ($orderdetails_result) {
-                                                        while ($row2 = $orderdetails_result->fetch(PDO::FETCH_ASSOC)) {
-                                                            $productcode = $row2["productCode"];
-                                                            $Quantity = $row2["Quantity"];
-                                                            $UnitPrice = $row2["UnitPrice"];
-                                                            $productdes = "";
-                                                            //$conn3 = new mysqli($servername, $db_user, $db_password, $db_table); deprecated with PDO
-                                                            $conn3 = Database::getInstance();
-                                                            $query3 = "SELECT * FROM product WHERE productcode = '$productcode'";
-                                                            $product_result = $conn3->query($query3);
-                                                            if (!$product_result) {
-                                                                trigger_error('Invalid query: ' . $conn->error);
-                                                            }
-                                                            $conn3->close();
-                                                            $product_list = $product_result->fetch(PDO::FETCH_ASSOC);
-                                                            $productdes = $product_list["productdes"];
-                                                            // we got all what we needed
-                                                            echo("<tr>");
-                                                            echo("<td>$productdes</td>");
-                                                            echo("<td>$Quantity</td>");
-                                                            echo("<td>$UnitPrice</td>");
-                                                            echo("</tr>");
-                                                        }
-                                                        ?>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <br/>
-                                            <h6 class="modal-title" id="label_loggedout">Warning! Irreversible Action</h6>
-                                            <form action="ManageOrder.php" method="post">
-                                                <input type="hidden" id="order_update" name="order_update" value="<?php echo($orderID) ?>"  />
-                                                <button type="submit" class="btn btn-gradient-primary" name="paid_fullfiled" id="paid_fullfiled">Delivered and Paid</button>
-                                                <button type="submit" class="btn btn-gradient-dark" name="Delivered" id="Delivered">Delivered</button>
-                                                <button type="submit" class="btn btn-gradient-danger" name="Order_Canceled" id="Order_Canceled">Canceled</button>
-                                            </form>
+                for ($x = 0; $x < count($orderlist); $x++) {
+                    $orderID = $orderlist[$x]->getOrderID();
+                    ?>
+                    <div class="modal fade" id="<?php echo($orderID); ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo($orderID); ?>" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="label_loggedout">Order Details</h5>
+                                    <!--   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                         <span aria-hidden="true">&times;</span>
+                                       </button> -->
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Product Name</th>
+                                                <th>Quantity</th>
+                                                <th>Unit Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <?php
+                                                $orderdes = $ordercont->getDetailsOrderID($orderID);
+                                                for ($y = 0; $y < count($orderdes); $y++) {
+                                                    $productcode = $orderdes[$y]->getProductCode();
+                                                    $Quantity = $orderdes[$y]->getQuantity();
+                                                    $UnitPrice = $orderdes[$y]->getUnitPrice();
+                                                    $productdes = $ordercont->getProductDes($productcode);
 
-                                        <?php } ?>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">CLOSE</button>
-                                    </div>
+                                                    // we got all what we needed
+                                                    echo("<tr>");
+                                                    echo("<td>$productdes</td>");
+                                                    echo("<td>$Quantity</td>");
+                                                    echo("<td>$UnitPrice</td>");
+                                                    echo("</tr>");
+                                                }
+                                                ?>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br/>
+                                    <h6 class="modal-title" id="label_loggedout">Warning! Irreversible Action</h6>
+                                    <form action="ManageOrder.php" method="post">
+                                        <input type="hidden" id="order_update" name="order_update" value="<?php echo($orderID) ?>"  />
+                                        <button type="submit" class="btn btn-gradient-primary" name="paid_fullfiled" id="paid_fullfiled">Delivered and Paid</button>
+                                        <button type="submit" class="btn btn-gradient-dark" name="Delivered" id="Delivered">Delivered</button>
+                                        <button type="submit" class="btn btn-gradient-danger" name="Order_Canceled" id="Order_Canceled">Canceled</button>
+                                    </form>
+                                </div>                           
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">CLOSE</button>
                                 </div>
                             </div>
                         </div>
-                        <?php
-                    }
-                }
-                ?>
+                    </div> 
+                <?php } ?>
                 <!-- content-wrapper ends -->
             </div>
-            <!-- partial:partials/_footer.html -->
-            <?php include('../Footer.php') ?>
-            <!-- partial -->
+       
+        <!-- partial:partials/_footer.html -->
+        <?php include('../Footer.php') ?>
+        <!-- partial -->
 
-            <!-- main-panel ends -->
-        </div>
-        <!-- page-body-wrapper ends -->
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
 
-        <!-- container-scroller -->
-        <!-- plugins:js -->
-        <script src="../vendors/js/vendor.bundle.base.js"></script>
-        <script src="../vendors/js/vendor.bundle.addons.js"></script>
-        <!-- endinject -->
-        <!-- Plugin js for this page-->
-        <!-- End plugin js for this page-->
-        <!-- inject:js -->
-        <script src="../js/off-canvas.js"></script>
-        <script src="../js/misc.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-        <!-- endinject -->
-        <!-- Custom js for this page-->
-        <!-- End custom js for this page-->
-    </body>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="../vendors/js/vendor.bundle.base.js"></script>
+    <script src="../vendors/js/vendor.bundle.addons.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page-->
+    <!-- End plugin js for this page-->
+    <!-- inject:js -->
+    <script src="../js/off-canvas.js"></script>
+    <script src="../js/misc.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <!-- End custom js for this page-->
+</body>
 
 </html>
