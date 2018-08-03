@@ -1,8 +1,10 @@
 <?php
 include ('Object/CustomerOb.php');
+include_once 'Controller/OrderListController.php';
+include_once 'Object/OrderDetailsOB.php';
 session_start();
 
-$user = new Customer("", "", "", "", "", "", "","", "", "");
+$user = new Customer("", "", "", "", "", "", "", "", "", "");
 $user = $_SESSION["user"];
 if ($_SESSION["user"] == null) {
     echo "<script> location.href='login.php'; </script>";
@@ -83,120 +85,81 @@ $Username = $user->getUserID();
                                         </thead>
                                         <tbody>
                                             <?php
-                                            include ('databaseconn.php');
-                                            //$conn = new mysqli($servername, $db_user, $db_password, $db_table);
-                                            $conn = Database::getInstance();
-                                            $query = "SELECT * FROM orders WHERE userID = '$Username'";
-                                            $orderlist_result = $conn->query($query);
-                                            if (!$orderlist_result) {
-                                                trigger_error('Invalid query: ' . $conn->error);
-                                            }
-                                            $conn->close();
-                                            if ($orderlist_result) {
-                                                while ($row = $orderlist_result->fetch(PDO::FETCH_ASSOC)) {
-                                                    $orderID = $row["orderID"];
-                                                    $orderDate = $row["orderDate"];
-                                                    $Pickup = $row["Pickup"];
-                                                    $DelvieryAddress = $row["DeliveryAddress"];
-                                                    $RequiredDate = $row["RequiredDate"];
-                                                    $TotalAmount = $row["TotalAmount"];
-                                                    $Status = $row["Status"];
-                                                    echo("<tr>");
-                                                    echo("<td>$orderID</td>");
-                                                    echo("<td>$orderDate</td>");
-                                                    echo("<td>$Pickup</td>");
-                                                    echo("<td>$DelvieryAddress</td>");
-                                                    echo("<td>$RequiredDate</td>");
-                                                    echo("<td>$TotalAmount</td>");
-                                                    echo("<td>$Status</td>");
-                                                    echo("<td><button type=\"button\" class=\"btn btn-gradient-primary btn-fw\" data-toggle=\"modal\" data-target=\"#$orderID\">Order Details</button></td>");
-                                                    echo("</tr>");
-                                                }
+                                            $ordCon = new OrderListController();
+                                            $ordlist = $ordCon->getOrderUserID($Username);
+                                            for ($i = 0; $i < count($ordlist); $i++) {
+                                                echo("<tr>");
+                                                echo("<td>" . $ordlist[$i]->getOrderID() . "</td>");
+                                                echo("<td>" . $ordlist[$i]->getOrderDate() . "</td>");
+                                                echo("<td>" . $ordlist[$i]->getPickup() . "</td>");
+                                                echo("<td>" . $ordlist[$i]->getDeliveryAddress() . "</td>");
+                                                echo("<td>" . $ordlist[$i]->getRequiredDate() . "</td>");
+                                                echo("<td>" . $ordlist[$i]->getTotalAmount() . "</td>");
+                                                echo("<td>" . $ordlist[$i]->getStatus() . "</td>");
+                                                echo("<td><button type=\"button\" class=\"btn btn-gradient-primary btn-fw\" data-toggle=\"modal\" data-target=\"#" . $ordlist[$i]->getOrderID() . "\">Order Details</button></td>");
+                                                echo("</tr>");
                                             }
                                             ?> 
                                         </tbody>
                                     </table>
                                     <?php
-                                    //$conn4 = new mysqli($servername, $db_user, $db_password, $db_table);
-                                    $conn4 = $conn = Database::getInstance();
-                                    $query4 = "SELECT * FROM orders WHERE userID = '$Username'";
-                                    $orderlist_result_modal = $conn4->query($query);
-                                    if (!$orderlist_result_modal) {
-                                        trigger_error('Invalid query: ' . $conn->error);
-                                    }
-                                    $conn4->close();
-                                    if ($orderlist_result_modal) {
-                                        while ($row = $orderlist_result_modal->fetch(PDO::FETCH_ASSOC)) {
-                                            $orderID = $row["orderID"];
-                                            ?>
-                                            <div class="modal fade" id="<?php echo($orderID); ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo($orderID); ?>" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="label_loggedout">Order Details</h5>
-                                                            <!--   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                 <span aria-hidden="true">&times;</span>
-                                                               </button> -->
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <table class="table table-dark">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Product Name</th>
-                                                                        <th>Quantity</th>
-                                                                        <th>Unit Price</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <?php
-                                                                        //$conn2 = new mysqli($servername, $db_user, $db_password, $db_table);
-                                                                        $conn2 = $conn = Database::getInstance();
-                                                                        $query2 = "SELECT * FROM orderdetails WHERE orderId = '$orderID'";
-                                                                        $orderdetails_result = $conn2->query($query2);
-                                                                        if (!$orderdetails_result) {
-                                                                            trigger_error('Invalid query: ' . $conn->error);
-                                                                        }
-                                                                        $conn2->close();
-                                                                        if ($orderdetails_result) {
-                                                                            while ($row2 = $orderdetails_result->fetch(PDO::FETCH_ASSOC)) {
-                                                                                $productcode = $row2["productCode"];
-                                                                                $Quantity = $row2["Quantity"];
-                                                                                $UnitPrice = $row2["UnitPrice"];
-                                                                                $productdes = "";
-                                                                                // $conn3 = new mysqli($servername, $db_user, $db_password, $db_table);
-                                                                                $conn3 = $conn = Database::getInstance();
-                                                                                $query3 = "SELECT * FROM product WHERE productcode = '$productcode'";
-                                                                                $product_result = $conn3->query($query3);
-                                                                                if (!$product_result) {
-                                                                                    trigger_error('Invalid query: ' . $conn->error);
-                                                                                }
-                                                                                $conn3->close();
-                                                                                $product_list = $product_result->fetch(PDO::FETCH_ASSOC);
-                                                                                $productdes = $product_list["productdes"];
-                                                                                // we got all what we needed
-                                                                                echo("<tr>");
-                                                                                echo("<td>$productdes</td>");
-                                                                                echo("<td>$Quantity</td>");
-                                                                                echo("<td>$UnitPrice</td>");
-                                                                                echo("</tr>");
-                                                                            }
-                                                                        }
-                                                                        ?>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>
-                                                        </div>
+                                    echo("Total orders =" . count($ordlist));
+                                    for ($i = 0; $i < count($ordlist); $i++) {
+                                        $orderID = $ordlist[$i]->getOrderID();
+                                        ?>
+                                        <div class="modal fade" id="<?php echo($orderID); ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo($orderID); ?>" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="label_loggedout">Order Details</h5>
+                                                        <!--   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                             <span aria-hidden="true">&times;</span>
+                                                           </button> -->
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <table class="table table-dark">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Product Name</th>
+                                                                    <th>Quantity</th>
+                                                                    <th>Unit Price</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <?php
+                                                                    //$conn2 = new mysqli($servername, $db_user, $db_password, $db_table);
+                                                                    $product_count = 0;
+                                                                    $detaillist = $ordCon->getDetailsOrderID($orderID);
+                                                                    for ($m = 0; $m < count($detaillist); $m++) {
+                                                                        $productcode = $detaillist[$m]->getProductCode();
+                                                                        $Quantity = $detaillist[$m]->getQuantity();
+                                                                        $UnitPrice = $detaillist[$m]->getUnitPrice();
+                                                                        $productdes = $ordCon->getProductDes($productcode);
+
+                                                                        // we got all what we needed
+                                                                        echo("<tr>");
+                                                                        echo("<td>$productdes</td>");
+                                                                        echo("<td>$Quantity</td>");
+                                                                        echo("<td>$UnitPrice</td>");
+                                                                        echo("</tr>");
+                                                                        $product_count++;
+                                                                    }
+                                                                    ?>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+    <?php echo("Product Count = " . $product_count); ?>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
+                                        </div>
+    <?php
+}
+?>
                                 </div>
                             </div>
                         </div>
@@ -206,7 +169,7 @@ $Username = $user->getUserID();
                         <!-- partial -->
                     </div>
                     <!-- main-panel ends -->
-                    <?php include('Footer.php') ?>
+<?php include('Footer.php') ?>
                 </div>
                 <!-- page-body-wrapper ends -->
             </div>
