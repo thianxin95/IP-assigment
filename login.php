@@ -88,10 +88,12 @@ include_once 'Function/ValidateInput.php';
             $_validate = new ValidateInput();
             $login = new LoginController();
             $logged_user = new User("","","","","","","","","","");
+            
             $logged_user = $login->getLogin($_validate->getValidatedInput($userid), $_validate->getValidatedInput($userpassword));
             if($logged_user ->getUserType() == "Customer" || $logged_user->getUserType() == "Corporate"){
                 echo "Customer";
                 $customerob = new Customer($logged_user->getUserID(), $logged_user->getUserType(),$logged_user->getName(), $logged_user->getAddress() , $logged_user->getPhone(), $logged_user->getEmail(), $logged_user->getCreditLimit(), $logged_user->getUsedCredit(), $logged_user->getOverDue(), $logged_user->getPassword());
+                
                 $_SESSION["user"] = $customerob;
                 echo "<script> location.href='index.php'; </script>"; 
             }if($logged_user ->getUserType() == "Employee"){

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE Invoice SYSTEM 'invoiceProcessor.dtd'>
+
+<Invoice>
+    <InvoiceRecord recordID="invoiceRecord"></InvoiceRecord>
+    <InvoiceNumber></InvoiceNumber>
+    <InvoiceDate></InvoiceDate>
+    <UserID></UserID>
+    <OrderID></OrderID>
+    <InvoiceAmount></InvoiceAmount>
+    <PaymentStatus></PaymentStatus>
+        
+        
+        
+</Invoice>

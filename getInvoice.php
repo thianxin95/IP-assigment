@@ -1,6 +1,5 @@
 <?php
 include ('Object/CustomerOb.php');
-include ('databaseconn.php');
 session_start();
 
 $user = new Customer("", "", "", "", "", "", "", "", "","");
@@ -14,12 +13,10 @@ $address =$user->getAddress();
 $phone =$user->getPhone();
 $password =$user->getPassword();
 $email = $user->getEmail();
+$userType=$user->getUserType();
 
-// Check User if it is Customer, if not force logout and back to Login.php
-
-
-?>
-<!DOCTYPE html>
+if($userType == "Corporate"){
+?> 
 <html lang="en">
 
     <head>
@@ -71,43 +68,42 @@ $email = $user->getEmail();
                 <div class="card">
                     <div class="card-body">
                         <div class=" col-md-9 col-lg-9 "> 
-                            <form method="post" action="updateInfo.php">
                   <table class="table table-user-information">
                     <tbody>
-                     <tr>
-                        <td>User ID:</td>
+                      <tr>
+                        <td>Invoice Number</td>
                         <td><?php echo($Username) ?></td>
                       </tr>
                       <tr>
-                        <td>Name</td>
-                        <td><input name="name" type="text"  value="<?php echo($realName) ?>"></td>
+                        <td>Invoice Date</td>
+                        <td><?php echo($realName) ?></td>
                       </tr>
                       <tr>
-                        <td>Email</td>
-                        <td><input name="email" type="text" value="<?php echo($email) ?>"></td>
+                        <td>orderID</td>
+                        <td><?php echo($email) ?></td>
                       </tr>
-                  
+                   
+                         <tr>
+                            
                       <tr>
-                        <td>Password</td>
-                        <td><input name="password" type="text" value=""></td>
+                        <td>Invoice Amount</td>
+                        <td>********* </td>
                       </tr>
-                        <td>Phone Number</td>
-                        <td><input name="phone" type="text" value="<?php echo($phone) ?>">
+                        <td>Payment Status</td>
+                        <td><?php echo($phone) ?>
                         </td>
                          <tr>
-                        <td>Home Address:</td>
-                        <td><input name="address" type="text" value="<?php echo($address) ?>"></td>
+                        <td>Payment Date</td>
+                        <td><?php echo($address) ?></td>
                       </tr>
                            
-                      
+                      </tr>
                      
                     </tbody>
                   </table>
                   
-                              <input type="submit" class="btn btn-primary" name="submit" id="submit" >
-                      
-                      </form>
-                            
+                            <a href="updateInfo.php" class="btn btn-primary" >Edit Profile</a>
+               
                 </div>
               </div>
                 </div>
@@ -145,45 +141,6 @@ $email = $user->getEmail();
   <!-- Custom js for this page-->
   <!-- End custom js for this page-->
 </body>
-
 </html>
-<?php
-
-
-if (isset($_POST['submit'])) {
-    include_once '../Pattern/PasswordFactory.php';
-    $passgen = new PasswordFactory();
-    $saltedPass = $passgen->getSaltedPassword($_POST['password']);
-    $userID = $user->getUserID();
-   
-    
-    $updateName = $_POST['name'];
-    $updateEmail = $_POST['email'];
-    $updatePassword = $_POST['password'];
-    $updateAddress = $_POST['address'];
-    $updatePhone = $_POST['phone'];
-    //datedb = new mysqli($servername, $db_user, $db_password, $db_table); deprecated with PDO
-    $conn_updatedb = Database::getInstance();
-    $query_updatedb = "UPDATE users SET Name='$updateName',Address='$updateAddress',Phone='$updatePhone', password='$saltedPass' WHERE userID ='$userID'";   
-    $update_result = $conn_updatedb->query($query_updatedb);
-    if (!$update_result) {
-        trigger_error('Invalid query: ' . $conn->error);
-    }
-    $conn_updatedb->close();
-    $user->setName($updateName);
-    $user->setAddress($updateAddress);
-    $user->setPassword($updatePassword);
-    $user->setPhone($updatePhone);
-    $user->setEmail($updateEmail);
-    
-   echo "<meta http-equiv='refresh' content='0'>";
-    $url='http://localhost/Assignment2018/Assignment2018/customerProfile.php';
-
-    echo '<script>window.location = "'.$url.'";</script>';
-    die;
+<?php 
 }
-
-
-
-?>
-

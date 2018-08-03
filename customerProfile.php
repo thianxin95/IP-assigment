@@ -87,7 +87,7 @@ if($userType == "Customer"){
                             
                       <tr>
                         <td>Password</td>
-                        <td><?php echo($password) ?></td>
+                        <td>********* </td>
                       </tr>
                         <td>Phone Number</td>
                         <td><?php echo($phone) ?>
@@ -243,6 +243,7 @@ elseif ($userType=="Corporate") {
                   </table>
                   
                             <a href="updateInfo.php" class="btn btn-primary" >Edit Profile</a>
+                            <a href="getInvoice.php" class="btn btn-primary" >Generate Invoice</a>
                
                 </div>
               </div>

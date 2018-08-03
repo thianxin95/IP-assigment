@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT Invoice (InvoiceRecord)>
+<!ELEMENT InvoiceRecord (InvoiceNumber, InvoiceDate, UserID, OrderID, InvoiceAmount, PaymentStatus)>
+<!ATTLIST InvoiceRecord recordID ID #REQUIRED>
+<!ELEMENT InvoiceNumber (#PCDATA)>
+<!ELEMENT InvoiceDate (#PCDATA)>
+<!ELEMENT UserID (#PCDATA)>
+<!ELEMENT OrderID (#PCDATA)>
+<!ELEMENT InvoiceAmount (#PCDATA)>
+<!ELEMENT PaymentStatus (#PCDATA)>
+
+
