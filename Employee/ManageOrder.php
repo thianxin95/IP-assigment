@@ -31,10 +31,10 @@ if (isset($_POST['paid_fullfiled'])) {
     // Update Daily Report Generate XML HERE!!!
     
     //Testing XML and WORKING!!!!
-    include ('../ReportXML/ReportController.php');
+    include ('/ReportXML/ReportController.php');
     include_once('../Object/DailyRecordOB.php');
    
-    $xmlPath = "../ReportXML/Daily_OrderProcessed.xml";
+    $xmlPath = "/ReportXML/Daily_OrderProcessed.xml";
     $drob = new DailyRecordOB();
     $report_controller = new ReportController($xmlPath);
     $drob->setDate("3/08/2018");
