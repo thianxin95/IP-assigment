@@ -151,8 +151,12 @@ $email = $user->getEmail();
 
 
 if (isset($_POST['submit'])) {
+    include_once '../Pattern/PasswordFactory.php';
+    $passgen = new PasswordFactory();
+    $saltedPass = $passgen->getSaltedPassword($_POST['password']);
     $userID = $user->getUserID();
    
+    
     $updateName = $_POST['name'];
     $updateEmail = $_POST['email'];
     $updatePassword = $_POST['password'];
@@ -160,7 +164,7 @@ if (isset($_POST['submit'])) {
     $updatePhone = $_POST['phone'];
     //datedb = new mysqli($servername, $db_user, $db_password, $db_table); deprecated with PDO
     $conn_updatedb = Database::getInstance();
-    $query_updatedb = "UPDATE users SET Name='$updateName',Address='$updateAddress',Phone='$updatePhone', password='$updatePassword' WHERE userID ='$userID'";   
+    $query_updatedb = "UPDATE users SET Name='$updateName',Address='$updateAddress',Phone='$updatePhone', password='$saltedPass' WHERE userID ='$userID'";   
     $update_result = $conn_updatedb->query($query_updatedb);
     if (!$update_result) {
         trigger_error('Invalid query: ' . $conn->error);
@@ -182,5 +186,4 @@ if (isset($_POST['submit'])) {
 
 
 ?>
-
 

@@ -145,11 +145,14 @@ if ($user->getUserType() != "Employee") {
 
 
 if (isset($_POST['submit'])) {
+    include_once '../Pattern/PasswordFactory.php';
+    $passgen = new PasswordFactory();
+    $saltedPass = $passgen->getSaltedPassword($_POST['password']);
     $userID = $user->getUserID();
    
     $updateName = $_POST['name'];
     $updateEmail = $_POST['email'];
-    $updatePassword = $_POST['password'];
+    $updatePassword = $saltedPass;
     $updateAddress = $_POST['address'];
     $updatePhone = $_POST['phone'];
     //datedb = new mysqli($servername, $db_user, $db_password, $db_table); deprecated with PDO
@@ -166,7 +169,7 @@ if (isset($_POST['submit'])) {
     $user->setPhone($updatePhone);
     $user->setEmail($updateEmail);
     echo "<meta http-equiv='refresh' content='0'>";
-    $url='http://localhost/Assignment2018/Assignment2018/Employee/employeeProfile.php';
+    $url='employeeProfile.php';
 
     echo '<script>window.location = "'.$url.'";</script>';
 }

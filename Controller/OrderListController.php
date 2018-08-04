@@ -17,6 +17,7 @@ class OrderListController {
         $query = "SELECT * FROM orders WHERE userID = '$userID'";
         $orderlist_result = $conn->query($query);
         $i = 0;
+
         if (!$orderlist_result) {
             trigger_error('Invalid query: ' . $conn->error);
         }
@@ -34,7 +35,11 @@ class OrderListController {
                 $i++;
             }
         }
-        return $result;
+        if (empty($result)) {
+            return null;
+        } else {
+            return $result;
+        }
     }
 
     public function getDetailsOrderID($orderID) {
@@ -94,6 +99,38 @@ class OrderListController {
             }
         }
         return $result;
+    }
+
+    public function getOrderBy($orderID) {
+        $conn = Database::getInstance();
+        $query = "SELECT users.Name FROM users,orders WHERE users.userID = orders.userID AND orders.orderID = '$orderID'";
+        $OrderBy = $conn->query($query);
+        if (!$OrderBy) {
+            trigger_error('Invalid query: ' . $conn->error);
+        }
+        return $OrderBy;
+    }
+
+    public function getAllOrders() {
+        $conn = Database::getInstance();
+        $query = "SELECT * FROM ORDERS";
+        $orderlist_result = $conn->query($query);
+
+        if ($orderlist_result) {
+            while ($row = $orderlist_result->fetch(PDO::FETCH_ASSOC)) {
+                $orderID = $row["orderID"];
+                $orderDate = $row["orderDate"];
+                $Pickup = $row["Pickup"];
+                $DeliveryAddress = $row["DeliveryAddress"];
+                $RequiredDate = $row["RequiredDate"];
+                $TotalAmount = $row["TotalAmount"];
+                $Status = $row["Status"];
+                $result[$i] = new OrderOB($orderID, $userID, $orderDate, $Pickup, $DeliveryAddress, $RequiredDate, $TotalAmount, $Status);
+                $i++;
+            }
+        }
+
+        return $orderlist_result;
     }
 
 }
