@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT CatalogRecord (CatalogRow+)>
+<!ELEMENT CatalogRow (productCode, productType, productQuantity, totalPrice, userID, userType)>
+<!ELEMENT productCode (#PCDATA)>
+<!ELEMENT productType (#PCDATA)>
+<!ELEMENT productQuantity (#PCDATA)>
+<!ELEMENT totalPrice (#PCDATA)>
+<!ELEMENT userID (#PCDATA)>
+<!ELEMENT userType (#PCDATA)>
+
+

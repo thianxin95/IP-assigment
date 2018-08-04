@@ -14,7 +14,7 @@
             </a>
             <div class="collapse" id="general-pages">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="NewOrder.php"> New Order </a></li>
+                    <li class="nav-item"> <a class="nav-link" href="LeeThianXin/View/OrderMenu.php"> New Order </a></li>
                     <li class="nav-item"> <a class="nav-link" href="OrderList.php"> Order List </a></li>
                     <li class="nav-item"> <a class="nav-link" href="Invoices.php"> Invoices </a></li>
                 </ul>
