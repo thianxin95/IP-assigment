@@ -1,5 +1,6 @@
 <?php
 include ('Object/CustomerOb.php');
+include ('Function/CatalogValidation.php');
 
 session_start();
 
@@ -138,6 +139,45 @@ and open the template in the editor.
                                         <input type="submit" value="Submit" name="Submit"/>
                                     </form>
                                 </div>
+                                <?php 
+                                if(isset($_POST["Submit"])){
+                                    
+                                    $productCode;
+                                    $textChange;
+                                    
+                                    if(empty($_POST['productupdate'])){
+                                        $error .= "Please Enter the Product Code </br>";
+                                        
+                                    }else{
+                                        $productCode = $_POST['productupdate'];
+                                        
+                                    }
+                                    
+                                    $validation = new CatalogValidation();
+                                    $result = $validation->checkAvailability($productCode);
+                                    
+                                    if(empty($_POST['textchange'])){
+                                        $error .= "Please Enter Input </br>"; 
+                                        
+                                    }else{
+                                        $textChange = $_POST['textchange'];
+                                        
+                                        if(strcmp($result,$textChange) == 0){
+                                            $error.= "Please Change The Availability";
+                                            
+                                        }
+                                        
+                                        }
+                                    
+                                        if(empty($error)){
+                                           $updatequery = "UPDATE product SET Availability = '$textChange' WHERE productCode = '$productCode'";
+                                           $stmt = $conn->query($updatequery); 
+                                           $stmt->execute(); 
+                                        }else{
+                                            echo $error;
+                                        }
+                                        }
+                                        ?>
                             </div>
                         </div>
                         <!-- content-wrapper ends -->
@@ -151,17 +191,7 @@ and open the template in the editor.
             </div>
         </div> 
             
-            <?php 
-            if(isset($_POST["Submit"])){
-                $productCode = $_POST['productupdate'];
-                $textChange = $_POST['textchange'];
-                
-                $updatequery = "UPDATE product SET Availability = '$textChange' WHERE productCode = '$productCode'";
-                $stmt = $conn->query($updatequery);
-                $stmt->execute();
-                
-            }
-            ?>
+            
         
         <script src="js/off-canvas.js"></script>
         <script src="js/misc.js"></script>

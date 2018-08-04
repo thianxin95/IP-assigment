@@ -48,6 +48,42 @@ class CatalogValidation {
         
         }
         
+    public function checkAvailability($productCode){
+        $sql = "SELECT Availability FROM product WHERE productCode = '$productCode'";
+        $conn = CatalogValidation::getInstance();
+        $productResult = $conn->query($sql);
+        if(!$productResult){
+            trigger_error("Invalid query: " . $conn->error);
+        }
+        $conn->close();
+        
+        $row = $productResult->fetch(PDO::FETCH_ASSOC);
+        $productAvailability = $row["Availability"];
+        
+        $result = $productAvailability; 
+        
+        return $result;
+        
         }
         
-        ?>
+    public function checkProductAvailable($productCode){
+        $sql = "SELECT productCode FROM product WHERE productCode = '$productCode' AND Availability = 'Available'";
+        $conn = CatalogValidation::getInstance();
+        $productResult = $conn->query($sql);
+        if(!$productResult){
+            trigger_error("Invalid query: " . $conn->error);
+        }
+        $conn->close();
+        
+        $row = $productResult->fetch(PDO::FETCH_ASSOC);
+        $productCode = $row["productCode"];
+        
+        $result = $productCode; 
+        
+        return $result;
+        
+        }
+        
+}
+
+?>
