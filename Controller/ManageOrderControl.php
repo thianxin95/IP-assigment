@@ -36,6 +36,33 @@ class ManageOrderControl {
         }
         return $result;
     }
+    
+    public function getOrder($orderID) {
+        $conn = Database::getInstance();
+        $query = "SELECT * FROM orders WHERE orderID = '$orderID'";
+        $orderlist_result = $conn->query($query);
+        $i = 0;
+        if (!$orderlist_result) {
+            trigger_error('Invalid query: ' . $conn->error);
+        }
+        $conn->close();
+        if ($orderlist_result) {
+            while ($row = $orderlist_result->fetch(PDO::FETCH_ASSOC)) {
+                $orderID = $row["orderID"];
+                $orderDate = $row["orderDate"];
+                $Pickup = $row["Pickup"];
+                $DeliveryAddress = $row["DeliveryAddress"];
+                $RequiredDate = $row["RequiredDate"];
+                $TotalAmount = $row["TotalAmount"];
+                $Status = $row["Status"];
+                $result[$i] = new OrderOB($orderID, "", $orderDate, $Pickup, $DeliveryAddress, $RequiredDate, $TotalAmount, $Status);
+                $i++;
+            }
+        }
+        return $result;
+    }
+    
+    
 
     public function getDetailsOrderID($orderID) {
         $conn2 = $conn = Database::getInstance();

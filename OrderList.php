@@ -79,7 +79,7 @@ $Username = $user->getUserID();
                                                 <th>Delivery Address</th>
                                                 <th>Required Date</th>
                                                 <th>Order Amount</th>
-                                                <th>Payment Status </th>
+                                                <th>Order Status </th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -138,7 +138,7 @@ $Username = $user->getUserID();
                                                             onAuthorize: function (data, actions) {
                                                                 return actions.payment.execute()
                                                                         .then(function () {
-                                                                            window.location.replace("OrderList.php?paymentresult=success&type=single&orderID=<?php echo $ordlist[$i]->getOrderID() ?>");
+                                                                            window.location.replace("OrderList.php?paymentresult=success&type=single&orderID=<?php echo $ordlist[$i]->getOrderID() ?>&Amount=<?php echo $ordlist[$i]->getTotalAmount() ?>");
                                                                         });
                                                             }
                                                         }, '#paypal-button<?php echo $ordlist[$i]->getOrderID() ?>');
@@ -260,6 +260,13 @@ $Username = $user->getUserID();
             if ($_GET['paymentresult'] == "success") {
                 if ($_GET['type'] == "single") {
                     $orderID = $_GET['orderID'];
+                    $Amount = $_GET['Amount'];
+
+                    include_once('Employee/ReportXML/ReportController.php');
+                    $xmlPath = "Employee/ReportXML/Daily_OrderProcessed.xml";
+                    $report_controller = new ReportController($xmlPath);
+                    $report_controller->updateDaily($Amount, 0, 0, 0, 1);
+
                     $updateStatus = new OrderListController();
                     $updateStatus->updateOrderStatus($orderID, "Paid");
                     echo '<!-- inject:js -->';

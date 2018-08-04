@@ -25,6 +25,11 @@
                     <span class="menu-title">Manage Order</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="ReportXML/Daily_OrderProcessed.xml">
+                    <span class="menu-title">Daily Order Report</span>
+                </a>
+            </li>
         </ul>
     </nav>
     <!-- partial -->

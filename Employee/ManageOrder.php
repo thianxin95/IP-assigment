@@ -3,6 +3,9 @@ include_once ('../Object/EmployeeOB.php');
 include_once ('../databaseconn.php');
 include_once ('../Object/OrderOB.php');
 include_once ('../Controller/ManageOrderControl.php');
+include_once ('ReportXML/ReportController.php');
+include_once('../Object/DailyRecordOB.php');
+$xmlPath = "ReportXML/Daily_OrderProcessed.xml";
 session_start();
 
 $user = new Employee("", "", "", "", "", "", "", "", "", "");
@@ -20,66 +23,60 @@ if ($user->getUserType() != "Employee") {
 $ordercont = new ManageOrderControl();
 if (isset($_POST['paid_fullfiled'])) {
     $order_update = $_POST['order_update'];
-    $Status = "Paid and Delivered";
-    //datedb = new mysqli($servername, $db_user, $db_password, $db_table); deprecated with PDO
-    $ordercont->updateStatus($order_update, $Status);
-
-
     // Update Daily Report Generate XML HERE!!!
     //Testing XML and WORKING!!!!
-    include_once ('ReportXML/ReportController.php');
-    include_once('../Object/DailyRecordOB.php');
-
-    $xmlPath = "ReportXML/Daily_OrderProcessed.xml";
-    $drob = new DailyRecordOB();
-    $report_controller = new ReportController($xmlPath);
-    $drob->setDate("3/08/2018");
-    $drob->setDeliveryCount("1");
-    $drob->setOrderCount("1");
-    $drob->setPickupCount("1");
-    $drob->setTotalAmount("1sjj");
-    $report_controller->clearRecord();
-    $report_controller->updateRecord($drob);
-    /* Example for Inseting data to report_controller and update to XML file
-     * 
-     * 
-     * $drob->setDate("Test");
-      $drob->setDeliveryCount("TEST");
-      $drob->setOrderCount("Test");
-      $drob->setPickupCount("Test");
-      $drob->setTotalAmount("Test");
-      $report_controller->updateRecord($drob);
-
-     * 
-     * 
-     *      
-     * 
-     *  Example on how to get data OUT OF XML and back to OBJECT
-      $drob = $report_controller->getRecord();
-      echo($drob->getOrderCount()."HELOOOOOOOOOOOOOOOOOOOOOO");
-
-     */
-}
-if (isset($_POST['Delivered'])) {
-    $order_update = $_POST['order_update'];
-    $Status = "Delivered";
-    if($ordercont->getStatus($order_update) == "Paid"){
-        $Status = "Paid and Delivered";
+    $order = new OrderOB("", "", "", "", "", "", "", "");
+    $order = $ordercont->getOrder($order_update);
+    $AmountPaid = $order[0]->getTotalAmount();
+    $Delivery = 0;
+    $Pickup = 0;
+    $OrderPaid = 1; 
+    if ($order[0]->getStatus() == "Cash Paid") {
+        $AmountPaid = 0;
+        $OrderPaid = 0;
     }
-    $ordercont->updateStatus($order_update, $Status);
-    
+    if ($order[0]->getPickup() == "Yes" | $order[0]->getPickup() == "yes") {
+        $Pickup = 1;
+    } else {
+        $Delivery = 1;
+    }
 
+
+
+    $report_controller = new ReportController($xmlPath);
+    $report_controller->updateDaily($AmountPaid, $Delivery, $Pickup, 0, $OrderPaid);
+    $Status = "Completed";
+    $ordercont->updateStatus($order_update, $Status);
+}
+if (isset($_POST['CashPaid'])) {
+    $order_update = $_POST['order_update'];
+    $order = new OrderOB("", "", "", "", "", "", "", "");
+    $order = $ordercont->getOrder($order_update);
+    $AmountPaid = $order[0]->getTotalAmount();
 
     // Update Daily Report Generate XML HERE!!!
-    
-    
+
+    $report_controller = new ReportController($xmlPath);
+    $report_controller->updateDaily($AmountPaid, 0, 0, 0, 1);
+
+
+
+    $Status = "Cash Paid";
+    $ordercont->updateStatus($order_update, $Status);
 }
+
 if (isset($_POST['Order_Canceled'])) {
     $order_update = $_POST['order_update'];
-    $Status = "Canceled";
-    $ordercont->updateStatus($order_update, $Status);
+
 
     // Update Daily Report Generate XML HERE!!!
+    $report_controller = new ReportController($xmlPath);
+    $report_controller->updateDaily(0, 0, 0, 1, 0);
+
+
+
+    $Status = "Canceled";
+    $ordercont->updateStatus($order_update, $Status);
 }
 ?>
 <!DOCTYPE html>
@@ -150,8 +147,6 @@ if (isset($_POST['Order_Canceled'])) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    
-
                                     $orderlist = $ordercont->getAllOrders();
                                     for ($x = 0; $x < count($orderlist); $x++) {
 
@@ -174,7 +169,7 @@ if (isset($_POST['Order_Canceled'])) {
 
                                         echo("<td>$Status</td>");
                                         echo("<td>$Name</td>");
-                                        if ($Status != "Paid and Delivered" & $Status != "Canceled" & $Status != "Delivered") {
+                                        if ($Status != "Completed" & $Status != "Canceled") {
                                             echo("<td><button type=\"button\" class=\"btn btn-gradient-primary btn-fw\" data-toggle=\"modal\" data-target=\"#$orderID\">Manage Order</button></td>");
                                         } else {
                                             echo("<td>No Action Required</td>");
@@ -234,8 +229,11 @@ if (isset($_POST['Order_Canceled'])) {
                                     <h6 class="modal-title" id="label_loggedout">Warning! Irreversible Action</h6>
                                     <form action="ManageOrder.php" method="post">
                                         <input type="hidden" id="order_update" name="order_update" value="<?php echo($orderID) ?>"  />
-                                        <button type="submit" class="btn btn-gradient-primary" name="paid_fullfiled" id="paid_fullfiled">Delivered and Paid</button>
-                                        <button type="submit" class="btn btn-gradient-dark" name="Delivered" id="Delivered">Delivered</button>
+                                        <?php if ($orderlist[$x]->getStatus() == "Paid" | $orderlist[$x]->getStatus() == "Cash Paid") { ?>
+                                            <button type="submit" class="btn btn-gradient-primary" name="paid_fullfiled" id="paid_fullfiled">Completed</button>
+                                        <?php } if ($orderlist[$x]->getStatus() == "Unpaid") { ?>
+                                            <button type="submit" class="btn btn-gradient-primary" name="CashPaid" id="CashPaid">Paid By Cash</button>
+                                        <?php } ?>  
                                         <button type="submit" class="btn btn-gradient-danger" name="Order_Canceled" id="Order_Canceled">Canceled</button>
                                     </form>
                                 </div>                           
@@ -248,30 +246,30 @@ if (isset($_POST['Order_Canceled'])) {
                 <?php } ?>
                 <!-- content-wrapper ends -->
             </div>
-       
-        <!-- partial:partials/_footer.html -->
-        <?php include('../Footer.php') ?>
-        <!-- partial -->
 
-        <!-- main-panel ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
+            <?php include('../Footer.php') ?>
+            <!-- partial -->
 
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script src="../vendors/js/vendor.bundle.base.js"></script>
-    <script src="../vendors/js/vendor.bundle.addons.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page-->
-    <!-- End plugin js for this page-->
-    <!-- inject:js -->
-    <script src="../js/off-canvas.js"></script>
-    <script src="../js/misc.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page-->
-    <!-- End custom js for this page-->
-</body>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+
+        <!-- container-scroller -->
+        <!-- plugins:js -->
+        <script src="../vendors/js/vendor.bundle.base.js"></script>
+        <script src="../vendors/js/vendor.bundle.addons.js"></script>
+        <!-- endinject -->
+        <!-- Plugin js for this page-->
+        <!-- End plugin js for this page-->
+        <!-- inject:js -->
+        <script src="../js/off-canvas.js"></script>
+        <script src="../js/misc.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+        <!-- endinject -->
+        <!-- Custom js for this page-->
+        <!-- End custom js for this page-->
+    </body>
 
 </html>

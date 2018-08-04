@@ -9,5 +9,5 @@ and open the template in the editor.
 <DailyOrderRecord>
     
     
-
-<Record recordID="RID1"><OrderCount>1</OrderCount><Date>3/08/2018</Date><TotalAmount>1sjj</TotalAmount><OrderTypeCount><DeliveryCount>1</DeliveryCount><PickupCount>1</PickupCount></OrderTypeCount></Record></DailyOrderRecord>
+    
+<Record recordID="RID1"><OrderPaid>9</OrderPaid><OrderCanceled>5</OrderCanceled><Date>04/08/2018</Date><AmountPaid>6000</AmountPaid><OrderTypeCount><DeliveryCount>7</DeliveryCount><PickupCount>7</PickupCount></OrderTypeCount></Record></DailyOrderRecord>

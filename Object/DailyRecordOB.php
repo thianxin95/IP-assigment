@@ -1,26 +1,36 @@
 <?php
 
-class DailyRecordOB{
-    private $OrderCount;
+class DailyRecordOB {
+
+    private $OrderPaid;
+    private $OrderCanceled;
     private $Date;
-    private $TotalAmount;
+    private $AmountPaid;
     private $DeliveryCount;
     private $PickupCount;
-    
-    public function __construct(){
+
+    function __construct() {
         
     }
-    
-    function getOrderCount() {
-        return $this->OrderCount;
+
+    function getOrderCanceled() {
+        return $this->OrderCanceled;
+    }
+
+    function setOrderCanceled($OrderCanceled) {
+        $this->OrderCanceled = $OrderCanceled;
+    }
+
+    function getOrderPaid() {
+        return $this->OrderPaid;
     }
 
     function getDate() {
         return $this->Date;
     }
 
-    function getTotalAmount() {
-        return $this->TotalAmount;
+    function getAmountPaid() {
+        return $this->AmountPaid;
     }
 
     function getDeliveryCount() {
@@ -31,16 +41,16 @@ class DailyRecordOB{
         return $this->PickupCount;
     }
 
-    function setOrderCount($OrderCount) {
-        $this->OrderCount = $OrderCount;
+    function setOrderPaid($OrderPaid) {
+        $this->OrderPaid = $OrderPaid;
     }
 
     function setDate($Date) {
         $this->Date = $Date;
     }
 
-    function setTotalAmount($TotalAmount) {
-        $this->TotalAmount = $TotalAmount;
+    function setAmountPaid($AmountPaid) {
+        $this->AmountPaid = $AmountPaid;
     }
 
     function setDeliveryCount($DeliveryCount) {
@@ -50,6 +60,5 @@ class DailyRecordOB{
     function setPickupCount($PickupCount) {
         $this->PickupCount = $PickupCount;
     }
-
 
 }

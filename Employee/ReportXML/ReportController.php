@@ -1,5 +1,5 @@
 <?php
-include_once ('../Object/DailyRecordOB.php');
+include_once ($_SERVER['DOCUMENT_ROOT'].'/Assignment2018/Object/DailyRecordOB.php');
 class ReportController {
 
     private $xmlPath;
@@ -39,19 +39,20 @@ class ReportController {
             throw new Exception("Error, something went wrong, XML or things not found."); 
         }
         
-        $dailyrecord->setOrderCount($Record->getElementsByTagName("OrderCount")->item(0)->nodeValue);
+        $dailyrecord->setOrderPaid($Record->getElementsByTagName("OrderPaid")->item(0)->nodeValue);
         $dailyrecord->setDate($Record->getElementsByTagName("Date")->item(0)->nodeValue);
-        $dailyrecord->setTotalAmount($Record->getElementsByTagName("TotalAmount")->item(0)->nodeValue);
+        $dailyrecord->setAmountPaid($Record->getElementsByTagName("AmountPaid")->item(0)->nodeValue);
         $dailyrecord->setPickupCount($Record->getElementsByTagName("PickupCount")->item(0)->nodeValue);
         $dailyrecord->setDeliveryCount($Record->getElementsByTagName("DeliveryCount")->item(0)->nodeValue);
+        $dailyrecord->setOrderCanceled($Record->getElementsByTagName("OrderCanceled")->item(0)->nodeValue);
         
         return $dailyrecord;
     }
 
     
     
-    public function clearRecord(){ // Same problem as getRecord, getElementsByTagName doesnt work
-        $oldRecord = $this->domDocument->getElementById("RID1"); //get Root
+    public function clearRecord($rid){ // Same problem as getRecord, getElementsByTagName doesnt work
+        $oldRecord = $this->domDocument->getElementById($rid); //get Root
         $this->domDocument->documentElement->removeChild($oldRecord); // remove root
         // save back to disk 
         $this->domDocument->save($this->xmlPath);
@@ -63,14 +64,16 @@ class ReportController {
         $Record->setAttribute("recordID", "RID1");
         $this->domDocument->documentElement->appendChild($Record);
         
-        $OrderCount = $this->domDocument->createElement("OrderCount", $dailyrecord->getOrderCount());
+        $OrderCount = $this->domDocument->createElement("OrderPaid", $dailyrecord->getOrderPaid());
         $Record->appendChild($OrderCount);
         
+        $OrderCount = $this->domDocument->createElement("OrderCanceled", $dailyrecord->getOrderCanceled());
+        $Record->appendChild($OrderCount);
         
         $Date = $this->domDocument->createElement("Date", $dailyrecord->getDate());
         $Record->appendChild($Date);
         
-        $TotalAmount = $this->domDocument->createElement("TotalAmount", $dailyrecord->getTotalAmount());
+        $TotalAmount = $this->domDocument->createElement("AmountPaid", $dailyrecord->getAmountPaid());
         $Record->appendChild($TotalAmount);
         
         $newOrderType = $this->domDocument->createElement("OrderTypeCount");
@@ -85,5 +88,48 @@ class ReportController {
         $this->domDocument->save($this->xmlPath);
         
     }
+    public function updateDaily($AmountPaid, $Delivery, $Pickup, $Canceled, $OrderPaid){
+        $XMLDATA = $this->getRecord();
+        $XMLDATE = $XMLDATA->getDate();
+        $TodayDate = date('d/m/Y');
+        if($XMLDATE == $TodayDate){
+            $new_AmountPaid = $AmountPaid + $XMLDATA->getAmountPaid();
+            $new_Delivery = $Delivery + $XMLDATA->getDeliveryCount();
+            $new_Pickup = $Pickup + $XMLDATA->getPickupCount();
+            $new_Canceled = $Canceled + $XMLDATA->getOrderCanceled();
+            $new_OrderPaid = $OrderPaid + $XMLDATA->getOrderPaid();
+            
+            if($Canceled != 0){
+                $new_OrderPaid = 0 + $XMLDATA->getOrderPaid();
+            }
+            
+            
+            $XMLDATA->setAmountPaid($new_AmountPaid);
+            $XMLDATA->setDeliveryCount($new_Delivery);
+            $XMLDATA->setPickupCount($new_Pickup);
+            $XMLDATA->setOrderCanceled($new_Canceled);
+            $XMLDATA->setOrderPaid($new_OrderPaid);
+            
+            $this->clearRecord("RID1");
+            $this->updateRecord($XMLDATA);
+        }else{
+            $new_AmountPaid = $AmountPaid + 0;
+            $new_Delivery = $Delivery + 0;
+            $new_Pickup = $Pickup + 0;
+            $new_Canceled = $Canceled + 0;
+            
+            $XMLDATA->setAmountPaid($new_AmountPaid);
+            $XMLDATA->setDeliveryCount($new_Delivery);
+            $XMLDATA->setPickupCount($new_Pickup);
+            $XMLDATA->setOrderCanceled($new_Canceled);
+            $XMLDATA->setOrderPaid(1);
+            $XMLDATA->setDate($TodayDate);
+            
+            $this->clearRecord("RID1");
+            $this->updateRecord($XMLDATA);
+        }
+    }
+    
+    
 
 }

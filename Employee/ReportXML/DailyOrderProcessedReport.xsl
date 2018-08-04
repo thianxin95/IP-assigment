@@ -75,11 +75,15 @@
                             <h4 class="card-title">Daily Order Processed Report</h4>
                             <table class="table table-user-information">
                                 <thead>
-                                    <tr><th>Date : </th><td>TEST</td></tr>
-                                    <tr><th>Order Count : </th><td>TEST</td></tr>
-                                    <tr><th>Total Amount : </th><td>TEST</td></tr>
-                                    <tr><th>Delivery Count : </th><td>TEST</td></tr>
-                                    <tr><th>Pickup Count</th> : <td>TEST</td></tr>
+                                    <tr><th>Date :</th><td><xsl:value-of select="//Date"/></td></tr>
+                                    <tr><th>Order Count :</th><td><xsl:value-of select="//OrderPaid"/></td></tr>
+                                    <tr>
+                                        <th>Order Canceled :</th>
+                                        <td><xsl:value-of select="//OrderCanceled"/></td>
+                                    </tr>
+                                    <tr><th>Total Amount :</th><td><xsl:value-of select="//AmountPaid"/></td></tr>
+                                    <tr><th>Delivery Count :</th><td><xsl:value-of select="//DeliveryCount"/></td></tr>
+                                    <tr><th>Pickup Count :</th><td><xsl:value-of select="//PickupCount"/></td></tr>
                                 </thead>
                                
                             </table>
