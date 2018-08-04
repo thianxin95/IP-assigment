@@ -42,7 +42,7 @@ $Username = $user->getUserID();
             
     
    
-    $xmlPath = "//Invoice.xml";
+    $xmlPath = "CustomerSite/Invoice.xml";
     $drob = new InvoiceOB("", "", "", "", "", "", "");
     $report_controller = new InvoiceController($xmlPath);
     $drob->setInvoiceNo("3/08/2018");
