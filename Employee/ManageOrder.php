@@ -27,7 +27,7 @@ if (isset($_POST['paid_fullfiled'])) {
     //Testing XML and WORKING!!!!
     $order = new OrderOB("", "", "", "", "", "", "", "");
     $order = $ordercont->getOrder($order_update);
-    $AmountPaid = $order[0]->getTotalAmount();
+    $AmountPaid = 0;
     $Delivery = 0;
     $Pickup = 0;
     $OrderPaid = 1; 
