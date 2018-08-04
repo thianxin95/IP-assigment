@@ -1,5 +1,6 @@
 <?php
 include ('Object/CustomerOb.php');
+
 session_start();
 
 $user = new Customer("", "", "", "", "", "", "", "", "","");

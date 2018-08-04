@@ -1,8 +1,9 @@
 <?php
 include ('Object/CustomerOb.php');
+include('Object/InvoiceOB.php');
+include('databaseconn.php');
 session_start();
 
-$user = new Customer("", "", "", "", "", "", "", "", "","");
 if ($_SESSION["user"] == null) {
     echo "<script> location.href='login.php'; </script>";
 }
@@ -201,6 +202,7 @@ elseif ($userType=="Corporate") {
                 <div class="card">
                     <div class="card-body">
                         <div class=" col-md-9 col-lg-9 "> 
+                            <form method="post" action="getInvoice.php">
                   <table class="table table-user-information">
                     <tbody>
                       <tr>
@@ -241,9 +243,11 @@ elseif ($userType=="Corporate") {
                      
                     </tbody>
                   </table>
+                                
                   
                             <a href="updateInfo.php" class="btn btn-primary" >Edit Profile</a>
-                            <a href="getInvoice.php" class="btn btn-primary" >Generate Invoice</a>
+                            <input type="submit" name="submit" id="submit">Generate Invoice
+                    </form>
                
                 </div>
               </div>
@@ -290,10 +294,32 @@ elseif ($userType=="Corporate") {
 
 
 <?php 
+if (isset($_POST['submit'])) {
+    $userID = $user->getUserID();
+   $user2 = new InvoiceOB("", "", "", "", "", "", "");
+    $invoiceID = $user2->getInvoiceUserID();
+    $invoiceDate = $user2->getInvoiceDate();
+    $invoiceUserID = $user2->getInvoiceUserID();
+    $invoiceOrderID = $user2->getInvoiceOrderID();
+    $invoiceAmount = $user2->getInvoiceAmount();
+    $invoiceStatus = $user2->getPaymentStatus();
+    //datedb = new mysqli($servername, $db_user, $db_password, $db_table); deprecated with PDO
+    $conn_updatedb = Database::getInstance();
+    $query_updatedb = "SELECT * FROM invoices WHERE userID ='1'";   
+    $update_result = $conn_updatedb->query($query_updatedb);
+    if (!$update_result) {
+        trigger_error('Invalid query: ' . $conn->error);
+    }
+    $conn_updatedb->close();
+    
+    
+ 
+}
 
 
 
 }
+?>
 
     
 

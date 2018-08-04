@@ -1,19 +1,6 @@
 <?php
-include_once ('../Object/CustomerOb.php');
-include_once ('../Object/InvoiceDB.php');
-include_once ('databaseconn.php');
-
-session_start();
-
-$user = new Customer("", "", "", "", "", "", "", "", "","");
-if ($_SESSION["user"] == null) {
-    echo "<script> location.href='login.php'; </script>";
-}
-$user = $_SESSION["user"];
-$Username = $user->getUserID();
-
-
-class ReportController {
+include 'Object/CustomerOb.php';
+class InvoiceController {
 
     private $xmlPath;
     private $domDocument;
@@ -43,26 +30,21 @@ class ReportController {
         // TODO: free memory associated with the DOMDocument
         unset($this->domDocument); 
     }
-    
+
     public function getRecord() { 
-    $conn_updatedb = Database::getInstance();
-    $query_updatedb = "SELECT * FROM invoices WHERE userID='$Username'";   
-    $update_result = $conn_updatedb->query($query_updatedb);
-    if (!$update_result) {
-        trigger_error('Invalid query: ' . $conn->error);
-    }
-        
-       $InvoiceRecord = new InvoiceOB();
-      
+//problemetic possibly because there is no getElementbyID Source UPDATE : ALL FIX
+        $invoiceRecord = new InvoiceOB();
+        $Record = $this->domDocument->getElementById("invoiceRecord");
         if (!$Record) {
             throw new Exception("Error, something went wrong, XML or things not found."); 
         }
-        $InvoiceRecord->setInvoiceNo($Record->getElementsByTagName("InvoiceNumber")->item(0)->nodeValue);
-        $InvoiceRecord->setInvoiceDate($Record->getElementsByTagName("InvoiceDate")->item(0)->nodeValue);
-        $InvoiceRecord->setInvoiceUserID($Record->getElementsByTagName("UserID")->item(0)->nodeValue);
-        $InvoiceRecord->setInvoiceOrderID($Record->getElementsByTagName("OrderID")->item(0)->nodeValue);
-        $InvoiceRecord->setInvoiceAmount($Record->getElementsByTagName("InvoiceAmount")->item(0)->nodeValue);
-        $InvoiceRecord->setPaymentStatus($Record->getElementsByTagName("PaymentStatus")->item(0)->nodeValue);
+        
+        $invoiceRecord->setInvoiceNo($Record->getElementsByTagName("InvoiceNumber")->item(0)->nodeValue);
+        $invoiceRecord->setInvoiceDate($Record->getElementsByTagName("InvoiceDate")->item(0)->nodeValue);
+        $invoiceRecord->setInvoiceUserID($Record->getElementsByTagName("UserID")->item(0)->nodeValue);
+        $invoiceRecord->setInvoiceOrderID($Record->getElementsByTagName("OrderID")->item(0)->nodeValue);
+        $invoiceRecord->setInvoiceAmount($Record->getElementsByTagName("InvoiceAmount")->item(0)->nodeValue);
+        $invoiceRecord->setPaymentStatus($Record->getElementsByTagName("PaymentStatus")->item(0)->nodeValue);
         
         return $dailyrecord;
     }
@@ -76,6 +58,33 @@ class ReportController {
         $this->domDocument->save($this->xmlPath);
     }
     
-}
-?>
+    public function updateRecord(InvoiceOB $dailyrecord) {
 
+        $Record = $this->domDocument->createElement("InvoiceRecord");
+        $Record->setAttribute("recordID", "invoiceRecord");
+        $this->domDocument->documentElement->appendChild($Record);
+        
+        $invoiceNumber = $this->domDocument->createElement("InvoiceDate", $dailyrecord->getInvoiceNo());
+        $Record->appendChild($invoiceNumber);
+        
+        
+        $invoiceDate = $this->domDocument->createElement("InvoiceDate", $dailyrecord->getInvoiceDate());
+        $Record->appendChild($invoiceDate);
+        
+        $userID = $this->domDocument->createElement("UserID", $dailyrecord->getInvoiceUserID());
+        $Record->appendChild($userID);
+        
+        $orderID = $this->domDocument->createElement("OrderID",$dailyrecord->getInvoiceOrderID());
+        $Record->appendChild($orderID);
+        
+        $InvoicetotalAmount = $this->domDocument->createElement("InvoiceAmount", $dailyrecord->getInvoiceAmount());
+        $newOrderType->appendChild($InvoicetotalAmount);
+        
+        $invoicePaymentStatus = $this->domDocument->createElement("PaymentStatus",$dailyrecord->getPaymentStatus());
+        $newOrderType->appendChild($invoicePaymentStatus);
+        
+        $this->domDocument->save($this->xmlPath);
+        
+    }
+
+}

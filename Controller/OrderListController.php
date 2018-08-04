@@ -71,5 +71,29 @@ class OrderListController {
         $product_list = $product_result->fetch(PDO::FETCH_ASSOC);
         return $product_list["productdes"];
     }
+     public function getInvoiceUserID($userID) {
+        $conn = Database::getInstance();
+        $query = "SELECT * FROM invoices WHERE userID = '$userID'";
+        $invoicelist_result = $conn->query($query);
+        $i = 0;
+        if (!$invoicelist_result) {
+            trigger_error('Invalid query: ' . $conn->error);
+        }
+        $conn->close();
+        if ($invoicelist_result) {
+            while ($row = $invoicelist_result->fetch(PDO::FETCH_ASSOC)) {
+                $invoiceNO = $row["invoice_no"];
+                $invoiceDate = $row["invoice date"];
+                $invoiceUserID = $row["userID"];
+                $invoiceOrderID = $row["orderID"];
+                $invoiceAmount = $row["invoice_amount"];
+                $PaymentStatus = $row["paymentStatus"];
+                $PaymentDate = $row["paymentDate"];
+                $result[$i] = new InvoiceOB($invoiceNO, $invoiceDate, $invoiceUserID, $invoiceOrderID, $invoiceAmount, $PaymentStatus, $PaymentDate);
+                $i++;
+            }
+        }
+        return $result;
+    }
 
 }
