@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE customizedOrder SYSTEM "customOrder.dtd">
+<?xml-stylesheet type="text/xsl" href="customOrder.xsl"?>
+<customizedOrder>
+  <product productCode="PRD6">
+    <productName>Arrangement in a Square Black Ceramic Container</productName>
+    <productType>Floral arrangement</productType>
+    <price>35</price>
+    <quantity>1</quantity>
+  </product>
+</customizedOrder>
