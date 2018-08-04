@@ -89,19 +89,67 @@ $Username = $user->getUserID();
                                             $ordlist = $ordCon->getOrderUserID($Username);
                                             if (!empty($ordlist)) {
                                                 for ($i = 0; $i < count($ordlist); $i++) {
-                                                    echo("<tr>");
-                                                    echo("<td>" . $ordlist[$i]->getOrderID() . "</td>");
-                                                    echo("<td>" . $ordlist[$i]->getOrderDate() . "</td>");
-                                                    echo("<td>" . $ordlist[$i]->getPickup() . "</td>");
-                                                    echo("<td>" . $ordlist[$i]->getDeliveryAddress() . "</td>");
-                                                    echo("<td>" . $ordlist[$i]->getRequiredDate() . "</td>");
-                                                    echo("<td>" . $ordlist[$i]->getTotalAmount() . "</td>");
-                                                    echo("<td>" . $ordlist[$i]->getStatus() . "</td>");
-                                                    echo("<td><button type=\"button\" class=\"btn btn-gradient-primary btn-fw\" data-toggle=\"modal\" data-target=\"#" . $ordlist[$i]->getOrderID() . "\">Order Details</button></td>");
-                                                    echo("</tr>");
-                                                }
+                                                    /*     echo("<tr>");
+                                                      echo("<td>" . $ordlist[$i]->getOrderID() . "</td>");
+                                                      echo("<td>" . $ordlist[$i]->getOrderDate() . "</td>");
+                                                      echo("<td>" . $ordlist[$i]->getPickup() . "</td>");
+                                                      echo("<td>" . $ordlist[$i]->getDeliveryAddress() . "</td>");
+                                                      echo("<td>" . $ordlist[$i]->getRequiredDate() . "</td>");
+                                                      echo("<td>" . $ordlist[$i]->getTotalAmount() . "</td>");
+                                                      echo("<td>" . $ordlist[$i]->getStatus() . "</td>");
+                                                      echo("<td><button type=\"button\" class=\"btn btn-gradient-primary btn-fw\" data-toggle=\"modal\" data-target=\"#" . $ordlist[$i]->getOrderID() . "\">Order Details</button></td>");
+                                                      echo("</tr>"); */
+                                                    ?>
+                                                    <tr>
+                                                        <td><?php echo $ordlist[$i]->getOrderID() ?></td>
+                                                        <td><?php echo $ordlist[$i]->getOrderDate() ?></td>
+                                                        <td><?php echo $ordlist[$i]->getPickup() ?></td>
+                                                        <td><?php echo $ordlist[$i]->getDeliveryAddress() ?></td>
+                                                        <td><?php echo $ordlist[$i]->getRequiredDate() ?></td>
+                                                        <td><?php echo $ordlist[$i]->getTotalAmount() ?></td>
+                                                        <td><?php echo $ordlist[$i]->getStatus() ?></td>
+                                                        <td><button type="button" class="btn btn-gradient-primary btn-fw" data-toggle="modal" data-target="#<?php echo $ordlist[$i]->getOrderID() ?>">Order Details</button><br/><br/><div id="paypal-button<?php echo $ordlist[$i]->getOrderID() ?>"></div></td></tr>
+                                                    <?php
+                                                    if ($ordlist[$i]->getStatus() == "Unpaid") {
+                                                        ?>
+                                                        <!-- inject:js -->
+                                                    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+                                                    <script>
+                                                        paypal.Button.render({
+                                                            env: 'sandbox',
+                                                            style: {
+                                                                size: 'small',
+                                                                color: 'silver',
+                                                                shape: 'rect'
+                                                            },
+                                                            client: {
+                                                                sandbox: 'AQV_fs31tAEGyYOyBHTvFsb-aot_BDJlsnIm71HJ0BBquf2R82_6cdR2PBurew7fraXlUEoNhQaRuAgi'
+                                                            },
+                                                            payment: function (data, actions) {
+                                                                return actions.payment.create({
+                                                                    transactions: [{
+                                                                            amount: {
+                                                                                total: '<?php echo $ordlist[$i]->getTotalAmount() ?>',
+                                                                                currency: 'USD'
+                                                                            }
+                                                                        }]
+                                                                });
+                                                            },
+                                                            onAuthorize: function (data, actions) {
+                                                                return actions.payment.execute()
+                                                                        .then(function () {
+                                                                            window.location.replace("OrderList.php?paymentresult=success&type=single&orderID=<?php echo $ordlist[$i]->getOrderID() ?>");
+                                                                        });
+                                                            }
+                                                        }, '#paypal-button<?php echo $ordlist[$i]->getOrderID() ?>');
+                                                    </script>
+                                                    <!-- endinject -->
+                                                <?php } ?>
+
+                                                <?php
                                             }
-                                            ?> 
+                                        }
+                                        ?> 
                                         </tbody>
                                     </table>
                                     <?php
@@ -168,13 +216,32 @@ $Username = $user->getUserID();
                                 </div>
                             </div>
                         </div>
-
+                        <div class="modal fade" id="paymentSuccess" tabindex="-1" role="dialog" aria-labelledby="paymentSuccess" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="label_loggedout">Payment Success</h5>
+                                        <!--   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                           </button> -->
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Thank you for your payment your payment is a Success</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="OrderList.php" class="btn btn-success">OK</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- content-wrapper ends -->
-                        <!-- partial:partials/_footer.html -->
-                        <!-- partial -->
+
+
                     </div>
                     <!-- main-panel ends -->
+                    <!-- partial:partials/_footer.html -->
                     <?php include('Footer.php') ?>
+                    <!-- partial -->
                 </div>
                 <!-- page-body-wrapper ends -->
             </div>
@@ -187,10 +254,29 @@ $Username = $user->getUserID();
         <!-- Plugin js for this page-->
         <!-- End plugin js for this page-->
         <!-- inject:js -->
+        <?php
+        ///////////////Handling Payment Success Scenario
+        if (!empty($_GET)) {
+            if ($_GET['paymentresult'] == "success") {
+                if ($_GET['type'] == "single") {
+                    $orderID = $_GET['orderID'];
+                    $updateStatus = new OrderListController();
+                    $updateStatus->updateOrderStatus($orderID, "Paid");
+                    echo '<!-- inject:js -->';
+                    echo '<script>$("#paymentSuccess").modal()</script>';
+                    echo '<!-- endinject -->';
+                }
+            }
+        }
+////////////////////////////end payment handling
+        ?>
         <script src="js/off-canvas.js"></script>
         <script src="js/misc.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+        <script>$('#paymentSuccess').on('hidden.bs.modal', function () {
+                                                location.href = 'OrderList.php';
+                                            })</script>
         <!-- endinject -->
         <!-- Custom js for this page-->
         <!-- End custom js for this page-->

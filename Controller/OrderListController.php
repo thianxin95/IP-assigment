@@ -76,7 +76,8 @@ class OrderListController {
         $product_list = $product_result->fetch(PDO::FETCH_ASSOC);
         return $product_list["productdes"];
     }
-     public function getInvoiceUserID($userID) {
+
+    public function getInvoiceUserID($userID) {
         $conn = Database::getInstance();
         $query = "SELECT * FROM invoices WHERE userID = '$userID'";
         $invoicelist_result = $conn->query($query);
@@ -131,6 +132,15 @@ class OrderListController {
         }
 
         return $orderlist_result;
+    }
+
+    public function updateOrderStatus($orderID, $Status) {
+        $conn = Database::getInstance();
+        $query = "UPDATE orders SET STATUS = '$Status' WHERE orderID = '$orderID'";
+        $updateResult = $conn->query($query);
+        if (!$updateResult) {
+            trigger_error('Invalid Query : ' . $conn->error);
+        }
     }
 
 }
