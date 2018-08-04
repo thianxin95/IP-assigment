@@ -24,9 +24,11 @@ and open the template in the editor.
         <?php
         include_once '../../Object/ProductOB.php';
         include_once '../../Controller/ProductController.php';
-        include_once '../../Object/CatalogOB.php';
         include_once './CatalogController.php';
-        include_once '../../Object/CustomerOb.php';             
+        include_once '../../Object/CustomerOb.php'; 
+        include_once '../../Object/OrderDetailsOB.php';
+        include_once '../../Controller/OrderDetailsController.php';
+        
           session_start();
           if(isset($_SESSION["user"])){
               echo "Your session is here. </br> ";
@@ -45,7 +47,7 @@ and open the template in the editor.
         <div class="chooseProduct">
             <h1>Product list</h1>
            
-            <form action="OrderMenu.php" method="GET">                          
+            <form action="OrderMenu.php" method="POST">                          
                  
                   <table>
                       <tr>
@@ -80,80 +82,79 @@ and open the template in the editor.
                   ?>
                        
                   </table>
-                  Product Code: <input type="text" name="code" required="">
-                  Quantity: <input type="number" name="quantity" required="" min="1" max="200">
+                  Product Code: 
+                  <select name="productcode"> 
+                      <option value="0">--Select Product Code--</option>
+                      <?php for($b=0; $b<count($productlist); $b++){
+                              $productCode = $productlist[$b]->getProductCode();
+
+     echo '<option value="'.$productCode.'">'.$productCode.'</option>';
+                  }
+                  
+                  ?>
+<!--                  <input type="text" name="code">-->
+                      
+                      <input type="number" name="quantity" placeholder="Quantity">
                   <br><br>
              
                                   
-               <input type="submit" name="submit" value="Add to Cart"> 
+               <input type="submit" name="submit" value="Add item into catalog"> 
                
-            </form>
-            <form action="OrderMenu.php" method="GET">
-                <input type="submit" name="writeFile" value="TRY THIS"> 
-            </form>
-            
-        </div>
-        <div class="tap2">
+
+           
         <?php     
         $code = "";
         $sumupprice = "";
-        
-        
-
-        
-        if(isset($_GET['submit'])){
-                $code = test_input($_GET['code']);
-                $productDetail = $_productcont->getProduct($code);
-                $price = $productDetail->getPrice();
-
-                
-                $quantity = test_input($_GET['quantity']);
-                $sumupprice = $quantity * $price;
-                
-                    $xmlPath = "./CatalogItem.xml";
-                    $item = new CatalogOB("","","","","","");
-                    $item_controller = new CatalogController($xmlPath);
-                    $item->setProductCode($productDetail->getProductCode());
-                    $item->setProducttype($productDetail->getProductType());
-                    $item->setProductquantity($quantity);
-                    $item->setTotalprice($sumupprice);
-                    $item->setUserID($UserID);
-                    $item->setUserType($Usertype);
-                    $item_controller->updateRecord($item);
-                    
-                    
-                  //  echo $item->getProductCode();
-                
-                echo ("RM$sumupprice");
-            
-        }
-        
-        if(isset($_GET['writeFile'])){              
-            echo '</br>OVER HERE';
-                    $xmlPath = "./CatalogItem.xml";
-                    $item = new CatalogOB("","","","","","");
-                    $item_controller = new CatalogController($xmlPath);
-                    $item->setProductCode($productCode2);
-                    $item->setProducttype($producttype2);
-                    $item->setProductquantity($quantity);
-                    $item->setTotalprice($sumupprice);
-                    $item->setUserID($UserID);
-                    $item->setUserType($Usertype);
                       
-                    echo $item->getProductCode();
-                       
+        if(isset($_POST['submit'])){
+            $i=0;
+            if($_POST['submit'] =='Add item into catalog'){
+              
+                
+                $proCode = $_POST['productcode'];
+                $quantity = $_POST['quantity'];
+                
+                          for($c = 0; $c < count($productlist); $c++){ 
+                              
+                              $productCode = $productlist[$c]->getProductCode();
+                              if($productCode == $proCode){
+                              $price = $productlist[$c]->getPrice();
+                              }
+                              
+                          }   
+                
+              $OrderDetails_ctrl = new OrderDetailsController();
+              $lastID = $OrderDetails_ctrl->getOrderDetailsID();
+              $first = substr($lastID, 0, 5);
+              $Rest = substr($lastID, 5);
+              $lastOrderID = $OrderDetails_ctrl->getOrderID();
+              $first2 = substr($lastOrderID, 0, 3);
+              $Rest2 = substr($lastOrderID, 3);
+              
+  
+              $Rest += 1;
+              $newID = $first.$Rest;
+
+             $Rest2 +=1;
+             $newOrderID = $first2.$Rest2;
+    
+             
+              $orderDetails = new OrderDetailsOB($newID, $newOrderID, $proCode, $quantity, $price);
+              $_SESSION["orderDetailarray"][] = $orderDetails;
+
+                
+                echo '</br>Order Detail ='.$orderDetails->getOrderDetailsID().' '.$orderDetails->getOrderID().' '.$orderDetails->getProductCode().' '.$orderDetails->getQuantity().' '.$orderDetails->getUnitPrice().'</br>';
+               
+            }
+          
         }
-        function test_input($data){
-              $data = trim($data);
-              $data = stripslashes($data);
-              $data = htmlspecialchars($data);
-              return $data; 
-        }             
-        echo "<h2>Your Input:</h2>";
-        echo "<br>";
-        
+           
+
         ?>
-        
+                            </form>
+            
+            <a class="nav-link" href="DisplayCatalogProduct.php"> view catalog item </a>
+
             </div>
         
     </body>
