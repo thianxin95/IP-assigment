@@ -21,10 +21,18 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="ManageOrder.php">
-                    <span class="menu-title">Manage Order</span>
+                <a class="nav-link" data-toggle="collapse" href="#Manage-Orders" aria-expanded="false" aria-controls="Manage-Orders">
+                    <span class="menu-title">Manage Orders</span>
+                    <i class="menu-arrow"></i>
                 </a>
+                <div class="collapse" id="Manage-Orders">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="ManageOrder.php">Normal Orders</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="ManageCustomOrder.php"> Custom Orders </a></li>
+                    </ul>
+                </div>
             </li>
+            
             <li class="nav-item">
                 <a class="nav-link" href="ReportXML/Daily_OrderProcessed.xml">
                     <span class="menu-title">Daily Order Report</span>
