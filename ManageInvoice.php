@@ -63,77 +63,142 @@ $dashboard = new DashController();
                 <!-- Side Menu -->
                 <div class="main-panel">
                     <!-- WRITE YOUR CODE HERE! -->
-                    <div class="col-13 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h3>Welcome back, <?php echo $user->getName() ?></h3>
-                                <br/><h4>Here are your account's brief summary</h4>
-                            </div>
-                        </div>
-                    </div>
                     <div class="content-wrapper">
-                        <div class="row">
-                            <div class="col-md-4 stretch-card grid-margin">
-                                <div class="card bg-gradient-primary card-img-holder text-white">
-                                    <div class="card-body">
-                                        <h4 class="font-weight-normal mb-3">Total Orders</h4>
-                                        <h2 class="mb-5"><?php echo($dashboard->getOrderCount($Username)) ?></h2>
-                                        <h6 class="card-text">Subtotal = $<?php echo($dashboard->getOrderSub($Username)) ?></h6>
-                                    </div>
+                        <div class="col-13 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3>Welcome back, <?php echo $user->getName() ?></h3>
+                                    <br/><h4>Here are your Invoices</h4>
+                                    <?php
+                                    include_once 'CustomerSite/InvoiceController.php';
+                                    include_once 'Object/InvoiceOB.php';
+                                    $invoice_control = new InvoiceController("CustomerSite/Invoice.xml");
+                                    $invoices = $invoice_control->getInvoice($Username);
+                                    if (!empty($invoices)) {
+                                        ?>
+                                        <table class="table table-user-information">
+                                            <thead>
+                                                <tr>
+                                                    <th>Invoice No :</th>
+                                                    <td><?php echo $invoices->getInvoiceNo() ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Invoice Date :</th>
+                                                    <td><?php echo $invoices->getInvoiceDate() ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Invoice Amount :</th>
+                                                    <td><?php echo $invoices->getInvoiceAmount() ?></td>
+                                                </tr></td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <br/>
+                                        <h4>Pay your Invoice With Paypal</h4>
+                                        <div id="paypal-button<?php echo $invoices->getInvoiceNo() ?>"></div>
+                                        <!-- inject:js -->
+                                        <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+                                        <script>
+                                            paypal.Button.render({
+                                                env: 'sandbox',
+                                                style: {
+                                                    size: 'medium',
+                                                    color: 'silver',
+                                                    shape: 'rect'
+                                                },
+                                                client: {
+                                                    sandbox: 'AQV_fs31tAEGyYOyBHTvFsb-aot_BDJlsnIm71HJ0BBquf2R82_6cdR2PBurew7fraXlUEoNhQaRuAgi'
+                                                },
+                                                payment: function (data, actions) {
+                                                    return actions.payment.create({
+                                                        transactions: [{
+                                                                amount: {
+                                                                    total: '<?php echo $invoices->getInvoiceAmount() ?>',
+                                                                    currency: 'USD'
+                                                                }
+                                                            }]
+                                                    });
+                                                },
+                                                onAuthorize: function (data, actions) {
+                                                    return actions.payment.execute()
+                                                            .then(function () {
+                                                                window.location.replace("ManageInvoice.php?paymentresult=success&InvoiceID=<?php echo $invoices->getInvoiceNo() ?>");
+                                                            });
+                                                }
+                                            }, '#paypal-button<?php echo $invoices->getInvoiceNo() ?>');
+                                        </script>
+                                        <?php
+                                    } else {
+                                        echo '<br/><br/><h4>Hooray No Invoices yet!</h4>';
+                                    }
+                                    ?>   
                                 </div>
                             </div>
-                            <div class="col-md-4 stretch-card grid-margin">
-                                <div class="card bg-gradient-danger card-img-holder text-white">
-                                    <div class="card-body">               
-                                        <h4 class="font-weight-normal mb-3">Unpaid Orders</h4>
-                                        <h2 class="mb-5"><?php echo($dashboard->getUnpaidCount($Username)) ?></h2>
-                                        <h6 class="card-text">Subtotal = $<?php echo($dashboard->getUnpaidSub($Username)) ?></h6>
+                        </div>
+                        <div class="modal fade" id="paymentSuccess" tabindex="-1" role="dialog" aria-labelledby="paymentSuccess" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="label_loggedout">Payment Success</h5>
+                                        <!--   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                           </button> -->
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 stretch-card grid-margin">
-                                <div class="card bg-gradient-info card-img-holder text-white">
-                                    <div class="card-body">               
-                                        <h4 class="font-weight-normal mb-3">Paid and Completed Orders</h4>
-                                        <h2 class="mb-5"><?php echo($dashboard->getPaidCount($Username)) ?></h2>
-                                        <h6 class="card-text">$<?php echo($dashboard->getPaidSub($Username)) ?></h6>
+                                    <div class="modal-body">
+                                        <p>Thank you for your payment your payment is a Success</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="ManageInvoice.php" class="btn btn-success">OK</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <?php include('Footer.php') ?>
                 </div>
             </div>
-
         </div>
+    </div>
 
 
-        <!-- content-wrapper ends -->
-        <!-- partial:partials/_footer.html -->
+    <!-- content-wrapper ends -->
+    <!-- partial:partials/_footer.html -->
 
-        <!-- partial -->
+    <!-- partial -->
 
-        <!-- main-panel ends -->
+    <!-- main-panel ends -->
 
-        <!-- page-body-wrapper ends -->
+    <!-- page-body-wrapper ends -->
 
-        <!-- container-scroller -->
-        <!-- plugins:js -->
-        <script src="vendors/js/vendor.bundle.base.js"></script>
-        <script src="vendors/js/vendor.bundle.addons.js"></script>
-        <!-- endinject -->
-        <!-- Plugin js for this page-->
-        <!-- End plugin js for this page-->
-        <!-- inject:js -->
-        <script src="js/off-canvas.js"></script>
-        <script src="js/misc.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-        <!-- endinject -->
-        <!-- Custom js for this page-->
-        <!-- End custom js for this page-->
-    </body>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="vendors/js/vendor.bundle.base.js"></script>
+    <script src="vendors/js/vendor.bundle.addons.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page-->
+    <!-- End plugin js for this page-->
+    <!-- inject:js -->
+    <?php
+    ///////////////Handling Payment Success Scenario
+    if (!empty($_GET)) {
+        if ($_GET['paymentresult'] == "success") {
+            $InvoiceNo = $_GET['InvoiceID'];
+            $invoice_control->delInvoice($InvoiceNo);
+            echo '<!-- inject:js -->';
+            echo '<script>$("#paymentSuccess").modal()</script>';
+            echo '<!-- endinject -->';
+        }
+    }
+////////////////////////////end payment handling
+    ?>
+    <script src="js/off-canvas.js"></script>
+    <script src="js/misc.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+    <script>$('#paymentSuccess').on('hidden.bs.modal', function () {location.href = 'ManageInvoices.php';})</script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <!-- End custom js for this page-->
+</body>
 
 </html>
