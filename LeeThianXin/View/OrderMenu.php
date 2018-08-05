@@ -22,12 +22,14 @@ and open the template in the editor.
     </style>
     <body>
         <?php
-        include_once '../../databaseconn.php';
+        //include_once '../../databaseconn.php';
         include_once '../../Controller/ProductController.php';
         include_once './CatalogController.php';
         include_once '../../Object/CustomerOb.php'; 
         include_once '../../Object/OrderDetailsOB.php';
         include_once '../../Controller/OrderDetailsController.php';
+        
+        include_once '../../Object/Session_itemSelected.php';
         
           session_start();
           if(isset($_SESSION["user"])){
@@ -103,8 +105,8 @@ and open the template in the editor.
 
            
         <?php     
-        $code = "";
-        $sumupprice = "";
+//        $code = "";
+//        $sumupprice = "";
                       
         if(isset($_POST['submit'])){
             $i=0;
@@ -119,31 +121,18 @@ and open the template in the editor.
                               $productCode = $productlist[$c]->getProductCode();
                               if($productCode == $proCode){
                               $price = $productlist[$c]->getPrice();
+                              $totalprice = $price * $quantity;
                               }
                               
-                          }   
-                
-              $OrderDetails_ctrl = new OrderDetailsController();
-              $lastID = $OrderDetails_ctrl->getOrderDetailsID();
-              $first = substr($lastID, 0, 5);
-              $Rest = substr($lastID, 5);
-              $lastOrderID = $OrderDetails_ctrl->getOrderID();
-              $first2 = substr($lastOrderID, 0, 3);
-              $Rest2 = substr($lastOrderID, 3);
-              
-  
-              $Rest += 1;
-              $newID = $first.$Rest;
-
-             $Rest2 +=1;
-             $newOrderID = $first2.$Rest2;
+                          } 
+                          
+               
     
-             
-              $orderDetails = new OrderDetailsOB($newID, $newOrderID, $proCode, $quantity, $price);
-              $_SESSION["orderDetailarray"][] = $orderDetails;
+              $Selected_item = new Session_itemSelected($UserID, $proCode, $quantity, $price, $totalprice);
+              $_SESSION["Selected_itemArray"][] = $Selected_item;
+              
+              echo '</br>Selected item = '.$Selected_item->getUserID().' '.$Selected_item->getProductCode().' '.$Selected_item->getQuantity().' '.$Selected_item->getUnitPrice().' '.$Selected_item->getTotalprice();
 
-                
-                echo '</br>Order Detail ='.$orderDetails->getOrderDetailsID().' '.$orderDetails->getOrderID().' '.$orderDetails->getProductCode().' '.$orderDetails->getQuantity().' '.$orderDetails->getUnitPrice().'</br>';
                
             }
           

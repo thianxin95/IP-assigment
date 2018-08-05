@@ -10,47 +10,43 @@ and open the template in the editor.
         <title>Catalog</title>
     </head>
     <body>
+        
         <h1>ITEM in catalog</h1>
         <?php
         include_once '../../Object/OrderDetailsOB.php';
+        include_once '../../Object/CustomerOb.php';
+        include_once '../../Object/Session_itemSelected.php';
         session_start();
-                  if(isset($_SESSION["orderDetailarray"])){
+        //unset($_SESSION["Selected_itemArray"]);
+
+           if(isset($_SESSION["Selected_itemArray"])){
               echo "Your session is here. </br> ";
           }          
        
-        if ($_SESSION["orderDetailarray"] == null) {
+        if ($_SESSION["Selected_itemArray"] == null) {
             echo "Nothing";
             echo"empty";
         }
         
-//                if(isset($_SESSION["user"])){
-//              echo "Your user session is here. </br> ";
-//          }          
-//        $user = new Customer("", "", "", "", "", "", "", "", "", "");
-//        if ($_SESSION["user"] == null) {
-//            echo "<script> location.href='../../login.php'; </script>";
-//            echo"empty";
-//        }
-//        $user = $_SESSION["user"];
-//        $UserID = $user->getUserID();
-//        $Username = $user->getName();
-//        $Usertype = $user->getUserType();
-//        echo 'Welcome ' .$Username ;
-        
-        
-        
-
-// 
-//session_unset(); 
-//
-//session_destroy();
-       
-                          $b=0;
-                          for($i = 0; $i< count($_SESSION["orderDetailarray"]); $i++){
-                              $result[$b] = new OrderDetailsOB("", "", "", "", "");
-                              $result[$b] = $_SESSION["orderDetailarray"][$i];
-                              $b++;
-                          }
+                if(isset($_SESSION["user"])){
+              echo "Your user session is here. </br> ";
+          }          
+        $user = new Customer("", "", "", "", "", "", "", "", "", "");
+        if ($_SESSION["user"] == null) {
+            echo "<script> location.href='../../login.php'; </script>";
+            echo"empty";
+        }
+        $user = $_SESSION["user"];
+        $UserID = $user->getUserID();
+        $Username = $user->getName();
+        $Usertype = $user->getUserType();
+        echo 'Welcome ' .$Username ;                           
+//                          $b=0;
+//                          for($i = 0; $i< count($_SESSION["Selected_itemArray"]); $i++){
+//                              $result[$b] = new Session_itemSelected("", "", "", "");
+//                              $result[$b] = $_SESSION["Selected_itemArray"][$i];
+//                              $b++;
+//                          }
                           
                        ?>
         <style>
@@ -80,68 +76,31 @@ tr:nth-child(even) {
                     <th>Product Code</th>
                     <th>Quantity</th>
                     <th>Price per unit(RM)</th>
+                    <th>Total price</th>
                 </tr>
         <?php
-                          
-             for($a=0;$a< count($_SESSION["orderDetailarray"]); $a++){ 
-         $orderDetail = new OrderDetailsOB("", "", "", "", "");
-         $orderDetail = $_SESSION["orderDetailarray"][$a];
-//         $orderID = $orderDetail->getOrderID();
-//         if()
+               for($a=0;$a< count($_SESSION["Selected_itemArray"]); $a++){ 
+         $orderDetail = new Session_itemSelected("", "", "", "", "");
+         $orderDetail = $_SESSION["Selected_itemArray"][$a];
+         $ID = $orderDetail->getUserID();
+         if($ID == $UserID){
          $code = $orderDetail->getProductCode();
          $quantity = $orderDetail->getQuantity();
          $price =$orderDetail->getUnitPrice();
+         $totalprice = $orderDetail->getTotalprice();
          echo '<tr>';
          echo "<td>$code</td>";
          echo "<td>$quantity</td>";
          echo "<td>$price</td>";
+         echo "<td>$totalprice</td>";
          echo("</tr>");
+         }
          
              }
-             
-             
-             //                          for($a = 0; $a < count($productlist); $a++){                      
-//                              $productCode = $productlist[$a]->getProductCode();
-//                              $producttype = $productlist[$a]->getProductType();
-//                              $productdes = $productlist[$a]->getProductDes();
-//                              $Availability = $productlist[$a]->getAvailability();
-//                              $price = $productlist[$a]->getPrice();
-//                                echo("<tr>");
-//                                echo("<td>$productCode</td>");
-//                                echo("<td>$producttype</td>");
-//                                echo("<td>$productdes</td>");
-//                                echo("<td>$Availability</td>");
-//                                echo("<td>RM$price</td>");                              
-//                                echo("</tr>");
-//                              
-//                          }  
-   
-           
-//                          $a = count($_SESSION["orderDetailarray"]);
-//                          echo 'here'.$a;
-//                          unset($_SESSION["orderDetailarray"][1]);
-//                           $a = count($_SESSION["orderDetailarray"]);
-//                          echo 'here'.$a;
-//        
-//        
-//                        $OrderItemDetailList = $result;
-//                       for($a = 0; $a < count($OrderItemDetailList); $a++){
-//                           $orderDetailsID = $OrderItemDetailList->getOrderDetailsID();
-//                           $orderID = $OrderItemDetailList->getOrderID();
-//                           $productCode = $OrderItemDetailList->getProductCode();
-//                           $Quantity = $OrderItemDetailList->getQuantity();
-//                           $UnitOrice = $OrderItemDetailList->getUnitPrice();
-//                           
-//                           
-//                       }
-        
-                          
-                          
-
-
-
+                         
         ?>
                 </table>
         </div>
+        <a class="nav-link" href="InsertCustomerOrder.php">Make order here</a>
     </body>
 </html>
