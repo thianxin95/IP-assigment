@@ -23,6 +23,21 @@ and open the template in the editor.
             echo"empty";
         }
         
+//                if(isset($_SESSION["user"])){
+//              echo "Your user session is here. </br> ";
+//          }          
+//        $user = new Customer("", "", "", "", "", "", "", "", "", "");
+//        if ($_SESSION["user"] == null) {
+//            echo "<script> location.href='../../login.php'; </script>";
+//            echo"empty";
+//        }
+//        $user = $_SESSION["user"];
+//        $UserID = $user->getUserID();
+//        $Username = $user->getName();
+//        $Usertype = $user->getUserType();
+//        echo 'Welcome ' .$Username ;
+        
+        
         
 
 // 
@@ -71,6 +86,8 @@ tr:nth-child(even) {
              for($a=0;$a< count($_SESSION["orderDetailarray"]); $a++){ 
          $orderDetail = new OrderDetailsOB("", "", "", "", "");
          $orderDetail = $_SESSION["orderDetailarray"][$a];
+//         $orderID = $orderDetail->getOrderID();
+//         if()
          $code = $orderDetail->getProductCode();
          $quantity = $orderDetail->getQuantity();
          $price =$orderDetail->getUnitPrice();

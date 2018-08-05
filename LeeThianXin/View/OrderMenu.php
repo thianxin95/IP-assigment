@@ -22,7 +22,7 @@ and open the template in the editor.
     </style>
     <body>
         <?php
-        include_once '../../Object/ProductOB.php';
+        include_once '../../databaseconn.php';
         include_once '../../Controller/ProductController.php';
         include_once './CatalogController.php';
         include_once '../../Object/CustomerOb.php'; 

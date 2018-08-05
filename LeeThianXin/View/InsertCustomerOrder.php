@@ -24,24 +24,24 @@ and open the template in the editor.
           <div class="col-md-6 grid-margin stretch-card">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title">Enter basic order detail</h4>
-                                        <p class="card-description">
-                                            Basic form layout
-                                        </p>
+                                        <h4 class="card-title">Please enter order detail</h4>
+
                                         <form class="forms-sample">
                                          
                                             <div class="form-group">
-                                                <label for="exampleInputUsername1">Date: </label>
+                                                <label for="requiredate">Require date: </label>
                                                 <?php
-                                                        echo '<input type="date" class="form-control" name="date" min= "'. date("Y-m-").'">';
+                                                        echo '<input type="date" class="form-control" name="requiredate" min= "'. date("Y-m-d").'">';
                                                         ?>
                                             </div>
-                                            
-                                            <input type="checkbox" name="vehicle" value="Bike"> I have a bike<br>
-  <input type="checkbox" name="vehicle" value="Car" checked> I have a car<br>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Email address</label>
-                                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                                                
+                                            Pick up at store <input type="checkbox" value="Pickup" checked></br>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="deliveryAddress">Delivery address</label>
+                                                <input type="email" class="form-control" name="deliveryAddress" placeholder="Delivery Address">
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputPassword1">Password</label>
