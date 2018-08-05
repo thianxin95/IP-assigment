@@ -1,21 +1,20 @@
 <?php
-include ('Object/CustomerOb.php');
-include ('Function/CatalogValidation.php');
+include ('../Object/EmployeeOB.php');
+include ('../Function/CatalogValidation.php');
 
 session_start();
 
-$user = new Customer("", "", "", "", "", "", "", "", "","");
-if ($_SESSION["user"] == null) {
-    echo "<script> location.href='login.php'; </script>";
+$user = new Employee("", "", "", "", "", "", "", "", "", "");
+if ($_SESSION["employee"] == null) {
+    echo "<script> location.href='../login.php'; </script>";
 }
-$user = $_SESSION["user"];
+$user = $_SESSION["employee"];
 $Username = $user->getUserID();
-
-// Check User if it is Customer, if not force logout and back to Login.php
-if ($user->getUserType() != "Customer" & $user->getUserType() != "Corporate") {
+//Check user if it was employee, if not, for logout and back to login.php
+if ($user->getUserType() != "Employee") {
     session_destroy();
     session_unset();
-    echo "<script> location.href='login.php'; </script>";
+    echo "<script> location.href='../login.php'; </script>";
 }
 ?>
 
