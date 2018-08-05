@@ -84,7 +84,7 @@ and open the template in the editor.
                                         </thead>
                                         <tbody>
                                             <?php 
-                                            include ('databaseconn.php');
+                                            include ('../databaseconn.php');
                                             $conn = Database::getInstance();
                                             $query = "SELECT * FROM product WHERE Availability = 'Available'";
                                             $product_result = $conn->query($query);

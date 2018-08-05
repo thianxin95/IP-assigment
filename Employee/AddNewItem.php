@@ -146,7 +146,7 @@ and open the template in the editor.
                                             $availability = $checkCode->getAvailability();
                                             $price = $checkCode->getPrice();
                                             
-                                            include ('databaseconn.php');
+                                            include ('../databaseconn.php');
                                             $conn = Database::getInstance();
                                             $query = "INSERT INTO product (`productCode`, `producttype`, `productdes`, `Availability`, `price`) VALUES ('$code','$type','$description','$availability','$price')";
                                             $product_result = $conn->query($query);
