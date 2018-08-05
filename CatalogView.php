@@ -150,6 +150,12 @@ and open the template in the editor.
                                         
                                     }else{
                                         $productCode = $_POST['productupdate'];
+                                        $validateCode = new CatalogValidation();
+                                        $validate_result = $validateCode->checkProductCode($productCode);
+                                        if(empty($validate_result)){
+                                            $error.= "Please Enter Product Code that is exist <br>";
+                                            
+                                        }
                                         
                                     }
                                     
