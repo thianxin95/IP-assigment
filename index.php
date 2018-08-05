@@ -28,6 +28,7 @@ if($user->getOverDue() =="yes")
 {
     echo "<script> location.href='getInvoice.php'; </script>";
 }
+$dashboard = new DashController();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -125,6 +126,29 @@ if($user->getOverDue() =="yes")
 
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
+
+        <!-- partial -->
+
+        <!-- main-panel ends -->
+
+        <!-- page-body-wrapper ends -->
+
+        <!-- container-scroller -->
+        <!-- plugins:js -->
+        <script src="vendors/js/vendor.bundle.base.js"></script>
+        <script src="vendors/js/vendor.bundle.addons.js"></script>
+        <!-- endinject -->
+        <!-- Plugin js for this page-->
+        <!-- End plugin js for this page-->
+        <!-- inject:js -->
+        <script src="js/off-canvas.js"></script>
+        <script src="js/misc.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+        <!-- endinject -->
+        <!-- Custom js for this page-->
+        <!-- End custom js for this page-->
+    </body>
 
         <!-- partial -->
 
