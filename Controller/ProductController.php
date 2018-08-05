@@ -1,6 +1,6 @@
 <?php
-include_once 'databaseconn.php';
-include_once 'Object/ProductOB.php';
+include_once ($_SERVER['DOCUMENT_ROOT'].'/Assignment2018/databaseconn.php');
+include_once ($_SERVER['DOCUMENT_ROOT'].'/Assignment2018/Object/ProductOB.php');
 
 class ProductController {
     public function getAllProduct(){
