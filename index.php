@@ -2,31 +2,17 @@
 include ('Object/CustomerOb.php');
 include_once('Controller/DashController.php');
 session_start();
-
 $user = new Customer("", "", "", "", "", "", "", "", "", "");
 if ($_SESSION["user"] == null) {
     echo "<script> location.href='login.php'; </script>";
 }
 $user = $_SESSION["user"];
 $Username = $user->getUserID();
-$userTypeInvoice = $user->getUserType();
-
 // Check User if it is Customer, if not force logout and back to Login.php
 if ($user->getUserType() != "Customer" & $user->getUserType() != "Corporate") {
     session_destroy();
     session_unset();
     echo "<script> location.href='login.php'; </script>";
-}
- 
-$today_date =  date('01-m-Y');
-$today_date2=date('d-m-Y');
-if($today_date==$today_date2 && $userTypeInvoice=="Corporate")
-{
-    echo "<script> location.href='getInvoice.php'; </script>";
-}
-if($user->getOverDue() =="yes")
-{
-    echo "<script> location.href='getInvoice.php'; </script>";
 }
 $dashboard = new DashController();
 ?>
@@ -126,29 +112,6 @@ $dashboard = new DashController();
 
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
-
-        <!-- partial -->
-
-        <!-- main-panel ends -->
-
-        <!-- page-body-wrapper ends -->
-
-        <!-- container-scroller -->
-        <!-- plugins:js -->
-        <script src="vendors/js/vendor.bundle.base.js"></script>
-        <script src="vendors/js/vendor.bundle.addons.js"></script>
-        <!-- endinject -->
-        <!-- Plugin js for this page-->
-        <!-- End plugin js for this page-->
-        <!-- inject:js -->
-        <script src="js/off-canvas.js"></script>
-        <script src="js/misc.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-        <!-- endinject -->
-        <!-- Custom js for this page-->
-        <!-- End custom js for this page-->
-    </body>
 
         <!-- partial -->
 
