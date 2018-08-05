@@ -1,4 +1,5 @@
 <?php
+    ini_set('display_errors', 1);
     include_once './Object/CustomOrder.php';
     include_once './databaseconn.php';
 
@@ -8,31 +9,36 @@ class customOrderDA {
 
 
     public function insertRecord(CustomOrder $order){
+        $data= [
+            'custOrderID' => $order->getCustOrderID(),
+            'userID' => $order->getUserID(),
+            'Pickup' => $order->getPickup(),
+            'DeliveryAddress' => $order->getDeliveryAdd(),
+            'RequiredDate' => $order->getRequireDate(),
+            'TotalAmount' => $order->getTotalAmt(),
+            'PaymentStatus' =>$order->getPaymentStatus()
+        ];
+        
         $connection = Database::getInstance(); 
-        $query = "INSERT INTO".$this->tableName."(custOrderID,userID,Pickup,DeliveryAddress,RequiredDate,TotalAmount,PaymentStatus)"
-                . "VALUES (?,?,?,?,?,?,?)";
-        $stmt = $connection->query($query);
-        $stmt->bindParam(1,$order->getCustOrderID());
-        $stmt->bindParam(2,$order->getUserID());
-        $stmt->bindParam(3,$order->getPickup());
-        $stmt->bindParam(4,$order->getDeliveryAdd());
-        $stmt->bindParam(5,$order->getRequireDate());
-        $stmt->bindParam(6,$order->getTotalAmt());
-        $stmt->bindParam(7,$order->getPaymentStatus());
-        $stmt->execute();
-                
+        $query = "INSERT INTO $this->tableName (custOrderID,userID,Pickup,DeliveryAddress,RequiredDate,TotalAmount,PaymentStatus)"
+                . "VALUES (:custOrderID,:userID,:Pickup,:DeliveryAddress,:RequiredDate,:TotalAmount,:PaymentStatus)";
+        $stmt = $connection->prepare($query);
+        $stmt->execute($data);               
     }
-    // error
     public function getLastInsertedID(){
         $connection = Database::getInstance();
-        $query = "SELECT * FROM ".$this->tableName."ORDER BY 'custOrderID' DESC LIMIT 1";
+        $query = "SELECT * FROM $this->tableName ORDER BY custOrderID DESC LIMIT 1";
         $result = $connection->query($query);
         if(!$result){
             trigger_error("Invalid query: " . $conn->error);
         }
-        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-           $userID[] = $row["custOrderID"];
-        }
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+        if(!$row){
+            $userID = "CO001";
+        } else {
+            $userID = $row["custOrderID"];
+        } 
+       // while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         return $userID;
     }
     

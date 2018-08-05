@@ -5,6 +5,7 @@
        include_once './Object/BouquetItem.php';
        include_once './Controller/ProductController.php';
        include_once './Object/CustomerOb.php';
+       include_once './Function/ValidateInput.php';
        session_start();
        
        $user = new Customer("", "", "", "", "", "", "", "", "","");
@@ -14,10 +15,12 @@
         $user = $_SESSION["user"];
         $Username = $user->getUserID();
         $realName=$user->getName();
-        $address =$user->getAddress();
-        $phone =$user->getPhone();
-        $password =$user->getPassword();
-        $email = $user->getEmail();
+        
+        if ($user->getUserType() != "Customer") {
+            session_destroy();
+            session_unset();
+            echo "<script> location.href='login.php'; </script>";
+        }
 ?>
 
 <!DOCTYPE html>
@@ -137,25 +140,32 @@ and open the template in the editor.
             ?>
                 </tbody>
             </table>
-            <input type="submit" class="btn-gradient-primary" value="Next" />
+            <input type="submit" class="btn btn-gradient-primary btn-fw" value="Next" />
         </form>
          
         
         <?php
+        $check=false;
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             //$cusOrder = array(); 
             for($num = 0; $num < count($prod);$num++){
               //  if(isset($_POST['add'.$num])){
-                $qty=$_POST['qty'.$num];
+                $qty=(int)$_POST['qty'.$num];
+                
                 if($qty>0){
                     $productCode = $prod[$num]->getProductCode ();
                     //echo "<p>$productCode"."  and  $qty</p>";
-                    $bouquet = new BouquetItem('',$productCode,$qty,$prod[$num]->getPrice());
-                    $cusOrder[] = $bouquet;     
+                    $bouquetItem = new BouquetItem('',$productCode,$qty,$prod[$num]->getPrice());
+                    $bouquet[] = $bouquetItem;     
+                    $check = true;
                 }
             }
-            $_SESSION["customOrder"] = $cusOrder;
-            echo "<script>location.href = './selectDesign.php'</script>";
+            if($check == false){
+                echo "Please select at least one flower.";
+            }else{
+                $_SESSION["bouquet"] = $bouquet;
+                echo "<script>location.href = './selectDesign.php'</script>";
+            }
             
         }
             
