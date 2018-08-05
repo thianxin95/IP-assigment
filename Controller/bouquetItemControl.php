@@ -13,7 +13,7 @@
  *
  * @author Hibiki
  */
-class bouquetItemDA {
+class bouquetItemControl {
     private $tableName = "bouquetitem";
 
 

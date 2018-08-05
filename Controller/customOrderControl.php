@@ -3,7 +3,7 @@
     include_once './Object/CustomOrder.php';
     include_once './databaseconn.php';
 
-class customOrderDA {
+class customOrderControl {
     
     private $tableName = "customorder";
 
