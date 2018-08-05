@@ -88,10 +88,6 @@ and open the template in the editor.
                                        <input type="text" name="productdes"/>
                                     </div>
                                     <div class="form-group">
-                                       <label>Product Availability : </label><br>
-                                       <input type="text" name="productavailable"/>
-                                    </div>
-                                    <div class="form-group">
                                        <label>Product Price : </label><br>
                                        <input type="text" name="productprice"/>
                                     </div>
@@ -104,7 +100,7 @@ and open the template in the editor.
                                         $productCode;
                                         $productType;
                                         $productDes;
-                                        $productAvailable;
+                                        $productAvailable = "Available";
                                         $productPrice;
                                         $error;
                                         
@@ -130,13 +126,7 @@ and open the template in the editor.
                                         }else{
                                             $productDes = $_POST['productdes'];
                                         }
-                                        
-                                        if(empty($_POST['productavailable'])){
-                                            $error .= "Availability cannot be empty </br>";  
-                                        }else{
-                                            $productAvailable = $_POST['productavailable'];
-                                        }
-                                        
+ 
                                         if(empty($_POST['productprice'])){
                                             $error .= "Product Description cannot be empty </br>";  
                                         }else{

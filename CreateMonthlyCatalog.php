@@ -1,5 +1,6 @@
 <?php
 include ('Object/CustomerOb.php');
+include ('Function/CatalogValidation.php');
 
 session_start();
 
@@ -161,6 +162,127 @@ and open the template in the editor.
                                             <input type="submit" name="Submit" value="Submit" />
                                     </form>
                                 </div>
+                                    <?php
+                                    if(isset($_POST["Submit"])){
+                                        $product1 = $_POST['product1'];
+                                        $product2 = $_POST['product2'];
+                                        $product3 = $_POST['product3'];
+                                        $product4 = $_POST['product4'];
+                                        $product5 = $_POST['product5'];
+                                        
+                                        $error;
+                                        
+                                        $validation = new CatalogValidation();
+                                        
+                                        if(!empty($product1)){
+                                            $result = $validation->checkProductAvailable($product1);
+                                            if(empty($result)){
+                                                $error .= "(Product 1)Please Select Item that is Listed <br>";
+                                            }
+                                        }
+                                        
+                                        if(!empty($product2)){
+                                            $result = $validation->checkProductAvailable($product2);
+                                            if(empty($result)){
+                                                $error .= "(Product 2)Please Select Item that is Listed <br>";
+                                            }
+                                        }
+                                        
+                                        if(!empty($product3)){
+                                            $result = $validation->checkProductAvailable($product3);
+                                            if(empty($result)){
+                                                $error .= "(Product 3)Please Select Item that is Listed <br>";
+                                            }
+                                        }
+                                        
+                                        if(!empty($product4)){
+                                            $result = $validation->checkProductAvailable($product4);
+                                            if(empty($result)){
+                                                $error .= "(Product 4)Please Select Item that is Listed <br>";
+                                            }
+                                        }
+                                        
+                                        if(!empty($product5)){
+                                            $result = $validation->checkProductAvailable($product5);
+                                            if(empty($result)){
+                                                $error .= "(Product 5)Please Select Item that is Listed <br>";
+                                            }
+                                        }
+                                        
+                                        if(!empty($error)){
+                                            echo "$error";
+                                        }else{
+                                           $selectquery = "SELECT * FROM product WHERE productCode = '$product1' OR productCode = '$product2' "
+                                                . "OR productCode = '$product3'  OR productCode = '$product4'  OR productCode = '$product5' ";
+                                        
+                                        $productArray = array();
+                                        
+                                        $result = $conn->query($selectquery);
+                                        
+                                        if(!$result){
+                                            trigger_error('Invalid query: ' . $conn->error);
+                                            
+                                        }
+                                        
+                                        if($result){
+                                            while($row = $result->fetch(PDO::FETCH_ASSOC)){
+                                                array_push($productArray, $row);
+                                                
+                                            }
+                                            
+                                            }
+                                            
+                                        if(count($productArray)){
+                                            createXMLfile($productArray);
+                                            
+                                        } 
+                                        }
+
+                                        $conn->close();
+                                        
+                                        }
+                                        
+                                        function createXMLfile($productArray){
+                                            $month = $_POST['monthdroplist'];
+                                            $catalogCode = "1001";
+                                            
+                                            $filePath = "Catalog/xsl/flowercatalog.xml";
+                                            
+                                            $dom = new DOMDocument("1.0","utf-8");
+                                            $xslt = $dom->createProcessingInstruction('xml-stylesheet', 'type="text/xsl" href="flower.xsl"');
+                                            $dom->appendChild($xslt);
+                                            
+                                            $root = $dom->createElement("catalogs");
+                                            $root->setAttribute("catalogID", $catalogCode);
+                                            $root->setAttribute("month", $month);
+                                            
+                                            for($i = 0; $i<count($productArray); $i++){
+                                                $catalogid = $productArray[$i]["productCode"];
+                                                $catalogtype = $productArray[$i]["producttype"];
+                                                $catalogdes = $productArray[$i]["productdes"];
+                                                $catalogavail = $productArray[$i]["Availability"];
+                                                $catalogprice = $productArray[$i]["price"];
+                                                $catalog = $dom->createElement("catalog");
+                                                $id = $dom->createElement("code", $catalogid);
+                                                $catalog->appendChild($id);
+                                                $type = $dom->createElement("type", $catalogtype);
+                                                $catalog->appendChild($type);
+                                                $des = $dom->createElement("description", $catalogdes);
+                                                $catalog->appendChild($des);
+                                                $stock = $dom->createElement("stock", $catalogavail);
+                                                $catalog->appendChild($stock);
+                                                $price = $dom->createElement("price", $catalogprice);
+                                                $catalog->appendChild($price);
+                                                
+                                                $root->appendChild($catalog);
+                                                
+                                            }
+                                            
+                                            $dom->appendChild($root);
+                                            $dom->save($filePath);
+                                            
+                                            }
+                                            ?>
                             </div>
                         </div>
                         <!-- content-wrapper ends -->
@@ -189,85 +311,5 @@ and open the template in the editor.
         <!-- endinject -->
         <!-- Custom js for this page-->
         <!-- End custom js for this page-->    
-        
-        <?php
-        if(isset($_POST["Submit"])){ 
-            $product1 = $_POST['product1'];
-            $product2 = $_POST['product2'];
-            $product3 = $_POST['product3'];
-            $product4 = $_POST['product4'];
-            $product5 = $_POST['product5'];
-            
-            $selectquery = "SELECT * FROM product WHERE productCode = '$product1' OR productCode = '$product2' "
-                    . "OR productCode = '$product3'  OR productCode = '$product4'  OR productCode = '$product5' ";
-            
-            $productArray = array();
-            
-            $result = $conn->query($selectquery);
-            
-            if(!$result){
-                trigger_error('Invalid query: ' . $conn->error);
-                
-            }
-            
-            if($result){
-                while($row = $result->fetch(PDO::FETCH_ASSOC)){
-                    array_push($productArray, $row);
-                    
-                }
-                
-                }
-                
-                if(count($productArray)){
-                    createXMLfile($productArray); 
-                    }
-                    
-                    $conn->close();
-                    
-                    function createXMLfile($productArray){
-                        $month = $_POST['monthdroplist']; 
-                        $catalogCode = "1001";
-                        
-                        $filePath = "Catalog/flowercatalog.xml";
-                        
-                        $dom = new DOMDocument("1.0","utf-8");
-                        
-                        $root = $dom->createElement("catalogs");
-                        $root->setAttribute("catalogID", $catalogCode);
-                        $root->setAttribute("month", $month);
-                        
-                        for($i = 0; $i<count($productArray); $i++){
-                            $catalogid = $productArray[$i]["productCode"];
-                            $catalogtype = $productArray[$i]["producttype"];
-                            $catalogdes = $productArray[$i]["productdes"];
-                            $catalogavail = $productArray[$i]["Availability"];
-                            $catalogprice = $productArray[$i]["price"];
-                            
-                            $catalog = $dom->createElement("catalog");
-                            $id = $dom->createElement("code", $catalogid);
-                            $catalog->appendChild($id);
-                            $type = $dom->createElement("type", $catalogtype);
-                            $catalog->appendChild($type);
-                            $des = $dom->createElement("description", $catalogdes);
-                            $catalog->appendChild($des);
-                            $stock = $dom->createElement("stock", $catalogavail);
-                            $catalog->appendChild($stock);
-                            $price = $dom->createElement("price", $catalogprice);
-                            $catalog->appendChild($price);
-                            
-                            $root->appendChild($catalog);
-                            
-                        }
-                        
-                        $dom->appendChild($root);
-                        $dom->save($filePath);
-                        
-                        }
-                        
-                        }
-                        
-                        ?>
-        <script src="js/off-canvas.js"></script>
-        <script src="js/misc.js"></script>
     </body>
 </html>

@@ -169,7 +169,7 @@ if (isset($_POST['submit'])) {
     $user->setPhone($updatePhone);
     $user->setEmail($updateEmail);
     echo "<meta http-equiv='refresh' content='0'>";
-    $url='employeeProfile.php';
+   $url='http://localhost/Assignment2018/Employee/employeeProfile.php';
 
     echo '<script>window.location = "'.$url.'";</script>';
 }

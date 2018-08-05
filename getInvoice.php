@@ -33,26 +33,28 @@ $Username = $user->getUserID();
             echo("<td>" . $invoiceob[$i]->getInvoiceNo() . "</td>");
             echo("<td>" . $invoiceob[$i]->getInvoiceDate() . "</td>");
             echo("<td>" . $invoiceob[$i]->getInvoiceUserID() . "</td>");
-            echo("<td>" . $invoiceob[$i]->getInvoiceOrderID() . "</td>");
+           # echo("<td>" . $invoiceob[$i]->getInvoiceOrderID() . "</td>");
             echo("<td>" . $invoiceob[$i]->getInvoiceAmount() . "</td>");
             echo("<td>" . $invoiceob[$i]->getPaymentStatus() . "</td>");
 
 
-           
-            
-    
-   
-    $xmlPath = "CustomerSite/Invoice.xml";
+            $xmlPath = "CustomerSite/Invoice.xml";
     $drob = new InvoiceOB("", "", "", "", "", "", "");
     $report_controller = new InvoiceController($xmlPath);
-    $drob->setInvoiceNo("3/08/2018");
-    $drob->setInvoiceDate("1");
-    $drob->setInvoiceUserID("1");
-    $drob->setInvoiceOrderID("1");
-    $drob->setInvoiceAmount("1sjj");
-    $drob->setPaymentStatus("1sjj");
+    $drob->setInvoiceNo( $invoiceob[$i]->getInvoiceNo());
+    $drob->setInvoiceDate( $invoiceob[$i]->getInvoiceDate());
+    $drob->setInvoiceUserID($invoiceob[$i]->getInvoiceUserID());
+   # $drob->setInvoiceOrderID($invoiceob[$i]->getInvoiceOrderID());
+    $drob->setInvoiceAmount($invoiceob[$i]->getInvoiceAmount());
+    $drob->setPaymentStatus($invoiceob[$i]->getPaymentStatus());
+    $report_controller->clearRecord();
     $report_controller->updateRecord($drob);
+    echo "<script> location.href='CustomerSite/Invoice.xml';</script>";       
+    
+   
+    
         }
+       
         ?>
         
     </body>

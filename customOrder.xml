@@ -6,13 +6,13 @@
     <productName>Flower 1</productName>
     <productType>Fresh flower</productType>
     <price>10</price>
-    <quantity>22</quantity>
+    <quantity>2</quantity>
   </product>
   <product productCode="PRD2">
     <productName>Flower 2</productName>
     <productType>Fresh flower</productType>
     <price>20</price>
-    <quantity>33</quantity>
+    <quantity>3</quantity>
   </product>
   <product productCode="PRD5">
     <productName>Classic Round Bouquet</productName>

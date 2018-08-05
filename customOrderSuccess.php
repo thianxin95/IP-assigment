@@ -114,6 +114,7 @@ and open the template in the editor.
             <tr>
                 <th>Product Name</th>
                 <th>Quantity</th>
+                <th>Unit Price (RM)</th>
                 <th>Total Price (RM)</th>
             </tr>
             <?php
@@ -124,6 +125,7 @@ and open the template in the editor.
                     echo "<tr>";
                     echo "<td>".$prod->getProductDes()."</td>";
                     echo "<td>".$flowers->getQuantity()."</td>";
+                    echo "<td>".$flowers->getUnitPrice()."</td>";
                     echo "<td>".$flowers->getUnitPrice()* $flowers->getQuantity()."</td>"; 
                     echo "</tr>";
                 }

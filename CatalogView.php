@@ -1,5 +1,6 @@
 <?php
 include ('Object/CustomerOb.php');
+include ('Function/CatalogValidation.php');
 
 session_start();
 
@@ -138,6 +139,45 @@ and open the template in the editor.
                                         <input type="submit" value="Submit" name="Submit"/>
                                     </form>
                                 </div>
+                                <?php 
+                                if(isset($_POST["Submit"])){
+                                    
+                                    $productCode;
+                                    $textChange;
+                                    
+                                    if(empty($_POST['productupdate'])){
+                                        $error .= "Please Enter the Product Code </br>";
+                                        
+                                    }else{
+                                        $productCode = $_POST['productupdate'];
+                                        
+                                    }
+                                    
+                                    $validation = new CatalogValidation();
+                                    $result = $validation->checkAvailability($productCode);
+                                    
+                                    if(empty($_POST['textchange'])){
+                                        $error .= "Please Enter Input </br>"; 
+                                        
+                                    }else{
+                                        $textChange = $_POST['textchange'];
+                                        
+                                        if(strcmp($result,$textChange) == 0){
+                                            $error.= "Please Change The Availability";
+                                            
+                                        }
+                                        
+                                        }
+                                    
+                                        if(empty($error)){
+                                           $updatequery = "UPDATE product SET Availability = '$textChange' WHERE productCode = '$productCode'";
+                                           $stmt = $conn->query($updatequery); 
+                                           $stmt->execute(); 
+                                        }else{
+                                            echo $error;
+                                        }
+                                        }
+                                        ?>
                             </div>
                         </div>
                         <!-- content-wrapper ends -->
@@ -150,19 +190,18 @@ and open the template in the editor.
                 <!-- page-body-wrapper ends -->
             </div>
         </div> 
-            
-            <?php 
-            if(isset($_POST["Submit"])){
-                $productCode = $_POST['productupdate'];
-                $textChange = $_POST['textchange'];
-                
-                $updatequery = "UPDATE product SET Availability = '$textChange' WHERE productCode = '$productCode'";
-                $stmt = $conn->query($updatequery);
-                $stmt->execute();
-                
-            }
-            ?>
-        
+        <!-- container-scroller -->
+        <!-- plugins:js -->
+        <script src="vendors/js/vendor.bundle.base.js"></script>
+        <script src="vendors/js/vendor.bundle.addons.js"></script>
+        <!-- endinject -->
+        <!-- Plugin js for this page-->
+        <!-- End plugin js for this page-->
+        <!-- inject:js -->
+        <script src="js/off-canvas.js"></script>
+        <script src="js/misc.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
         <script src="js/off-canvas.js"></script>
         <script src="js/misc.js"></script>
     </body>
