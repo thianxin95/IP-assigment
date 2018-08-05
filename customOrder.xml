@@ -4,15 +4,9 @@
 <customizedOrder>
   <product productCode="PRD1">
     <productName>Flower 1</productName>
-    <productType>Fresh flower</productType>
+    <productType>Flower</productType>
     <price>10</price>
-    <quantity>2</quantity>
-  </product>
-  <product productCode="PRD2">
-    <productName>Flower 2</productName>
-    <productType>Fresh flower</productType>
-    <price>20</price>
-    <quantity>3</quantity>
+    <quantity>1</quantity>
   </product>
   <product productCode="PRD5">
     <productName>Classic Round Bouquet</productName>
