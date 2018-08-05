@@ -24,10 +24,7 @@ if($today_date==$today_date2 && $userTypeInvoice=="Corporate")
 {
     echo "<script> location.href='getInvoice.php'; </script>";
 }
-if($user->getOverDue() =="yes")
-{
-    echo "<script> location.href='getInvoice.php'; </script>";
-}
+
 $dashboard = new DashController();
 ?>
 <!DOCTYPE html>
