@@ -6,7 +6,7 @@ class Database {
     static $_instance;
 
     private function __construct() {
-        $this->_db = new PDO('mysql:host=localhost;dbname=fioredb', 'root', '');
+        $this->_db = new PDO('mysql:host=localhost;dbname=fioredb', 'root', 'hibiki5169');
         $this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
@@ -23,6 +23,10 @@ class Database {
 
     public function query($sql) {
         return $this->_db->query($sql);
+    }
+    
+    public function prepare($sql){
+        return $this->_db->prepare($sql);
     }
 
     public function close() {
