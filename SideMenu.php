@@ -35,12 +35,14 @@
                 </ul>
             </div>
         </li> 
+         <?php if ($user->getUserType() == "Customer"){ ?>
         <li class="nav-item">
               <a class="nav-link" href="selectFlower.php">
                   <span class="menu-title">Customize Order</span>
                   <i class="mdi mdi-flower menu-icon"></i>
               </a>
         </li>
+        <?php } ?>
         <?php if ($user->getUserType() == "Corporate" && $user->getUserType()!= ""){ ?>
         
         <li class="nav-item">
