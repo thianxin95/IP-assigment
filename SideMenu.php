@@ -17,6 +17,7 @@
                     <li class="nav-item"> <a class="nav-link" href="AddNewItem.php"> Add New Item </a></li>
                     <li class="nav-item"> <a class="nav-link" href="CatalogView.php"> Full Product List </a></li>
                     <li class="nav-item"> <a class="nav-link" href="CreateMonthlyCatalog.php"> Generate Monthly Catalog </a></li>
+                    <li class="nav-item"> <a class="nav-link" href="Catalog/xsl/flowercatalog.xml"> View Monthly Catalog </a></li>
                 </ul>
             </div>
         </li> 
