@@ -190,9 +190,18 @@ and open the template in the editor.
                 <!-- page-body-wrapper ends -->
             </div>
         </div> 
-            
-            
-        
+        <!-- container-scroller -->
+        <!-- plugins:js -->
+        <script src="vendors/js/vendor.bundle.base.js"></script>
+        <script src="vendors/js/vendor.bundle.addons.js"></script>
+        <!-- endinject -->
+        <!-- Plugin js for this page-->
+        <!-- End plugin js for this page-->
+        <!-- inject:js -->
+        <script src="js/off-canvas.js"></script>
+        <script src="js/misc.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
         <script src="js/off-canvas.js"></script>
         <script src="js/misc.js"></script>
     </body>
