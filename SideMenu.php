@@ -20,5 +20,11 @@
                 </ul>
             </div>
         </li> 
+        <li class="nav-item">
+              <a class="nav-link" href="selectFlower.php">
+                  <span class="menu-title">Customize Order</span>
+                  <i class="mdi mdi-flower menu-icon"></i>
+              </a>
+        </li>
     </ul>
 </nav>

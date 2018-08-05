@@ -6,8 +6,8 @@
  *
  * @author Daniel
  */
-include_once '../Model/Order.php';
-include_once '../../Object/CatalogOB.php';
+
+include_once '../../Object/OrderDetailsOB.php';
 
 class CatalogController {
     private $xmlPath;
@@ -30,24 +30,6 @@ class CatalogController {
         unset($this->domDocument);
     }
     
-    public function getRecord(){
-        $orderRecord = new Order();
-        $Record = $this->domDocument->getElementById("ORD1");
-        if(!$Record){
-            throw new Exception("Error, something went wrong, XML or things not found.");
-        }
-        
-        $orderRecord->setOrderID($Record->getElementsByTagName("orderID")->item(0)->nodeValue);
-        $orderRecord->setUserID($Record->getElementsByTagName("userID")->item(0)->nodeValue);
-        $orderRecord->setOrderDate($Record->getElementsByTagName("orderDate")->item(0)->nodeValue);
-        $orderRecord->setPickup($Record->getElementsByTagName("pickup")->item(0)->nodeValue);
-        $orderRecord->setDeliveryAddress($Record->getElementsByTagName("deliveryAddress")->item(0)->nodeValue);
-        $orderRecord->setRequiredDate($Record->getElementsByTagName("requiredDate")->item(0)->nodeValue);
-        $orderRecord->setStatus($Record->getElementsByTagName("status")->item(0)->nodeValue);
-        
-        return $orderRecord;
-    }
-    
     public function clearRecord(){
         $oldRecord = $this->domDocument->getElementById("c1");
         $this->domDocument->documentElement->removeChild($oldRecord); // remove root
@@ -55,61 +37,29 @@ class CatalogController {
         $this->domDocument->save($this->xmlPath);
     }
     
-    public function updateRecord(CatalogOB $catalogOB){
-        $this->domDocument->formatOutput=TRUE;
+    public function updateRecord(OrderDetailsOB $orderDetailsOB){
+  
         
-        $CatalogRow = $this->domDocument->createElement("CatalogRow");      
+        $CatalogRow = $this->domDocument->createElement("CatalogRow"); 
+        $CatalogRow->setAttribute("productCode", "aabba1");
         $this->domDocument->documentElement->appendChild($CatalogRow);
 
-        $productCode = $this->domDocument->createElement("productCode", $catalogOB->getProductCode());
-        $CatalogRow->appendChild($productCode);
+        $OrderDetailsID = $$this->domDocument->createElement("OrderDetailsID", "2");
+        $CatalogRow->appendChild($OrderDetailsID);
 
-        $productType = $this->domDocument->createElement("productType", $catalogOB->getProducttype());
-        $CatalogRow->appendChild($productType);
+        $OrderID = $this->domDocument->createElement("OrderID", "3");
+        $CatalogRow->appendChild($OrderID);
 
-        $productQuantity = $this->domDocument->createElement("productQuantity", $catalogOB->getProductquantity());
-        $CatalogRow->appendChild($productQuantity);
+        $ProductCode = $this->domDocument->createElement("ProductCode", "4");
+        $CatalogRow->appendChild($ProductCode);
 
-        $totalPrice = $this->domDocument->createElement("totalPrice", $catalogOB->getTotalprice());
-        $CatalogRow->appendChild($totalPrice);
+        $Quantity = $this->domDocument->createElement("Quantity", "5");
+        $CatalogRow->appendChild($Quantity);
 
-        $userID = $this->domDocument->createElement("userID", $catalogOB->getUserID());
-        $CatalogRow->appendChild($userID);
-
-        $userType = $this->domDocument->createElement("userType", $catalogOB->getUserID());
-        $CatalogRow->appendChild($userType);
-
+        $UnitPrice = $this->domDocument->createElement("UnitPrice", "6");
+        $CatalogRow->appendChild($UnitPrice);
         
-//        
-//        $CatalogRow = $this->domDocument->createElement("CatalogRow");
-//        $CatalogRow->setAttribute("rowID", "c1");
-//        $this->domDocument->documentElement->appendChild($CatalogRow);
-//
-//        $orderID = $this->domDocument->createElement("orderID", $order->getOrderID());
-//        $CatalogRow->appendChild($orderID);
-//
-//        $userID = $this->domDocument->createElement("userID", $order->getUserID());
-//        $CatalogRow->appendChild($userID);
-//
-//        $orderDate = $this->domDocument->createElement("orderDate", $order->getOrderDate());
-//        $CatalogRow->appendChild($orderDate);
-//
-//        $pickup = $this->domDocument->createElement("pickup", $order->getPickup());
-//        $CatalogRow->appendChild($pickup);
-//
-//        $deliveryAddress = $this->domDocument->createElement("deliveryAddress", $order->getDeliveryAddress());
-//        $CatalogRow->appendChild($deliveryAddress);
-//
-//        $requiredDate = $this->domDocument->createElement("requiredDate", $order->getRequiredDate());
-//        $CatalogRow->appendChild($requiredDate);
-//
-//        $totalAmount = $this->domDocument->createElement("totalAmount", $order->getTotalAmount());
-//        $CatalogRow->appendChild($totalAmount);
-//
-//        $status = $this->domDocument->createElement("status", $order->getStatus());
-//        $CatalogRow->appendChild($status);
-        
-        
+      
         $this->domDocument->save($this->xmlPath);
     }
 

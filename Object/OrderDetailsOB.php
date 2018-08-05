@@ -18,7 +18,7 @@ class OrderDetailsOB {
     private $Quantity;
     private $UnitPrice;
     
-    public function OrderDetailsOB($orderDetailsID, $orderID,$productCode, $Quantity, $UnitPrice){
+    public function __construct($orderDetailsID, $orderID,$productCode, $Quantity, $UnitPrice){
         $this->orderDetailsID = $orderDetailsID;
         $this->orderID = $orderID;
         $this->productCode = $productCode;
