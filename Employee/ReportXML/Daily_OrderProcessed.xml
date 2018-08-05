@@ -10,4 +10,4 @@ and open the template in the editor.
     
     
     
-<Record recordID="RID1"><OrderPaid>14</OrderPaid><OrderCanceled>6</OrderCanceled><Date>04/08/2018</Date><AmountPaid>7300</AmountPaid><OrderTypeCount><DeliveryCount>7</DeliveryCount><PickupCount>10</PickupCount></OrderTypeCount></Record></DailyOrderRecord>
+<Record recordID="RID1"><OrderPaid>5</OrderPaid><OrderCanceled>0</OrderCanceled><Date>05/08/2018</Date><AmountPaid>1775</AmountPaid><OrderTypeCount><DeliveryCount>0</DeliveryCount><PickupCount>0</PickupCount></OrderTypeCount></Record></DailyOrderRecord>

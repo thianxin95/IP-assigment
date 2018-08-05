@@ -16,7 +16,7 @@
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" href="LeeThianXin/View/OrderMenu.php"> New Order </a></li>
                     <li class="nav-item"> <a class="nav-link" href="OrderList.php"> Order List </a></li>
-                    <li class="nav-item"> <a class="nav-link" href="CustomOrders.php"> Custom Order List </a></li>
+                    <li class="nav-item"> <a class="nav-link" href="CustomOrdersList.php"> Custom Order List </a></li>
                 </ul>
             </div>
         </li> 
