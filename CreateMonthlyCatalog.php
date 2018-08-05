@@ -249,6 +249,8 @@ and open the template in the editor.
                                             $filePath = "Catalog/flowercatalog.xml";
                                             
                                             $dom = new DOMDocument("1.0","utf-8");
+                                            $xslt = $dom->createProcessingInstruction('xml-stylesheet', 'type="text/xsl" href="flower.xsl"');
+                                            $dom->appendChild($xslt);
                                             
                                             $root = $dom->createElement("catalogs");
                                             $root->setAttribute("catalogID", $catalogCode);
