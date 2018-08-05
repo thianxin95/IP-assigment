@@ -99,7 +99,7 @@ input {
                   <form class="forms-sample" method="post" action="registration.php">
                     <div class="form-group">
                       <label for="username">Username</label>
-                      <input type="text" class="form-control" id="username" placeholder="Username" name="userid">
+                      <input type="text" class="form-control" id="username" placeholder="Username" name="userid" required="required">
                     </div>
                      <div class="form-group">
                           <label>Membership</label>
@@ -112,22 +112,22 @@ input {
                             </div>
                   <div class="form-check">
                               <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="membershipRadios" id="corcustomer" value="Corporate">
+                                <input type="radio" class="form-check-input" name="membershipRadios" id="corcustomer" value="Corporate" required="required">
                                 Corporate Customer
                               </label>
                             </div>
                         </div>
                       <div class="form-group">
                       <label for="exampleInputUsername1">Name</label>
-                      <input type="text" class="form-control" id="name" placeholder="Username" name="name">
+                      <input type="text" class="form-control" id="name" placeholder="Username" name="name" required="required">
                     </div>
                        <div class="form-group">
                       <label for="username">Address</label>
-                      <input type="text" class="form-control" id="address" placeholder="address" name="address">
+                      <input type="text" class="form-control" id="address" placeholder="address" name="address" required="required">
                     </div>
                        <div class="form-group">
                       <label for="username">Phone</label>
-                      <input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
+                      <input type="text" class="form-control" id="phone" placeholder="phone" name="phone" required="required">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail1">Email address</label>
@@ -139,8 +139,15 @@ input {
                    
                     <div class="form-group">
                       <label for="exampleInputConfirmPassword1">Password</label>
-                      <input type="password" class="form-control" placeholder="Password" name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=onkeyup='check();.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" >
+                      <input type="password" class="form-control" required="required" placeholder="Password" name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=onkeyup='check();.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" >
                     </div>
+                       <div id="message">
+  <h3>Password must contain the following:</h3>
+  <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+  <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+  <p id="number" class="invalid">A <b>number</b></p>
+  <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+</div>
                       
                     <div class="form-check form-check-flat form-check-primary">
                       
@@ -165,13 +172,7 @@ input {
     <!-- page-body-wrapper ends -->
   </div>
       
-      <div id="message">
-  <h3>Password must contain the following:</h3>
-  <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
-  <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
-  <p id="number" class="invalid">A <b>number</b></p>
-  <p id="length" class="invalid">Minimum <b>8 characters</b></p>
-</div>
+     
       
   <!-- container-scroller -->
   <!-- plugins:js -->

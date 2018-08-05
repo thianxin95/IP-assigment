@@ -89,7 +89,7 @@ $email = $user->getEmail();
                   
                       <tr>
                         <td>Password</td>
-                        <td><input name="password" type="text" value=""></td>
+                        <td><input name="password" type="text" value="<?php echo($password) ?>">
                       </tr>
                         <td>Phone Number</td>
                         <td><input name="phone" type="text" value="<?php echo($phone) ?>">
@@ -151,7 +151,7 @@ $email = $user->getEmail();
 
 
 if (isset($_POST['submit'])) {
-    include_once '../Pattern/PasswordFactory.php';
+    include_once 'Pattern/PasswordFactory.php';
     $passgen = new PasswordFactory();
     $saltedPass = $passgen->getSaltedPassword($_POST['password']);
     $userID = $user->getUserID();
@@ -177,7 +177,7 @@ if (isset($_POST['submit'])) {
     $user->setEmail($updateEmail);
     
    echo "<meta http-equiv='refresh' content='0'>";
-    $url='http://localhost/Assignment2018/Assignment2018/customerProfile.php';
+    $url='http://localhost/Assignment2018/customerProfile.php';
 
     echo '<script>window.location = "'.$url.'";</script>';
     die;

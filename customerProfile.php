@@ -2,8 +2,9 @@
 include ('Object/CustomerOb.php');
 include('Object/InvoiceOB.php');
 include('databaseconn.php');
+
 session_start();
-$first_day_this_month = date('m-01-Y'); 
+
 
 
 if ($_SESSION["user"] == null) {
@@ -17,10 +18,9 @@ $phone =$user->getPhone();
 $password =$user->getPassword();
 $email = $user->getEmail();
 $userType=$user->getUserType();
-$lastDayThisMonth = date("Y-m-t");
- 
-//Print it out for example purposes.
-
+$used = $user->getUsedCredit();
+$over= $user->getOverDue();
+$creditLeft = $user->getCreditLimit();
 
 if($userType == "Customer"){
 ?> 
@@ -82,26 +82,26 @@ if($userType == "Customer"){
                         <td><?php echo($Username) ?></td>
                       </tr>
                       <tr>
-                        <td>Name</td>
+                        <td>Name:</td>
                         <td><?php echo($realName) ?></td>
                       </tr>
                       <tr>
-                        <td>Email</td>
+                        <td>Email:</td>
                         <td><?php echo($email) ?></td>
                       </tr>
                    
                          <tr>
                             
                       <tr>
-                        <td>Password</td>
+                        <td>Password:</td>
                         <td>********* </td>
                       </tr>
-                        <td>Phone Number</td>
+                        <td>Phone Number:</td>
                         <td><?php echo($phone) ?>
                         </td>
                          <tr>
                         <td>Home Address:</td>
-                        <td><?php echo($address)?><?php echo($lastDayThisMonth)?></td>
+                        <td><?php echo($address)?></td>
                       </tr>
                            
                       </tr>
@@ -216,28 +216,32 @@ elseif ($userType=="Corporate") {
                         <td><?php echo($Username) ?></td>
                       </tr>
                       <tr>
-                        <td>Name</td>
+                        <td>Name:</td>
                         <td><?php echo($realName) ?></td>
                       </tr>
                       <tr>
-                        <td>Email</td>
+                        <td>Email:</td>
                         <td><?php echo($email) ?></td>
                       </tr>
                    
                          <tr>
                              <tr>
-                        <td>Credit Limit</td>
-                        <td></td>
+                        <td>Credit Limit:</td>
+                        <td><?php echo($creditLeft) ?></td>
                       </tr>
                         <tr>
-                        <td>Used Credit</td>
-                        <td></td>
+                        <td>Used Credit:</td>
+                        <td><?php echo($used) ?></td>
                       </tr>
                       <tr>
-                        <td>Password</td>
-                        <td><?php echo($password) ?></td>
+                        <td>Overdue:</td>
+                        <td><?php echo($over) ?></td>
                       </tr>
-                        <td>Phone Number</td>
+                      <tr>
+                        <td>Password:</td>
+                        <td>********</td>
+                      </tr>
+                        <td>Phone Number:</td>
                         <td><?php echo($phone) ?>
                         </td>
                          <tr>
@@ -253,7 +257,9 @@ elseif ($userType=="Corporate") {
                   
                             <a href="updateInfo.php" class="btn btn-primary" >Edit Profile</a>
                             
-                            <input type="submit" name="submit" id="submit" <?php if(date('01-m-Y')) {?> enable="enable" <?php } ?>>Generate Invoice
+                            
+                            <input type="submit" class="like" value="Generate Invoice" name="submit" id="submit" disabled <?php if ($used>=500){ ?> enabled="true" <?php   } ?> >
+                            
                     </form>
                
                 </div>

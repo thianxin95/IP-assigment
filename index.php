@@ -1,5 +1,6 @@
 <?php
 include ('Object/CustomerOb.php');
+include('Object/InvoiceOB.php');
 
 session_start();
 
@@ -9,12 +10,24 @@ if ($_SESSION["user"] == null) {
 }
 $user = $_SESSION["user"];
 $Username = $user->getUserID();
+$userTypeInvoice = $user->getUserType();
 
 // Check User if it is Customer, if not force logout and back to Login.php
 if ($user->getUserType() != "Customer" & $user->getUserType() != "Corporate") {
     session_destroy();
     session_unset();
     echo "<script> location.href='login.php'; </script>";
+}
+ 
+$today_date =  date('01-m-Y');
+$today_date2=date('d-m-Y');
+if($today_date==$today_date2 && $userTypeInvoice=="Corporate")
+{
+    echo "<script> location.href='getInvoice.php'; </script>";
+}
+if($user->getOverDue() =="yes")
+{
+    echo "<script> location.href='getInvoice.php'; </script>";
 }
 ?>
 <!DOCTYPE html>

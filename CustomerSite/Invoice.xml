@@ -10,4 +10,4 @@
 
 
 
-<InvoiceRecord recordID="invoiceRecord"><InvoiceNumber>1</InvoiceNumber><InvoiceDate>1</InvoiceDate><UserID>12345</UserID><OrderID>1</OrderID><InvoiceAmount>500</InvoiceAmount><PaymentStatus>no</PaymentStatus></InvoiceRecord></Invoice>
+<InvoiceRecord recordID="invoiceRecord"><InvoiceNumber>2</InvoiceNumber><InvoiceDate>1</InvoiceDate><UserID>dota2</UserID><OrderID>2</OrderID><InvoiceAmount>222</InvoiceAmount><PaymentStatus>no</PaymentStatus></InvoiceRecord></Invoice>

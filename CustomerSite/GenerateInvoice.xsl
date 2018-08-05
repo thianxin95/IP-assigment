@@ -10,14 +10,14 @@
                 <meta charset="utf-8"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
                 <link rel="shortcut icon" href="images/favicon.png" />
-                <link rel="stylesheet" href="../../vendors/iconfonts/mdi/css/materialdesignicons.min.css"/>
-                <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css"/>
+                <link rel="stylesheet" href="../vendors/iconfonts/mdi/css/materialdesignicons.min.css"/>
+                <link rel="stylesheet" href="../vendors/css/vendor.bundle.base.css"/>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css"/>
                 <!-- endinject -->
                 <!-- plugin css for this page -->
                 <!-- End plugin css for this page -->
                 <!-- inject:css -->
-                <link rel="stylesheet" href="../../css/style.css"/>
+                <link rel="stylesheet" href="../css/style.css"/>
                 <!-- endinject -->
                 <link rel="shortcut icon" href="images/favicon.png" />
             </head>
@@ -65,7 +65,7 @@
                 <div class="col-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Invoice</h4>
+                            <h4 class="card-title">Invoices</h4>
                             <table class="table table-user-information">
                                 <thead>
                                     <tr><th>Invoice Number :</th><td><xsl:value-of select="//InvoiceNumber"/></td></tr>
