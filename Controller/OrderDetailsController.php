@@ -13,12 +13,15 @@ class OrderDetailsController {
     public function getOrderDetailsID(){
         $conn = Database::getInstance();
         $query = "SELECT IF( MAX( orderDetailsId ) IS NULL , 0, MAX( orderDetailsId ) ) AS 'CurrentorderDetailsID' FROM orderdetails ORDER BY orderDetailsId DESC";
+      // $query = "SELECT COUNT(*) AS 'CurrentRow' FROM orderdetails";
         $orderDetailslist_result = $conn->query($query);
         $conn->close();
         if($orderDetailslist_result){
             while($row = $orderDetailslist_result->fetch(PDO::FETCH_ASSOC)){
                 $CurrentorderDetailsID = $row["CurrentorderDetailsID"];
                 $result = $CurrentorderDetailsID;
+//                $CurrentRow = $row["CurrentRow"];
+//                $result = $CurrentRow;
             }
         }
         return $result;
