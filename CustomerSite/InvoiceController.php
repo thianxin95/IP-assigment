@@ -92,7 +92,7 @@ class InvoiceController {
                 $invoice_amt = $row['invoiceAmount'];
                 $paymentStatus = $row['paymentStatus'];
                 $paymentDate = $row['paymentDate'];
-                $result = new InvoiceOB($invoice_no, $invoice_date, $userID, "", $invoice_amt, $paymentStatus, $paymentDate);
+                $result = new InvoiceOB($invoice_no, $invoice_date, $userID,  $invoice_amt, $paymentStatus, $paymentDate);
             }
         }
         if (empty($result)) {

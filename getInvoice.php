@@ -25,7 +25,7 @@ $Username = $user->getUserID();
 
         <?php
         $ordCon = new OrderListController();
-        $invoiceob = new InvoiceOB("", "", "", "", "", "", "");
+        $invoiceob = new InvoiceOB("", "", "", "", "", "");
         $invoiceob = $ordCon->getInvoiceUserID($Username);
         
         for ($i = 0; $i < count($invoiceob); $i++) {
@@ -39,7 +39,7 @@ $Username = $user->getUserID();
 
 
             $xmlPath = "CustomerSite/Invoice.xml";
-    $drob = new InvoiceOB("", "", "", "", "", "", "");
+    $drob = new InvoiceOB("", "", "", "", "", "");
     $report_controller = new InvoiceController($xmlPath);
     $drob->setInvoiceNo( $invoiceob[$i]->getInvoiceNo());
     $drob->setInvoiceDate( $invoiceob[$i]->getInvoiceDate());

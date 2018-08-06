@@ -8,8 +8,7 @@ class InvoiceOB {
     private $paymentStatus;
     private $paymentDate;
     
- 
-    public function __construct($invoiceNo, $invoiceDate, $invoiceUserID, $invoiceAmount, $paymentStatus, $paymentDate) {
+    function __construct($invoiceNo, $invoiceDate, $invoiceUserID, $invoiceAmount, $paymentStatus, $paymentDate) {
         $this->invoiceNo = $invoiceNo;
         $this->invoiceDate = $invoiceDate;
         $this->invoiceUserID = $invoiceUserID;
@@ -29,6 +28,7 @@ class InvoiceOB {
         return $this->invoiceUserID;
     }
 
+   
     function getInvoiceAmount() {
         return $this->invoiceAmount;
     }
@@ -53,6 +53,7 @@ class InvoiceOB {
         $this->invoiceUserID = $invoiceUserID;
     }
 
+   
     function setInvoiceAmount($invoiceAmount) {
         $this->invoiceAmount = $invoiceAmount;
     }
