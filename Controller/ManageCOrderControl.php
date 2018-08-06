@@ -1,7 +1,7 @@
 <?php
 
 include_once('../databaseconn.php');
-include_once('../Object/CustomOrder.php');
+include_once('../Object/customOrderOB.php');
 include_once('../Object/OrderDetailsOB.php');
 
 /*
@@ -29,7 +29,8 @@ class ManageCOrderControl {
                 $RequiredDate = $row["RequiredDate"];
                 $TotalAmount = $row["TotalAmount"];
                 $Status = $row["paymentStatus"];
-                $result[$i] = new CustomOrder($orderID, $userID, $Pickup, $DeliveryAddress, $RequiredDate, $TotalAmount, $Status);
+               //$result[$i] = CustomOrder::createBuilder($orderID, $userID, $RequiredDate, $TotalAmount)->pickup($Pickup)->deliveryAdd($DeliveryAddress)->build();
+                 $result[$i] = new customOrderOB($orderID, $userID, $Pickup, $DeliveryAddress, $RequiredDate, $TotalAmount, $Status);
                 $i++;
             }
         }
@@ -57,7 +58,7 @@ class ManageCOrderControl {
                 $RequiredDate = $row["RequiredDate"];
                 $TotalAmount = $row["TotalAmount"];
                 $Status = $row["paymentStatus"];
-                $result[$i] = new CustomOrder($orderID, "", $Pickup, $DeliveryAddress, $RequiredDate, $TotalAmount, $Status);
+                $result[$i] = new customOrderOB($orderID, "", $Pickup, $DeliveryAddress, $RequiredDate, $TotalAmount, $Status);
                 $i++;
             }
         }
@@ -128,7 +129,7 @@ class ManageCOrderControl {
                 $RequiredDate = $row["RequiredDate"];
                 $TotalAmount = $row["TotalAmount"];
                 $Status = $row["paymentStatus"];
-                $result[$i] = new CustomOrder($orderID, "", $Pickup, $DeliveryAddress, $RequiredDate, $TotalAmount, $Status);
+                $result[$i] = new customOrderOB($orderID, "", $Pickup, $DeliveryAddress, $RequiredDate, $TotalAmount, $Status);
                 $i++;
             }
         }

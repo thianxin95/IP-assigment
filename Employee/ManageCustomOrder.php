@@ -1,7 +1,7 @@
 <?php
 include_once ('../Object/EmployeeOB.php');
 include_once ('../databaseconn.php');
-include_once ('../Object/CustomOrder.php');
+include_once ('../Object/customOrder.php');
 include_once ('../Controller/ManageCOrderControl.php');
 include_once ('ReportXML/ReportController.php');
 include_once('../Object/DailyRecordOB.php');
@@ -26,7 +26,7 @@ if (isset($_POST['paid_fullfiled'])) {
     $order_update = $_POST['order_update'];
     // Update Daily Report Generate XML HERE!!!
     //Testing XML and WORKING!!!!
-    $order = new CustomOrder("", "", "", "", "", "", "");
+    $order = new customOrderOB("","","","","","","");
     $order = $ordercont->getCustomOrder($order_update);
     $AmountPaid = 0;
     $Delivery = 0;
@@ -51,7 +51,7 @@ if (isset($_POST['paid_fullfiled'])) {
 }
 if (isset($_POST['CashPaid'])) {
     $order_update = $_POST['order_update'];
-    $order = new CustomOrder("", "", "", "", "", "", "");
+    $order = new customOrderOB("","","","","","","");
     $order = $ordercont->getCustomOrder($order_update);
     $AmountPaid = $order[0]->getTotalAmt();
 

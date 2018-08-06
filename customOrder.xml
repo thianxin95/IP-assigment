@@ -2,22 +2,16 @@
 <!DOCTYPE customizedOrder SYSTEM "customOrder.dtd">
 <?xml-stylesheet type="text/xsl" href="customOrder.xsl"?>
 <customizedOrder>
-  <product productCode="PRD1">
-    <productName>Flower 1</productName>
-    <productType>Fresh flower</productType>
-    <price>10</price>
-    <quantity>12222</quantity>
+  <product productCode="PRD11">
+    <productName>asdasdqwd</productName>
+    <productType>Fresh Flower</productType>
+    <price>35</price>
+    <quantity>2</quantity>
   </product>
-  <product productCode="PRD2">
-    <productName>Flower 2</productName>
-    <productType>Fresh flower</productType>
-    <price>20</price>
-    <quantity>22</quantity>
-  </product>
-  <product productCode="PRD6">
+  <product productCode="PRD7">
     <productName>Arrangement in a Square Black Ceramic Container</productName>
     <productType>Floral arrangement</productType>
-    <price>35.40</price>
+    <price>35</price>
     <quantity>1</quantity>
   </product>
 </customizedOrder>
