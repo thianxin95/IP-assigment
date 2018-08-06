@@ -5,4 +5,11 @@
 
 
 
-<InvoiceRecord recordID="invoiceRecord"><InvoiceNumber>12</InvoiceNumber><InvoiceDate>12</InvoiceDate><UserID>qwe123</UserID><InvoiceAmount>100</InvoiceAmount><PaymentStatus>no</PaymentStatus></InvoiceRecord></Invoice>
+<InvoiceRecord recordID="invoiceRecord">
+    <InvoiceNumber>12</InvoiceNumber>
+    <InvoiceDate>12</InvoiceDate>
+    <UserID>qwe123</UserID>
+    <InvoiceAmount>100</InvoiceAmount>
+    <PaymentStatus>no</PaymentStatus>
+</InvoiceRecord>
+</Invoice>
