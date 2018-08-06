@@ -1,10 +1,17 @@
 <?php 
+
+/**
+ * Description of selectDesign.php
+ *
+ * @author Chan Jeng Yang
+ */
        ini_set('display_errors', 1);
        include_once './databaseconn.php';
        include_once './Object/ProductOB.php';
        include_once './Object/BouquetItem.php';
        include_once './customOrderXmlWriter.php';
        include_once './Object/CustomerOb.php';
+       include_once './Controller/FlowerDesignController.php';
        include_once './Controller/ProductController.php';
        session_start();
        
@@ -95,7 +102,7 @@ and open the template in the editor.
             <?php
                 $prod = array();
                 $count = 0;
-                $prodControl = new ProductController();
+                $prodControl = new FlowerDesignController();
                 $prod = $prodControl->getAvailableDesign();
                 $arrangement = new ProductOB("","","","","");
                 foreach($prod as $design){  
@@ -117,7 +124,7 @@ and open the template in the editor.
             ?>
                 </tbody>
             </table>
-            <button class="btn btn-gradient-primary btn-fw"><a href="selectFlower.php" style="text-decoration: none;color: white">Back</a></button>
+            <button type="button" class="btn btn-gradient-primary btn-fw" name="btnBack"><a href="selectFlower.php" style="text-decoration: none;color: white">Back</a></button>
             <input type="submit" class="btn btn-gradient-primary btn-fw" value="Next" />
             
         </form>
@@ -125,11 +132,11 @@ and open the template in the editor.
          <?php
             $added = false;
             $item = new BouquetItem("","","","");
-            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['btnBack'])){
             //$cusOrder = array(); 
            // for($num = 0; $num < count($prod);$num++){
               //  if(isset($_POST['add'.$num])){
-                if(isset($_POST['design'])){
+                if(isset($_POST['design']) ){
                     
                     foreach($_SESSION["bouquet"] as $item){
                         $getProd = new ProductController();

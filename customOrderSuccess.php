@@ -1,4 +1,9 @@
 <?php
+/**
+ * Description of customOrderSuccess.php
+ *
+ * @author Chan Jeng Yang
+ */
     ini_set('display_errors', 1);
     include_once './Object/BouquetItem.php';
     include_once './Object/CustomOrder.php';    

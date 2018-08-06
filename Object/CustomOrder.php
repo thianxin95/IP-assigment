@@ -9,7 +9,7 @@
 /**
  * Description of CustomOrder
  *
- * @author Hibiki
+ * @author Chan Jeng Yang
  */
 class CustomOrder {
     private $custOrderID;

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Description of customorderXmlWriter.php
+ *
+ * @author Chan Jeng Yang
+ */
     ini_set('display_errors', 1);
     include_once './Object/BouquetItem.php';
     include_once './Controller/customOrderControl.php';

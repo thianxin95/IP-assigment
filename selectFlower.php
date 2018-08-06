@@ -1,9 +1,15 @@
 <?php 
+
+/**
+ * Description of selectFlower.php
+ *
+ * @author Chan Jeng Yang
+ */
        ini_set('display_errors', 1);
        include_once './databaseconn.php';
        include_once './Object/ProductOB.php';
        include_once './Object/BouquetItem.php';
-       include_once './Controller/ProductController.php';
+       include_once './Controller/FlowerDesignController.php';
        include_once './Object/CustomerOb.php';
        include_once './Function/ValidateInput.php';
        session_start();
@@ -101,7 +107,7 @@ and open the template in the editor.
             <?php
                 $prod = array();
                 $count = 0;
-                $prodControl = new ProductController();
+                $prodControl = new FlowerDesignController();
                 $prod = $prodControl->getAvailableFlower();
                 $product = new ProductOB("","","","","");
                 

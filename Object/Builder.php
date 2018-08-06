@@ -8,7 +8,7 @@
 
 /**
  *
- * @author Hibiki
+ * @author Chan Jeng Yang
  */
 interface Builder {
     public function build();

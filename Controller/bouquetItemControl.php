@@ -9,9 +9,9 @@
  */
 
 /**
- * Description of bouquetItemDA
+ * Description of bouquetItemControl.php
  *
- * @author Hibiki
+ * @author Chan Jeng Yang
  */
 class bouquetItemControl {
     private $tableName = "bouquetitem";

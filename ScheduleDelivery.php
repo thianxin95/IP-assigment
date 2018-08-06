@@ -1,4 +1,9 @@
 <?php
+/**
+ * Description of ScheduleDelivery.php
+ *
+ * @author Chan Jeng Yang
+ */
     ini_set('display_errors', 1);
     include_once './Function/ValidateInput.php';
     include_once './Object/CustomerOb.php';

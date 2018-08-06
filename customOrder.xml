@@ -8,6 +8,12 @@
     <price>35</price>
     <quantity>2</quantity>
   </product>
+  <product productCode="PRD5">
+    <productName>Classic Round Bouquet</productName>
+    <productType>Fresh Flower</productType>
+    <price>15</price>
+    <quantity>3</quantity>
+  </product>
   <product productCode="PRD7">
     <productName>Arrangement in a Square Black Ceramic Container</productName>
     <productType>Floral arrangement</productType>

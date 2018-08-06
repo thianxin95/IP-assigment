@@ -9,7 +9,7 @@
 /**
  * Description of CustomOrderBuilder
  *
- * @author Hibiki
+ * @author Chan Jeng Yang
  */
 class CustomOrderBuilder implements Builder{
     private $custOrderID;

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Description of customOrderControl.php
+ *
+ * @author Chan Jeng Yang
+ */
     ini_set('display_errors', 1);
     include_once './Object/CustomOrder.php';
     include_once './databaseconn.php';
