@@ -77,19 +77,19 @@ and open the template in the editor.
         <?php
             $customOrder = $_SESSION["CusOrder"] ;
             $bouquet =$_SESSION["COrderItems"];
-            $cOrder = new CustomOrder("","","","","","","");
+           // $cOrder = new CustomOrder("","","","","","","");
             $flowers = new BouquetItem("","","","");
-            $cOrder = $customOrder;
-            if($cOrder->getPickup() == "Yes"){
+            //$cOrder = $customOrder;
+            if($customOrder->getPickup() == "Yes"){
                 $method = "Pickup";
-            }else if($cOrder->getPickup() == "No"){
+            }else if($customOrder->getPickup() == "No"){
                 $method = "Delivery";
             }
             echo "<h4>Order placed successfully</h4>";
             echo "<table class='table'>";
             echo "<tr>";
             echo "<td>Order ID :</td>";
-            echo "<td>".$cOrder->getCustOrderID()."</td>";
+            echo "<td>".$customOrder->getCustOrderID()."</td>";
             echo "</tr>";
             echo "<tr>";
             echo "<td>Customer Name :</td>";
@@ -99,13 +99,13 @@ and open the template in the editor.
             echo "<td>$method</td>";
             echo "</tr>";
             echo "<td>Delivery Address :</td>";
-            echo "<td>".$cOrder->getDeliveryAdd()."</td>";
+            echo "<td>".$customOrder->getDeliveryAdd()."</td>";
             echo "</tr>";
             echo "<td>Delivery or pickup date and time :</td>";
-            echo "<td>".$cOrder->getRequireDate()."</td>";
+            echo "<td>".$customOrder->getRequireDate()."</td>";
             echo "</tr>";
             echo "<td>Total Amount :</td>";
-            echo "<td>RM ".sprintf("%.2f",$cOrder->getTotalAmt())."</td>";
+            echo "<td>RM ".sprintf("%.2f",$customOrder->getTotalAmt())."</td>";
             echo "</tr>";
             echo "</table>";
         ?>

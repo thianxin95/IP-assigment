@@ -66,6 +66,7 @@ class ProductController {
 
             }
         } 
+        $conn->close();
         return $prod;
     }
     
@@ -76,6 +77,7 @@ class ProductController {
         if(!$resultSet){
             trigger_error('Invalid query: ' . $conn->error);
         }
+        $connection->close();
         $count =0;
         if($resultSet){
             while($row = $resultSet->fetch(PDO::FETCH_ASSOC)){

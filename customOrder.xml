@@ -6,18 +6,18 @@
     <productName>Flower 1</productName>
     <productType>Fresh flower</productType>
     <price>10</price>
-    <quantity>22</quantity>
+    <quantity>12222</quantity>
   </product>
   <product productCode="PRD2">
     <productName>Flower 2</productName>
     <productType>Fresh flower</productType>
     <price>20</price>
-    <quantity>33</quantity>
+    <quantity>22</quantity>
   </product>
-  <product productCode="PRD5">
-    <productName>Classic Round Bouquet</productName>
+  <product productCode="PRD6">
+    <productName>Arrangement in a Square Black Ceramic Container</productName>
     <productType>Floral arrangement</productType>
-    <price>15</price>
+    <price>35.40</price>
     <quantity>1</quantity>
   </product>
 </customizedOrder>

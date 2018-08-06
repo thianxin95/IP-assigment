@@ -90,6 +90,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="Catalog/xsl/flowercatalog.xml">
+                                <span class="menu-title">Flower Catalog</span>
+                                <i class="mdi mdi-file-check menu-icon"></i>
+                            </a>
+                        </li> 
+                        <li class="nav-item">
                             <a class="nav-link" data-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
                                 <span class="menu-title">Orders</span>
                                 <i class="menu-arrow"></i>
@@ -99,10 +105,11 @@
                                 <ul class="nav flex-column sub-menu">
                                     <li class="nav-item"> <a class="nav-link" href="LeeThianXin/View/OrderMenu.php"> New Order </a></li>
                                     <li class="nav-item"> <a class="nav-link" href="OrderList.php"> Order List </a></li>
-                                    <li class="nav-item"> <a class="nav-link" href="Invoices.php"> Invoices </a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="CustomOrdersList.php"> Custom Order List </a></li>
                                 </ul>
                             </div>
                         </li> 
+                        
                         <li class="nav-item">
                               <a class="nav-link" href="selectFlower.php">
                                   <span class="menu-title">Customize Order</span>

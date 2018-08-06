@@ -6,6 +6,7 @@
     include_once './Object/BouquetItem.php';
     include_once './Object/CustomOrder.php';
     include_once './Controller/bouquetItemControl.php';
+    include_once './Object/CustomOrderBuilder.php';
     session_start();
 
     $user = new Customer("", "", "", "", "", "", "", "", "","");
@@ -153,12 +154,7 @@ and open the template in the editor.
                                             $lastID = $order->getLastInsertedID();
                                            // echo ++$lastID;
                                             $orderID = ++$lastID;
-                                            if($deliverMethod == "delivery"){
-                                                $pickup = "No";
-                                            }else if($deliverMethod == "pickup"){
-                                                $pickup = "Yes";
-                                                $address = "-";
-                                            }
+                                            
                                             $bouquet = $_SESSION["bouquet"];
                                             $bouquetDA = new bouquetItemControl();
                                             foreach($bouquet as $bouquetItem ){
@@ -166,8 +162,15 @@ and open the template in the editor.
                                                 $orderBouquet->setCustOrderID($orderID);
                                                 $totalAmt += $orderBouquet->getQuantity() * $orderBouquet->getUnitPrice();
                                                 $bouquetDA->insertRecord($orderBouquet);
-                                            }                   
-                                            $customOrder = new CustomOrder($orderID,$Username,$pickup,$address,$date,$totalAmt,"Unpaid");
+                                            }    
+                                            if($deliverMethod == "delivery"){
+                                                $customOrder = CustomOrder::createBuilder($orderID, $Username, $date, $totalAmt)->pickup("No")->deliveryAdd($address)->build();
+                                                
+                                            }else if($deliverMethod == "pickup"){
+                                                 $customOrder = CustomOrder::createBuilder($orderID, $Username, $date, $totalAmt)->pickup("Yes")->build();
+                                            }
+                                           
+                                           // $customOrder = new CustomOrder($orderID,$Username,$pickup,$address,$date,$totalAmt,"Unpaid");
                                             $order->insertRecord($customOrder);
                                             $_SESSION["CusOrder"] = $customOrder;
                                             $_SESSION["COrderItems"] = $bouquet;

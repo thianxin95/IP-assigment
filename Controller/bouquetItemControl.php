@@ -30,6 +30,7 @@ class bouquetItemControl {
                 . "VALUES (:custOrderID,:productCode,:quantity,:unitPrice)";
         $stmt = $connection->prepare($query);
         $stmt -> execute($data);
+        $connection->close();
                 
     }
 }
