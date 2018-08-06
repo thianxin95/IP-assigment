@@ -99,7 +99,7 @@ and open the template in the editor.
                                             </div>
                                                                                                                        
                                             <button type="submit" class="btn btn-gradient-primary mr-2" name="submit" value="prodceedOrder">Proceed Order</button>
-                                            <button class="btn btn-light">Cancel</button>
+                                            <button class="btn btn-light" name="submit" value="cancel">Cancel</button>
                                         </form>
                                     </div>
                                 </div>
@@ -107,6 +107,12 @@ and open the template in the editor.
         
         <?php
         if(isset($_POST['submit'])){
+             if($_POST['submit'] == 'cancel'){
+               unset($_SESSION["Selected_itemArray"]);
+                    
+                    echo '<script> alert("ORDER CANCEL");</script>';
+                    echo "<script> location.href='../../index.php'; </script>";
+        }
             if($_POST['submit'] == 'prodceedOrder'){
                 echo $_POST['pickup'];
                 
@@ -181,6 +187,8 @@ and open the template in the editor.
              }
                 
                 unset($_SESSION["Selected_itemArray"]);
+                   echo '<script> alert("ADD ORDER SUCCESSFUL.");</script>';
+                    echo "<script> location.href='../../index.php'; </script>";
             }
             echo 'Good Job';
             

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT OrderDetail (Record+)>
+<!ELEMENT Record (orderID,userID, orderDate, Pickup, DeliveryAddress, RequiredDate,TotalAmount,Status)>
+<!ATTLIST Record recordID ID #REQUIRED>
+<!ELEMENT orderID (#PCDATA)>
+<!ELEMENT userID (#PCDATA)>
+<!ELEMENT orderDate (#PCDATA)>
+<!ELEMENT Pickup (#PCDATA)>
+<!ELEMENT DeliveryAddress (#PCDATA)>
+<!ELEMENT RequiredDate (#PCDATA)>
+<!ELEMENT TotalAmount (#PCDATA)>
+<!ELEMENT Status (#PCDATA)>
+
+

@@ -29,6 +29,8 @@ and open the template in the editor.
         include_once '../../Object/OrderDetailsOB.php';
         include_once '../../Object/InvoiceOB.php';
         include_once '../../Controller/InvoiceController.php';
+        include_once '../../Object/User.php';
+        include_once '../../Controller/CustomerController.php';
         session_start();
         $day = date("d-m-Y");
         echo $day . "<br>";
@@ -114,13 +116,19 @@ and open the template in the editor.
                                             </div>
                                        
                                             <button type="submit" class="btn btn-gradient-primary mr-2" name="submit" value="proceedOrder">Proceed Order</button>
-                                            <button class="btn btn-light">Cancel</button>
+                                            <button type="submit" class="btn btn-light" name="submit" value="cancel">Cancel</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
     <?php
     if (isset($_POST['submit'])){
+        if($_POST['submit'] == 'cancel'){
+               unset($_SESSION["Selected_itemArray"]);
+                    
+                    echo '<script> alert("ORDER CANCEL");</script>';
+                    echo "<script> location.href='../../index.php'; </script>";
+        }
         if($_POST['submit'] == 'proceedOrder'){
             $order_ctrl = new OrderController();
             $lastID = $order_ctrl->getOrderID();
@@ -208,6 +216,12 @@ and open the template in the editor.
                     }
                     
                     unset($_SESSION["Selected_itemArray"]);
+                    
+                    $cus_ctrl = new CustomerController();
+                    $cus_ctrl->updateUserUsedCredit($UserID, $totalprice);
+                    
+                    $user->setUsedCredit($totalprice);
+                    $_SESSION["user"] = $user;
                     
                     echo '<script> alert("ADD ORDER SUCCESSFUL. Credit deducted");</script>';
                     echo "<script> location.href='../../index.php'; </script>";

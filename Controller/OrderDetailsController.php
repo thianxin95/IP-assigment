@@ -55,4 +55,28 @@ class OrderDetailsController {
         }
     }
     
+        public function getAllOrderDetail(){
+        $sql = "SELECT * FROM orderdetails";
+        $conn = Database::getInstance();
+        $orderDetailResult = $conn->query($sql);
+        if(!$orderDetailResult){
+            trigger_error("Invalid query: " . $conn->error);
+        }
+        $conn->close();
+        $i = 0;
+     if($orderDetailResult){
+         while ($row = $orderDetailResult->fetch(PDO::FETCH_ASSOC)) {
+             $orderDetailsID = $row["orderDetailsId"];
+             $orderID = $row["orderID"];
+             $productCode = $row["productCode"];
+             $Quantity = $row["Quantity"];
+             $UnitPrice = $row["UnitPrice"];
+             
+             $result[$i] = new OrderOB($orderDetailsID, $orderID, $productCode,$Quantity,$UnitPrice);
+             $i++;
+         }
+     }
+     return $result;                        
+}
+    
 }

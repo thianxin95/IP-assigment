@@ -24,7 +24,7 @@ and open the template in the editor.
         <?php
         //include_once '../../databaseconn.php';
         include_once '../../Controller/ProductController.php';
-        include_once './CatalogController.php';
+       // include_once './CatalogController.php';
         include_once '../../Object/CustomerOb.php'; 
         include_once '../../Object/OrderDetailsOB.php';
         include_once '../../Controller/OrderDetailsController.php';
