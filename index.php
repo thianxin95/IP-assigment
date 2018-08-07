@@ -1,8 +1,12 @@
 <?php
 include ('Object/CustomerOb.php');
 include_once('Controller/DashController.php');
+
 session_start();
+ #$passgen = new UserIdentity();
+ #$user= $passgen->Customer($userID);
 $user = new Customer("", "", "", "", "", "", "", "", "", "");
+
 if ($_SESSION["user"] == null) {
     echo "<script> location.href='login.php'; </script>";
 }

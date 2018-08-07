@@ -146,8 +146,8 @@ if ($user->getUserType() != "Employee") {
 
 if (isset($_POST['submit'])) {
   # include_once '../Pattern/PasswordFactory.php';
-    $passgen = new PasswordFactory();
-    $saltedPass = $passgen->getSaltedPassword($_POST['password']);
+   # $passgen = new PasswordFactory();
+   # $saltedPass = $passgen->getSaltedPassword($_POST['password']);
     $userID = $user->getUserID();
    
     $updateName = $_POST['name'];
