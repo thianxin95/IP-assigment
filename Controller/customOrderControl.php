@@ -39,7 +39,7 @@ class customOrderControl {
         }
         $row = $result->fetch(PDO::FETCH_ASSOC);
         if(!$row){
-            $userID = "CO001";
+            $userID = "CO000";
         } else {
             $userID = $row["custOrderID"];
         } 
