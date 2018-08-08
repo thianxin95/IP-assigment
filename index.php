@@ -30,7 +30,7 @@ if($today_date==$today_date2 && $userInvoice=="Corporate" )
 
 $invoiceDay = date('06-m-Y');
 
-if($invoiceDay & $userusedcredit=500)
+if($invoiceDay && $userusedcredit= 500)
 {
     $user->setOverDue("Yes");
 }
