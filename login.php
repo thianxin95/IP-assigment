@@ -1,3 +1,4 @@
+<!-- Author     : leang -->
 <?php
 session_start();
 include_once 'Object/CustomerOb.php';
