@@ -10,29 +10,30 @@
  *
  * @author Chang Kwok Fei
  */
+include_once 'Object/User.php';
+
 interface userProfile {
-   public function CustomerType();
+
+    public function Create();
 }
-   
-   class Customer implements userProfile {
-    private $userID,$userType,$Address,$Phone,$Name,$Email,$creditLimit,$usedCredit,$overDue,$password;
-    
-  public function __construct($userID, $userType,$Name,$Address,$Phone,$Email, $creditLimit, $usedCredit, $overDue,$password) {
-        $this->userID = $userID;
-        $this->userType = $userType;
-        $this->Name = $Name;
-        $this->Address=$Address;
-        $this->Phone=$Phone;
-        $this->Email = $Email;
-        $this->creditLimit = $creditLimit;
-        $this->usedCredit = $usedCredit;
-        $this->overDue = $overDue;
-        $this->password= $password;
+
+class CustomerRegistration implements userProfile {
+
+    private $userID, $userType, $Address, $Phone, $Name, $Email, $creditLimit, $usedCredit, $overDue, $password;
+
+    public function __construct(User $userinfo) {
+        $this->userID = $userinfo->getUserID();
+        $this->userType = $userinfo->getUserType();
+        $this->Name = $userinfo->getName();
+        $this->Address = $userinfo->getAddress();
+        $this->Phone = $userinfo->getPhone();
+        $this->Email = $userinfo->getEmail();
+        $this->creditLimit = $userinfo->getCreditLimit();
+        $this->usedCredit = $userinfo->getUsedCredit();
+        $this->overDue = $userinfo->getOverDue();
+        $this->password = $userinfo->getPassword();
     }
-    
-    
-         
-     
+
     function getUserID($userID) {
         $this->userID = $userID;
     }
@@ -73,18 +74,38 @@ interface userProfile {
         $this->password = $password;
     }
 
-    public function CustomerType($userType) {
+    public function Create() {
+        // put your SQL here
+        $query = "INSERT INTO users (userID, userType, Name, Address,Phone, Email, creditLimit, usedCredit, overDue, password)VALUES ('$this->userID','$this->userType','$this->Name','$this->Address','$this->Phone','$this->Email','$this->creditLimit','$this->usedCredit','$this->overDue','$this->password')";
+        $conn = Database::getInstance();
+
+        $create_result = $conn->query($query);
+        
+        if (!$create_result) {
+            trigger_error('Invalid query: ' . $conn->error);
+        }
+        $conn->close();
     }
 
 }
 
-     
+Class CorporateRegistration implements userProfile {
 
+    private $userID, $userType, $Address, $Phone, $Name, $Email, $creditLimit, $usedCredit, $overDue, $password;
 
-Class Corporate implements userProfile{
-         
-    private $userID,$userType,$Address,$Phone,$Name,$Email,$creditLimit,$usedCredit,$overDue,$password;
-    
+   public function __construct(User $userinfo) {
+        $this->userID = $userinfo->getUserID();
+        $this->userType = $userinfo->getUserType();
+        $this->Name = $userinfo->getName();
+        $this->Address = $userinfo->getAddress();
+        $this->Phone = $userinfo->getPhone();
+        $this->Email = $userinfo->getEmail();
+        $this->creditLimit = $userinfo->getCreditLimit();
+        $this->usedCredit = $userinfo->getUsedCredit();
+        $this->overDue = $userinfo->getOverDue();
+        $this->password = $userinfo->getPassword();
+    }
+
     function getUserID($userID) {
         $this->userID = $userID;
     }
@@ -101,7 +122,7 @@ Class Corporate implements userProfile{
         $this->Phone = $Phone;
     }
 
-    function getName($Name) {
+    function setName($Name) {
         $this->Name = $Name;
     }
 
@@ -125,26 +146,37 @@ Class Corporate implements userProfile{
         $this->password = $password;
     }
 
-    public function CustomerType() {
+    public function Create() {
+        $query = "INSERT INTO users (userID, userType, Name, Address,Phone, Email, creditLimit, usedCredit, overDue, password)VALUES ('$this->userID','$this->userType','$this->Name','$this->Address','$this->Phone','$this->Email','$this->creditLimit','$this->usedCredit','$this->overDue','$this->password')";
+        $conn = Database::getInstance();
+
+        $create_result = $conn->query($query);
         
+        if (!$create_result) {
+            trigger_error('Invalid query: ' . $conn->error);
+        }
+        $conn->close();
     }
 
 }
 
- class CustomerFactory{
-     public function __construct() {
-        
+class CustomerFactory {
+
+    public static function Register(User $userprofile) {
+        // return new CustomerRegistration($userprofile);
+        $newUser = new CustomerRegistration($userprofile);
+        $newUser->Create();
+        return null;
     }
-    
-    public static function Create($type){
-        
+
+}
+class CorporateFactory {
+
+    public static function Register(User $userprofile) {
+        // return new CustomerRegistration($userprofile);
+        $newUser = new CorporateRegistration($userprofile);
+        $newUser->Create();
+        return null;
     }
- }
 
-     
-    
-
-
-
-   
-
+}
