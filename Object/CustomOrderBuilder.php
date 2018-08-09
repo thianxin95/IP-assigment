@@ -86,8 +86,9 @@ class CustomOrderBuilder implements Builder{
         return $this;
     }
 
-    public function setPaymentStatus($paymentStatus) {
+    public function paymentStatus($paymentStatus) {
         $this->paymentStatus = $paymentStatus;
+        return $this;
     }
 
     public function build() {
