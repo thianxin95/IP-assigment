@@ -1,3 +1,4 @@
+<!-- Author     : leang -->
 <?php
 include('databaseconn.php');
 include('Object/User.php');

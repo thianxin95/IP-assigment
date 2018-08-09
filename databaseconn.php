@@ -1,3 +1,4 @@
+<!-- Author     : leang -->
 <?php
 
 class Database {
