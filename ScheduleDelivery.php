@@ -179,6 +179,7 @@ and open the template in the editor.
                                             $order->insertRecord($customOrder);
                                             $_SESSION["CusOrder"] = $customOrder;
                                             $_SESSION["COrderItems"] = $bouquet;
+                                            unset($_SESSION["bouquet"]);
                                             echo "<script>location.href='customOrderSuccess.php';</script>";
                                         
                                             

@@ -28,14 +28,15 @@ class customOrderControl {
         $query = "INSERT INTO $this->tableName (custOrderID,userID,Pickup,DeliveryAddress,RequiredDate,TotalAmount,PaymentStatus)"
                 . "VALUES (:custOrderID,:userID,:Pickup,:DeliveryAddress,:RequiredDate,:TotalAmount,:PaymentStatus)";
         $stmt = $connection->prepare($query);
-        $stmt->execute($data);               
+        $stmt->execute($data);    
+        $connection->close();
     }
     public function getLastInsertedID(){
         $connection = Database::getInstance();
         $query = "SELECT * FROM $this->tableName ORDER BY custOrderID DESC LIMIT 1";
         $result = $connection->query($query);
         if(!$result){
-            trigger_error("Invalid query: " . $conn->error);
+            trigger_error("Invalid query: " . $connection->error);
         }
         $row = $result->fetch(PDO::FETCH_ASSOC);
         if(!$row){
@@ -43,6 +44,7 @@ class customOrderControl {
         } else {
             $userID = $row["custOrderID"];
         } 
+        $connection->close();
        // while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         return $userID;
     }
