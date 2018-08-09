@@ -28,34 +28,6 @@ class CustomOrderBuilder implements Builder{
 
     }
 
-    public function getCustOrderID() {
-        return $this->custOrderID;
-    }
-
-    public function getUserID() {
-        return $this->userID;
-    }
-
-    public function getPickup() {
-        return $this->pickup;
-    }
-
-    public function getDeliveryAdd() {
-        return $this->deliveryAdd;
-    }
-
-    public function getRequireDate() {
-        return $this->requireDate;
-    }
-
-    public function getTotalAmt() {
-        return $this->totalAmt;
-    }
-
-    public function getPaymentStatus() {
-        return $this->paymentStatus;
-    }
-
     public function custOrderID($custOrderID) {
         $this->custOrderID = $custOrderID;
         return $this;
