@@ -118,6 +118,7 @@ class ManageOrderControl {
         $query = "SELECT * FROM ORDERS";
         $orderlist_result = $conn->query($query);
         $i = 0;
+        $result = null;
         if ($orderlist_result) {
             while ($row = $orderlist_result->fetch(PDO::FETCH_ASSOC)) {
                 $orderID = $row["orderID"];
@@ -132,8 +133,10 @@ class ManageOrderControl {
                 $i++;
             }
         }
-
-        return $result;
+        if($result != null){
+            return $result;
+        }
+        return null;
     }
 
     public function updateStatus($orderID, $Status) {

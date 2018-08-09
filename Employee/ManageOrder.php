@@ -30,7 +30,7 @@ if (isset($_POST['paid_fullfiled'])) {
     $AmountPaid = 0;
     $Delivery = 0;
     $Pickup = 0;
-    $OrderPaid = 1; 
+    $OrderPaid = 1;
     if ($order[0]->getStatus() == "Cash Paid") {
         $AmountPaid = 0;
         $OrderPaid = 0;
@@ -148,33 +148,35 @@ if (isset($_POST['Order_Canceled'])) {
                                 <tbody>
                                     <?php
                                     $orderlist = $ordercont->getAllOrders();
-                                    for ($x = 0; $x < count($orderlist); $x++) {
+                                    if ($orderlist != null) {
+                                        for ($x = 0; $x < count($orderlist); $x++) {
 
-                                        $orderID = $orderlist[$x]->getOrderID();
-                                        $orderDate = $orderlist[$x]->getOrderDate();
-                                        $Pickup = $orderlist[$x]->getPickup();
-                                        $DelvieryAddress = $orderlist[$x]->getDeliveryAddress();
-                                        $RequiredDate = $orderlist[$x]->getRequiredDate();
-                                        $TotalAmount = $orderlist[$x]->getTotalAmount();
+                                            $orderID = $orderlist[$x]->getOrderID();
+                                            $orderDate = $orderlist[$x]->getOrderDate();
+                                            $Pickup = $orderlist[$x]->getPickup();
+                                            $DelvieryAddress = $orderlist[$x]->getDeliveryAddress();
+                                            $RequiredDate = $orderlist[$x]->getRequiredDate();
+                                            $TotalAmount = $orderlist[$x]->getTotalAmount();
 
-                                        $Status = $orderlist[$x]->getStatus();
-                                        $Name = $ordercont->getOrderBy($orderlist[$x]->getOrderID());
-                                        echo("<tr>");
-                                        echo("<td>$orderID</td>");
-                                        echo("<td>$orderDate</td>");
-                                        echo("<td>$Pickup</td>");
-                                        echo("<td>$DelvieryAddress</td>");
-                                        echo("<td>$RequiredDate</td>");
-                                        echo("<td>$TotalAmount</td>");
+                                            $Status = $orderlist[$x]->getStatus();
+                                            $Name = $ordercont->getOrderBy($orderlist[$x]->getOrderID());
+                                            echo("<tr>");
+                                            echo("<td>$orderID</td>");
+                                            echo("<td>$orderDate</td>");
+                                            echo("<td>$Pickup</td>");
+                                            echo("<td>$DelvieryAddress</td>");
+                                            echo("<td>$RequiredDate</td>");
+                                            echo("<td>$TotalAmount</td>");
 
-                                        echo("<td>$Status</td>");
-                                        echo("<td>$Name</td>");
-                                        if ($Status != "Completed" & $Status != "Canceled") {
-                                            echo("<td><button type=\"button\" class=\"btn btn-gradient-primary btn-fw\" data-toggle=\"modal\" data-target=\"#$orderID\">Manage Order</button></td>");
-                                        } else {
-                                            echo("<td>No Action Required</td>");
+                                            echo("<td>$Status</td>");
+                                            echo("<td>$Name</td>");
+                                            if ($Status != "Completed" & $Status != "Canceled") {
+                                                echo("<td><button type=\"button\" class=\"btn btn-gradient-primary btn-fw\" data-toggle=\"modal\" data-target=\"#$orderID\">Manage Order</button></td>");
+                                            } else {
+                                                echo("<td>No Action Required</td>");
+                                            }
+                                            echo("</tr>");
                                         }
-                                        echo("</tr>");
                                     }
                                     ?> 
                                 </tbody>
@@ -183,6 +185,7 @@ if (isset($_POST['Order_Canceled'])) {
                     </div>
                 </div>
                 <?php
+                if($orderlist != null){
                 for ($x = 0; $x < count($orderlist); $x++) {
                     $orderID = $orderlist[$x]->getOrderID();
                     ?>
@@ -243,7 +246,7 @@ if (isset($_POST['Order_Canceled'])) {
                             </div>
                         </div>
                     </div> 
-                <?php } ?>
+                <?php } } ?>
                 <!-- content-wrapper ends -->
             </div>
 
