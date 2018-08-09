@@ -146,23 +146,6 @@
                             <xsl:variable name="count" select="price*quantity" />
                         </tr>
                     </xsl:for-each>
-                   <!-- <xsl:variable name="totalQty" select="sum(//quantity)" />
-                    <xsl:variable name="totalPrice" select="sum(//price)" />
-                    <xsl:variable name="grandTotal" select="sum(price*quantity)" />
-                    
-                    <xsl:variable name="total">
-                        <xsl:for-each select="*">
-                            <value>
-                                <xsl:value-of select="price * quantity" />
-                            </value>
-                        </xsl:for-each>
-                    </xsl:variable>
-                    <xsl:variable name="amt" select="exsl:node-set($total)/value" />-->
-                    
-                    <!--<tr>
-                        <td colspan='4'>Total Amount (RM) : </td>
-                        <td><xsl:value-of select="sum($amt)" /></td>
-                    </tr>-->
                     <tr>
                         <td>
                             <button class="btn btn-gradient-primary btn-fw">
