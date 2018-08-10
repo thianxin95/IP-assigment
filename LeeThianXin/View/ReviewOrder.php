@@ -54,7 +54,8 @@ and open the template in the editor.
         $deliDec = new DelivertDecorator($decorator);
 
         echo ('showing User : ');
-        echo ($decorator->showAddress());
+        echo $Username;
+        //echo ($decorator->showAddress());
         writeln('');
 
         echo '</br>You Order Information...';
