@@ -29,6 +29,8 @@
                 <div class="collapse" id="Manage-Orders">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="ManageOrder.php">Normal Orders</a></li>
+                        
+                        <li class="nav-item"> <a class="nav-link" href="../LeeThianXin/View/SalesRecord.php">Sales Record</a></li>
                         <li class="nav-item"> <a class="nav-link" href="ManageCustomOrder.php"> Custom Orders </a></li>
                     </ul>
                 </div>

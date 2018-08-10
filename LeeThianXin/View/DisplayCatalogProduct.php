@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+/**
+ * Description of DisplayCatalogProduct
+ *
+ * @author Daniel Lee
+ */
 -->
 <html>
     <head>
         <meta charset="UTF-8">
+         <link rel="stylesheet" href="../../vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+        <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+   
+        <link rel="stylesheet" href="../../css/style.css">
+        
+        <link rel="shortcut icon" href="../../images/favicon.png" />
         <title>Catalog</title>
     </head>
     <body>
         
-        <h1>ITEM in catalog</h1>
+        <h1>Item in catalog</h1>
         <?php
         include_once '../../Object/OrderDetailsOB.php';
         include_once '../../Object/CustomerOb.php';
@@ -21,7 +29,7 @@ and open the template in the editor.
         //unset($_SESSION["Selected_itemArray"]);
 
            if(isset($_SESSION["Selected_itemArray"])){
-              echo "Your session is here. </br> ";
+            //  echo "Your session is here. </br> ";
           }          
        
         if ($_SESSION["Selected_itemArray"] == null) {
@@ -29,8 +37,8 @@ and open the template in the editor.
             echo"empty";
         }
         
-                if(isset($_SESSION["user"])){
-              echo "Your user session is here. </br> ";
+        if(isset($_SESSION["user"])){
+          // echo "Your user session is here. </br> ";
           }          
         $user = new Customer("", "", "", "", "", "", "", "", "", "");
         if ($_SESSION["user"] == null) {
@@ -41,13 +49,17 @@ and open the template in the editor.
         $UserID = $user->getUserID();
         $Username = $user->getName();
         $Usertype = $user->getUserType();
-        echo 'Welcome ' .$Username ;                           
-//                          $b=0;
-//                          for($i = 0; $i< count($_SESSION["Selected_itemArray"]); $i++){
-//                              $result[$b] = new Session_itemSelected("", "", "", "");
-//                              $result[$b] = $_SESSION["Selected_itemArray"][$i];
-//                              $b++;
-//                          }
+        echo 'User: ' .$Username ;                           
+
+          
+     
+        $link = "";
+        if($user->getUserType() =="Customer"){
+            $link = "InsertCustomerOrder.php";
+        }elseif($user->getUserType() == "Corporate"){
+            $link = "InsertCorporateOrder.php";
+        }
+        
                           
                        ?>
         <style>
@@ -72,8 +84,8 @@ tr:nth-child(even) {
         </style>
         <div class="w3-container">
             <h2>ALL Product in cart</h2>
-            <table class="w3-table-all">
-                <tr>
+            <table class="w3-table-all" id="catalogTable">
+                <tr>                
                     <th>Product Code</th>
                     <th>Quantity</th>
                     <th>Price per unit(RM)</th>
@@ -89,7 +101,7 @@ tr:nth-child(even) {
          $quantity = $orderDetail->getQuantity();
          $price =$orderDetail->getUnitPrice();
          $totalprice = $orderDetail->getTotalprice();
-         echo '<tr>';
+         echo '<tr>';      
          echo "<td>$code</td>";
          echo "<td>$quantity</td>";
          echo "<td>$price</td>";
@@ -101,16 +113,19 @@ tr:nth-child(even) {
                          
         ?>
                 </table>
-        </div>
-        <?php
-        //"Customer" & $user->getUserType() != "Corporate"
-        $link = "";
-        if($user->getUserType() =="Customer"){
-            $link = "InsertCustomerOrder.php";
-        }elseif($user->getUserType() == "Corporate"){
-            $link = "InsertCorporateOrder.php";
-        }
-        ?>
-        <a class="nav-link" href="<?php echo $link;?>">Make order here</a>
+            
+        </div>              
+    
+        
+        <form action="OrderMenu.php">
+            <button type="submit" class="btn btn-gradient-primary btn-rounded btn-fw">Add more product</button>
+    </form>
+        </br>
+        
+        
+        <form action="<?php echo $link;?>">
+            <button type="submit" class="btn btn-gradient-success btn-rounded btn-fw">Make order</button>
+    </form>  
     </body>
+
 </html>

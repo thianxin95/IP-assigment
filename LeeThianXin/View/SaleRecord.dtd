@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT SaleReport (record*)>
+<!ELEMENT record (productCode, quantity, totalAmount)>
+<!ATTLIST record recordID ID #REQUIRED>
+<!ELEMENT productCode (#PCDATA)>
+<!ELEMENT quantity (#PCDATA)>
+<!ELEMENT totalAmount (#PCDATA)>
+

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE SaleReport SYSTEM "SaleRecord.dtd">
+<?xml-stylesheet type="text/xsl" href="SalesReport.xsl"?>
+<SaleReport>
+  <record recordID="RCD1">
+    <productCode>PRD1</productCode>
+    <quantity>1</quantity>
+    <totalAmount>10</totalAmount>
+  </record>
+  <record recordID="RCD2">
+    <productCode>PRD2</productCode>
+    <quantity>51</quantity>
+    <totalAmount>1020</totalAmount>
+  </record>
+  <record recordID="RCD3">
+    <productCode>PRD3</productCode>
+    <quantity>50</quantity>
+    <totalAmount>1500</totalAmount>
+  </record>
+  <record recordID="RCD4">
+    <productCode>PRD4</productCode>
+    <quantity>14</quantity>
+    <totalAmount>560</totalAmount>
+  </record>
+  <record recordID="RCD5">
+    <productCode>PRD5</productCode>
+    <quantity>11</quantity>
+    <totalAmount>165</totalAmount>
+  </record>
+</SaleReport>

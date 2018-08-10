@@ -12,21 +12,26 @@ class OrderController {
     private $tableName = "orders";
     public function getOrderID(){
         $conn = Database::getInstance();
-       $query = "SELECT IF( MAX( orderID ) IS NULL , 0, MAX( orderID ) ) AS 'CurrentOrderID' FROM orders ORDER BY orderID DESC";
-       // $query = "SELECT COUNT(*) AS 'CurrentCount' FROM orders";
+       $query = "SELECT orderID FROM orders ORDER BY orderID DESC LIMIT 1";
         $orderID_result = $conn->query($query);
+        if(!$orderID_result){
+            trigger_error('Invalid query: '. $conn->error);
+        }
         $conn->close();
         if($orderID_result){
             while($row = $orderID_result->fetch(PDO::FETCH_ASSOC)){
-                $CurrentOrderID = $row["CurrentOrderID"];
-                $result = $CurrentOrderID;
-//                $CurrentCount = $row["CurrentCount"];
-//                $result = $CurrentCount;
+                 $orderid = $row["orderID"];
+                 $result = $orderid;
             }
         }
-        return $result;
+        if(empty($result)){
+            return null;
+        } else {
+             return $result;
+        }
+       
     }
-    
+      
     public function addOrder(OrderOB $orderOB){
         $conn = Database::getInstance();
         
